@@ -153,7 +153,7 @@ export default function App({ hostAdapter, eventEmitter, standalone = false }: A
         )}
 
         <ComboBurst combo={gameState.combo} />
-        
+
         <AnimatePresence>
           {showTutorial && (
             <TutorialOverlay onClose={() => setShowTutorial(false)} />
@@ -161,11 +161,13 @@ export default function App({ hostAdapter, eventEmitter, standalone = false }: A
         </AnimatePresence>
 
         {gameState.status === 'LOBBY' && (
-          <LevelSelector
-            unlockedLevels={unlockedLevels}
-            levelScores={levelScores}
-            onSelect={startLevel}
-          />
+          <div className="absolute inset-0 overflow-y-auto">
+            <LevelSelector
+              unlockedLevels={unlockedLevels}
+              levelScores={levelScores}
+              onSelect={startLevel}
+            />
+          </div>
         )}
 
         {gameState.status === 'PLAYING' && engine && currentLevel && (() => {
