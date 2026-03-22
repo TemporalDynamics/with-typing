@@ -86,6 +86,18 @@ export function useTypingGame(
   const runConfusionPairsRef = useRef<Record<string, number>>({});
   const signalService = SignalService.getInstance();
 
+  /** Persist progress to storage */
+  const persistProgress = useCallback((scores: typeof levelScores, unlocks: typeof unlockedLevels, accuracy: number) => {
+    const progress: GameProgress = {
+      unlockedLevels: unlocks,
+      levelScores: scores,
+      totalAccuracy: accuracy
+    };
+    resolvedHostAdapter.onProgressUpdate(progress).catch(() => {
+      // Best-effort progress persistence.
+    });
+  }, [resolvedHostAdapter]);
+
   useEffect(() => {
     const init = async () => {
       const initialState = await resolvedHostAdapter.getInitialState();
@@ -271,6 +283,7 @@ export function useTypingGame(
         const stars = computeStars(metrics.accuracy, level.minAccuracy);
         const newScore: LevelScore = { bestAccuracy: metrics.accuracy, bestWpm: metrics.wpm, stars };
 
+        // Update level scores and persist immediately
         setLevelScores(prev => {
           const existing = prev[level.id];
           // Keep best values
@@ -281,7 +294,13 @@ export function useTypingGame(
                 stars: Math.max(existing.stars, stars) as 0 | 1 | 2 | 3,
               }
             : newScore;
-          return { ...prev, [level.id]: merged };
+          
+          const updatedScores = { ...prev, [level.id]: merged };
+          
+          // Persist scores immediately after update
+          persistProgress(updatedScores, unlockedLevels, metrics.accuracy);
+          
+          return updatedScores;
         });
 
         // Unlock next sequential level
@@ -298,11 +317,11 @@ export function useTypingGame(
           if (gameState.currentLevelId === gateLevelId) {
             const nextFamilyId = Number(nextFamilyIdStr);
             const currentFamilyId = getFamilyOfLevel(gameState.currentLevelId!);
-            
+
             // Unlock all remaining levels in current family
             if (currentFamilyId) {
               const currentFamilyLevels = getLevelsByFamily(currentFamilyId);
-              const unlockedInCurrentFamily = currentFamilyLevels.filter(id => 
+              const unlockedInCurrentFamily = currentFamilyLevels.filter(id =>
                 LEVELS.find(l => l.id === id)!.sublevel <= level.sublevel
               );
               const remainingLevels = currentFamilyLevels.filter(
@@ -310,7 +329,7 @@ export function useTypingGame(
               );
               newUnlocks.push(...remainingLevels);
             }
-            
+
             // Unlock first level of next family
             const firstLevel = getFirstLevelOfFamily(nextFamilyId);
             if (firstLevel) newUnlocks.push(firstLevel);
@@ -318,7 +337,12 @@ export function useTypingGame(
         }
 
         if (newUnlocks.length > 0) {
-          setUnlockedLevels(prev => Array.from(new Set([...prev, ...newUnlocks])));
+          setUnlockedLevels(prev => {
+            const updatedUnlocks = Array.from(new Set([...prev, ...newUnlocks]));
+            // Persist unlocks immediately after update
+            persistProgress(levelScores, updatedUnlocks, metrics.accuracy);
+            return updatedUnlocks;
+          });
         }
       }
 
