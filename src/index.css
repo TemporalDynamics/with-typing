@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-emerald-50 text-slate-900 overflow-hidden font-sans;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-white/60 backdrop-blur-xl border border-white/40 shadow-xl rounded-[2rem];
+  }
+  
+  .sanctuary-gradient-forest {
+    background: radial-gradient(circle at top left, #dcfce7 0%, #f0fdf4 100%);
+  }
+  
+  .sanctuary-gradient-sky {
+    background: radial-gradient(circle at top left, #e0f2fe 0%, #f0f9ff 100%);
+  }
+  
+  .sanctuary-gradient-sunset {
+    background: radial-gradient(circle at top left, #ffedd5 0%, #fff7ed 100%);
+  }
+
+  .pattern-dots {
+    background-image: radial-gradient(#10b981 0.5px, transparent 0.5px);
+    background-size: 24px 24px;
+    opacity: 0.1;
+  }
+}
+
+/* Life-loss shake animation */
+@keyframes life-lost-shake {
+  0%, 100% { transform: translateX(0); }
+  15% { transform: translateX(-6px); }
+  30% { transform: translateX(6px); }
+  45% { transform: translateX(-4px); }
+  60% { transform: translateX(4px); }
+  75% { transform: translateX(-2px); }
+  90% { transform: translateX(2px); }
+}
+
+.animate-life-lost {
+  animation: life-lost-shake 0.4s ease-out;
+}
+
+/* Red flash fade-out */
+@keyframes flash-out {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.animate-flash-out {
+  animation: flash-out 0.4s ease-out forwards;
+}
+
+/* Existing shake for combo */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}

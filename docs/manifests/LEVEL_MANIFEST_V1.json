@@ -1,0 +1,130 @@
+{
+  "manifest": "level_manifest",
+  "schema_version": "v1",
+  "game": "typing_foundations",
+  "updated_at": "2026-03-22",
+  "principles": {
+    "human_first": true,
+    "system_gain_required": true,
+    "promotion_vs_observability_split": true,
+    "ordered_blocks": [
+      "F1-F2: keyboard",
+      "F3-F4: structure",
+      "F5: fluency_and_relations"
+    ]
+  },
+  "difficulty_axes": [
+    "speed",
+    "simultaneity",
+    "length",
+    "variability",
+    "distractors",
+    "enemy_tension",
+    "structural_complexity"
+  ],
+  "implementation_snapshot": {
+    "total_levels": 50,
+    "family_count": 5,
+    "level_range": "L1-L50",
+    "family_ranges": {
+      "F1": "L1-L10",
+      "F2": "L11-L20",
+      "F3": "L21-L30",
+      "F4": "L31-L40",
+      "F5": "L41-L50"
+    }
+  },
+  "families": [
+    {
+      "family_id": 1,
+      "code": "F1",
+      "title": "Nido de Inicio",
+      "learning_block": "keyboard",
+      "human_goal": "ubicacion de dedos, home row y recorrido del teclado",
+      "system_gain": "anclaje basico de teclado y secuencia base",
+      "candidate_capabilities": [
+        "keyboard_anchor_basic_v1",
+        "alphabet_sequence_basic_v1"
+      ],
+      "implemented_sublevels": [
+        "1.1", "1.2", "1.3", "1.4", "1.5",
+        "1.6", "1.7", "1.8", "1.9", "1.10"
+      ],
+      "target_sublevels": 10
+    },
+    {
+      "family_id": 2,
+      "code": "F2",
+      "title": "Lluvia de Hojas",
+      "learning_block": "keyboard",
+      "human_goal": "precision bajo presion visual",
+      "system_gain": "recall de simbolo y estabilidad bajo presion",
+      "candidate_capabilities": [
+        "single_symbol_recall_stable_v1",
+        "alphabet_sequence_reinforced_v1"
+      ],
+      "implemented_sublevels": [
+        "2.1", "2.2", "2.3", "2.4", "2.5",
+        "2.6", "2.7", "2.8", "2.9", "2.10"
+      ],
+      "target_sublevels": 10
+    },
+    {
+      "family_id": 3,
+      "code": "F3",
+      "title": "Sendero de Luz",
+      "learning_block": "structure",
+      "human_goal": "continuidad, chunks y ritmo",
+      "system_gain": "precedencia, chunking y patrones ordenados",
+      "candidate_capabilities": [
+        "sequence_chunking_basic_v1",
+        "ordered_pattern_recall_v1"
+      ],
+      "implemented_sublevels": [
+        "3.1", "3.2", "3.3", "3.4", "3.5",
+        "3.6", "3.7", "3.8", "3.9", "3.10"
+      ],
+      "target_sublevels": 10
+    },
+    {
+      "family_id": 4,
+      "code": "F4",
+      "title": "Rescate en el Río",
+      "learning_block": "structure",
+      "human_goal": "construccion bajo presion",
+      "system_gain": "pairing silabico y estructura de construccion",
+      "candidate_capabilities": [
+        "syllable_pairing_basic_v1",
+        "word_construction_branching_v1"
+      ],
+      "implemented_sublevels": [
+        "4.1", "4.2", "4.3", "4.4", "4.5",
+        "4.6", "4.7", "4.8", "4.9", "4.10"
+      ],
+      "target_sublevels": 10
+    },
+    {
+      "family_id": 5,
+      "code": "F5",
+      "title": "Jardín de Palabras",
+      "learning_block": "fluency_and_relations",
+      "human_goal": "fluidez de palabras y frases",
+      "system_gain": "consolidacion de palabra, frase y asociaciones basicas",
+      "candidate_capabilities": [
+        "word_form_recall_v1",
+        "phrase_transcription_basic_v1",
+        "query_relatedness_basic_v1"
+      ],
+      "implemented_sublevels": [
+        "5.1", "5.2", "5.3", "5.4", "5.5",
+        "5.6", "5.7", "5.8", "5.9", "5.10"
+      ],
+      "target_sublevels": 10
+    }
+  ],
+  "notes": {
+    "f6_status": "no implementado como familia separada; parte de fluidez/relaciones vive dentro de F5",
+    "sync_source_of_truth": "src/engine/LevelDefinitions.ts"
+  }
+}
+

@@ -1,0 +1,154 @@
+{
+  "manifest": "f1_signal_manifest",
+  "schema_version": "v1",
+  "game": "typing_foundations",
+  "family": {
+    "id": 1,
+    "code": "F1",
+    "title": "Nido de Inicio",
+    "level_range": ["L1", "L10"]
+  },
+  "classification": ["observabilidad", "apoyo", "promocion"],
+  "signals": [
+    {
+      "id": "f1.key_error_by_key",
+      "class": "observabilidad",
+      "teaches": "friccion por tecla especifica",
+      "capability": "key_difficulty_map_v1",
+      "source_events": ["KEY_VALIDATED:isCorrect=false"]
+    },
+    {
+      "id": "f1.key_error_by_row",
+      "class": "observabilidad",
+      "teaches": "dificultad por fila",
+      "capability": "row_difficulty_profile_v1",
+      "source_events": ["KEY_VALIDATED:isCorrect=false"]
+    },
+    {
+      "id": "f1.key_error_by_hand",
+      "class": "observabilidad",
+      "teaches": "asimetria por mano",
+      "capability": "hand_asymmetry_profile_v1",
+      "source_events": ["KEY_VALIDATED:isCorrect=false"]
+    },
+    {
+      "id": "f1.finger_hint_mismatch",
+      "class": "apoyo",
+      "teaches": "fallo contra digitacion sugerida",
+      "capability": "finger_mapping_stability_v1",
+      "source_events": ["KEY_VALIDATED:isCorrect=false"]
+    },
+    {
+      "id": "f1.base_pattern_mastery",
+      "class": "apoyo",
+      "teaches": "dominio de patrones base",
+      "capability": "base_pattern_mastery_v1",
+      "source_events": ["KEY_VALIDATED:isUnitComplete=true"]
+    },
+    {
+      "id": "f1.transition_break",
+      "class": "promocion",
+      "teaches": "quiebre en transicion entre teclas",
+      "capability": "keyboard_transition_breaks_v1",
+      "source_events": ["KEY_VALIDATED:isCorrect=false,inputBefore.length>0"]
+    },
+    {
+      "id": "f1.neighbor_confusion",
+      "class": "promocion",
+      "teaches": "confusion por vecindad fisica",
+      "capability": "keyboard_neighbor_confusion_map_v1",
+      "source_events": ["KEY_VALIDATED:isCorrect=false,isNeighbor=true"]
+    },
+    {
+      "id": "f1.vertical_column_friction",
+      "class": "apoyo",
+      "teaches": "friccion en recorridos verticales",
+      "capability": "vertical_motion_profile_v1",
+      "source_events": ["KEY_VALIDATED:isCorrect=false,target in verticalPatternSet"]
+    },
+    {
+      "id": "f1.bilateral_mirror_friction",
+      "class": "apoyo",
+      "teaches": "friccion en alternancia espejo",
+      "capability": "bilateral_symmetry_profile_v1",
+      "source_events": ["KEY_VALIDATED:isCorrect=false,target in mirrorPatternSet"]
+    },
+    {
+      "id": "f1.time_to_first_success",
+      "class": "observabilidad",
+      "teaches": "costo inicial de acierto",
+      "capability": "onboarding_friction_profile_v1",
+      "source_events": ["KEY_VALIDATED:isCorrect=true,inputBefore.length=0"]
+    },
+    {
+      "id": "f1.repetitions_to_mastery",
+      "class": "apoyo",
+      "teaches": "repeticiones hasta completar unidad",
+      "capability": "motor_consolidation_curve_v1",
+      "source_events": ["KEY_VALIDATED:isUnitComplete=true,unitAttempts!=null"]
+    },
+    {
+      "id": "f1.life_loss_by_unit_kind",
+      "class": "apoyo",
+      "teaches": "perdida por tipo de unidad",
+      "capability": "failure_pressure_profile_v1",
+      "source_events": [
+        "KEY_VALIDATED:livesAfter<livesBefore",
+        "UNIT_FAILED:reason=timeout"
+      ]
+    },
+    {
+      "id": "f1.run_completion_rate",
+      "class": "observabilidad",
+      "teaches": "estabilidad por run",
+      "capability": "level_stability_index_v1",
+      "source_events": ["LEVEL_COMPLETED"]
+    },
+    {
+      "id": "f1.run_improvement_delta",
+      "class": "promocion",
+      "teaches": "mejora entre runs",
+      "capability": "short_term_learning_gain_v1",
+      "source_events": ["LEVEL_COMPLETED:improvementDelta!=null"]
+    },
+    {
+      "id": "f1.alphabet_order_success",
+      "class": "apoyo",
+      "teaches": "dominio de secuencia guiada",
+      "capability": "alphabet_sequence_basic_v1",
+      "source_events": ["LEVEL_COMPLETED:passed=true"]
+    },
+    {
+      "id": "f1.low_frequency_key_friction",
+      "class": "observabilidad",
+      "teaches": "friccion en teclas poco frecuentes",
+      "capability": "low_frequency_key_profile_v1",
+      "source_events": ["KEY_VALIDATED:isCorrect=false,expected in lowFrequencySet"]
+    },
+    {
+      "id": "f1.error_recovery_pattern",
+      "class": "apoyo",
+      "teaches": "recuperacion despues de error",
+      "capability": "error_recovery_pattern_v1",
+      "source_events": ["KEY_VALIDATED:wasRecovery=true"]
+    },
+    {
+      "id": "f1.population_consistency",
+      "class": "promocion",
+      "teaches": "consistencia agregada de pares de confusion",
+      "capability": "population_keyboard_friction_v1",
+      "source_events": ["SESSION_COMPLETED:top_confusion_pairs"]
+    }
+  ],
+  "priority_start": [
+    "f1.neighbor_confusion",
+    "f1.transition_break",
+    "f1.run_improvement_delta",
+    "f1.population_consistency"
+  ],
+  "governance": {
+    "speed_not_primary_for_promotion": true,
+    "require_signal_classification": true,
+    "promote_only_with_thresholds": true
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "manifest": "capability_promotion_map",
+  "schema_version": "v1",
+  "game": "typing_foundations",
+  "updated_at": "2026-03-22",
+  "promotion_framework": {
+    "model": "observed -> candidate -> promoted",
+    "minimum_runs_per_sublevel": 3,
+    "minimum_consistency": 0.8,
+    "contradiction_tolerance": "zero_hard_conflicts",
+    "versioning": "append_only",
+    "note": "métricas de velocidad quedan en observabilidad por defecto"
+  },
+  "signals": {
+    "promotion_allowed": [
+      "feature.action_bar_action_usage",
+      "interaction.session_turn_count",
+      "feature.resolution_kind_usage",
+      "feature.resolver_id_usage",
+      "reliability.insufficient_evidence_count",
+      "reliability.fallback_path_used"
+    ],
+    "observability_only": [
+      "interaction.response_latency_ms"
+    ]
+  },
+  "family_to_capabilities": [
+    {
+      "family_code": "F1",
+      "capabilities": [
+        {
+          "id": "keyboard_anchor_basic_v1",
+          "candidate_from_sublevels": ["1.1", "1.2", "1.3"],
+          "evidence_signals": [
+            "key_correct_rate",
+            "sequence_completion",
+            "error_recovery_success"
+          ],
+          "promotion_rule": {
+            "min_runs": 3,
+            "min_accuracy": 0.85,
+            "max_fallback_used_ratio": 0.05
+          }
+        },
+        {
+          "id": "alphabet_sequence_basic_v1",
+          "candidate_from_sublevels": ["1.4", "1.5", "1.6"],
+          "evidence_signals": [
+            "sequence_order_correct",
+            "run_completion_rate"
+          ],
+          "promotion_rule": {
+            "min_runs": 3,
+            "min_accuracy": 0.82
+          }
+        }
+      ]
+    },
+    {
+      "family_code": "F2",
+      "capabilities": [
+        {
+          "id": "single_symbol_recall_stable_v1",
+          "candidate_from_sublevels": ["2.1", "2.2", "2.3", "2.4"],
+          "evidence_signals": [
+            "unit_hit_rate",
+            "loss_to_ground_ratio",
+            "combo_stability"
+          ],
+          "promotion_rule": {
+            "min_runs": 3,
+            "min_accuracy": 0.8,
+            "max_loss_ratio": 0.2
+          }
+        },
+        {
+          "id": "alphabet_sequence_reinforced_v1",
+          "candidate_from_sublevels": ["2.5", "2.6", "2.7"],
+          "evidence_signals": [
+            "sequence_consistency_across_runs",
+            "recovery_after_interference"
+          ],
+          "promotion_rule": {
+            "min_runs": 3,
+            "min_consistency": 0.82
+          }
+        }
+      ]
+    },
+    {
+      "family_code": "F3",
+      "capabilities": [
+        {
+          "id": "sequence_chunking_basic_v1",
+          "candidate_from_sublevels": ["3.1", "3.2", "3.3"],
+          "evidence_signals": [
+            "chunk_completion_rate",
+            "chunk_break_frequency"
+          ],
+          "promotion_rule": {
+            "min_runs": 3,
+            "min_accuracy": 0.82
+          }
+        },
+        {
+          "id": "ordered_pattern_recall_v1",
+          "candidate_from_sublevels": ["3.4", "3.5", "3.6"],
+          "evidence_signals": [
+            "pattern_order_success",
+            "left_right_alternance_success"
+          ],
+          "promotion_rule": {
+            "min_runs": 3,
+            "min_consistency": 0.8
+          }
+        }
+      ]
+    },
+    {
+      "family_code": "F4",
+      "capabilities": [
+        {
+          "id": "syllable_pairing_basic_v1",
+          "candidate_from_sublevels": ["4.1", "4.2", "4.3"],
+          "evidence_signals": [
+            "valid_pair_rate",
+            "invalid_pair_recovery"
+          ],
+          "promotion_rule": {
+            "min_runs": 3,
+            "min_accuracy": 0.8
+          }
+        },
+        {
+          "id": "word_construction_branching_v1",
+          "candidate_from_sublevels": ["4.4", "4.5", "4.6"],
+          "evidence_signals": [
+            "multi_solution_selection_quality",
+            "branch_choice_consistency"
+          ],
+          "promotion_rule": {
+            "min_runs": 3,
+            "min_consistency": 0.78
+          }
+        }
+      ]
+    },
+    {
+      "family_code": "F5",
+      "capabilities": [
+        {
+          "id": "word_form_recall_v1",
+          "candidate_from_sublevels": ["5.1", "5.2", "5.3"],
+          "evidence_signals": [
+            "word_completion_rate",
+            "internal_error_rate"
+          ],
+          "promotion_rule": {
+            "min_runs": 3,
+            "min_accuracy": 0.82
+          }
+        },
+        {
+          "id": "phrase_transcription_basic_v1",
+          "candidate_from_sublevels": ["5.4", "5.5", "5.6"],
+          "evidence_signals": [
+            "phrase_completion_rate",
+            "phrase_error_recovery"
+          ],
+          "promotion_rule": {
+            "min_runs": 3,
+            "min_accuracy": 0.82
+          }
+        },
+        {
+          "id": "phrase_fluency_stable_v1",
+          "candidate_from_sublevels": ["5.7", "5.8"],
+          "evidence_signals": [
+            "phrase_completion_rate",
+            "phrase_error_recovery"
+          ],
+          "promotion_rule": {
+            "min_runs": 3,
+            "min_accuracy": 0.84
+          }
+        },
+        {
+          "id": "query_relatedness_basic_v1",
+          "candidate_from_sublevels": ["5.9", "5.10"],
+          "evidence_signals": [
+            "related_choice_success",
+            "distractor_rejection_rate",
+            "cross_run_consistency"
+          ],
+          "promotion_rule": {
+            "min_runs": 3,
+            "min_consistency": 0.8,
+            "max_fallback_used_ratio": 0.08
+          }
+        }
+      ]
+    }
+  ]
+}

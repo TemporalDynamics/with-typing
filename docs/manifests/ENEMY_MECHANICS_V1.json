@@ -1,0 +1,78 @@
+{
+  "manifest": "enemy_mechanics",
+  "schema_version": "v1",
+  "game": "typing_foundations",
+  "updated_at": "2026-03-21",
+  "design_rule": "enemigo = fuente de tensión mecánica; nunca decoración",
+  "enemies": [
+    {
+      "enemy_id": "bird",
+      "display_name": "Pajarito",
+      "applies_to_families": ["F2", "F4"],
+      "trigger": "unidad en pantalla sin resolver dentro de ventana temporal",
+      "effect": "roba letra o sílaba y reduce oportunidad de puntaje",
+      "penalty": {
+        "life_loss": 0,
+        "combo_break": true,
+        "unit_lost": true
+      },
+      "counterplay": "resolver unidad antes de zona crítica",
+      "telemetry_events": [
+        "enemy.intercept.attempt",
+        "enemy.intercept.success",
+        "enemy.intercept.avoided"
+      ]
+    },
+    {
+      "enemy_id": "worm",
+      "display_name": "Lombriz",
+      "applies_to_families": ["F2", "F5"],
+      "trigger": "unidad toca suelo",
+      "effect": "consume unidad caída",
+      "penalty": {
+        "life_loss": 1,
+        "combo_break": true,
+        "unit_lost": true
+      },
+      "counterplay": "priorizar unidades con menor tiempo restante",
+      "telemetry_events": [
+        "enemy.ground_consume",
+        "enemy.ground_avoid"
+      ]
+    },
+    {
+      "enemy_id": "fox_raccoon",
+      "display_name": "Zorro/Mapache",
+      "applies_to_families": ["F5", "F6"],
+      "trigger": "racha prolongada o fase de alta tensión",
+      "effect": "roba bonus y rompe combo",
+      "penalty": {
+        "life_loss": 0,
+        "combo_break": true,
+        "bonus_loss": true
+      },
+      "counterplay": "mantener precisión sostenida en ventanas cortas",
+      "telemetry_events": [
+        "enemy.combo_break",
+        "enemy.bonus_stolen",
+        "enemy.pressure_resisted"
+      ]
+    }
+  ],
+  "host_actor": {
+    "actor_id": "koala",
+    "role": "guide",
+    "interference": "none",
+    "functions": [
+      "tutorial guidance",
+      "risk alerts",
+      "success feedback",
+      "motivation cues"
+    ]
+  },
+  "integration_notes": {
+    "ui": "el host puede convivir con enemigos sin modificar scoring por sí mismo",
+    "pipeline": "eventos de enemigos alimentan dificultad adaptativa, no promoción directa",
+    "promotion_policy": "señales de enemigos se usan para robustez, no para inferir semántica"
+  }
+}
