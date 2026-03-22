@@ -42,7 +42,9 @@ export class MockHostAdapter implements GameHostAdapter {
         if (parsed.unlockedLevels?.length) return parsed;
       }
     } catch { /* ignore corrupt data */ }
-    return { unlockedLevels: ['L1'], levelScores: {}, totalAccuracy: 0 };
+    // DEV MODE: Unlock all levels for testing
+    const allLevelIds: LevelId[] = Array.from({ length: 50 }, (_, i) => `L${i + 1}` as LevelId);
+    return { unlockedLevels: allLevelIds, levelScores: {}, totalAccuracy: 0 };
   }
 
   private saveToStorage() {
