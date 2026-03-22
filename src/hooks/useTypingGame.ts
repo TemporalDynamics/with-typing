@@ -14,15 +14,28 @@ import { soundService } from '../services/soundService';
 const MAX_LIVES = 5;
 
 /** Cross-family unlock gates.
- *  Completing these levels unlocks the first level of the next family.
- *  F2 opens early (after F1.3) so the user reaches "fun" quickly.
+ *  Key = familyId that becomes accessible, Value = level that triggers the unlock.
+ *  When the user completes the gate level, they unlock:
+ *  - All remaining levels in the current family
+ *  - The first level of the next family
  */
 const FAMILY_UNLOCK_GATES: Record<number, LevelId> = {
-  2: 'L3',   // Complete F1.3 (Fila Inferior) → unlock F2 (L11)
-  3: 'L13',  // Complete F2.3 (Tríos) → unlock F3 (L21)
-  4: 'L23',  // Complete F3.3 (Columnas) → unlock F4 (L31)
-  5: 'L33',  // Complete F4.3 (Tríos en el Río) → unlock F5 (L41)
+  2: 'L3',   // Complete F1.3 → unlock rest of F1 (L4-L10) + F2 (L11)
+  3: 'L13',  // Complete F2.3 → unlock rest of F2 (L14-L20) + F3 (L21)
+  4: 'L23',  // Complete F3.3 → unlock rest of F3 (L24-L30) + F4 (L31)
+  5: 'L33',  // Complete F4.3 → unlock rest of F4 (L34-L40) + F5 (L41)
 };
+
+/** Get all levels belonging to a family */
+function getLevelsByFamily(familyId: number): LevelId[] {
+  return LEVELS.filter(l => l.familyId === familyId).map(l => l.id);
+}
+
+/** Get the familyId of a given level */
+function getFamilyOfLevel(levelId: LevelId): number | null {
+  const level = LEVELS.find(l => l.id === levelId);
+  return level?.familyId ?? null;
+}
 
 function computeStars(accuracy: number, minAccuracy: number): 0 | 1 | 2 | 3 {
   if (accuracy < minAccuracy) return 0;
@@ -278,11 +291,28 @@ export function useTypingGame(
           newUnlocks.push(LEVELS[currentIndex + 1].id);
         }
 
-        // Unlock family gates: completing a gate level unlocks the first level of the next family
-        for (const [familyIdStr, gateLevelId] of Object.entries(FAMILY_UNLOCK_GATES)) {
+        // Unlock family gates: completing a gate level unlocks:
+        // 1. All remaining levels in the current family
+        // 2. The first level of the next family
+        for (const [nextFamilyIdStr, gateLevelId] of Object.entries(FAMILY_UNLOCK_GATES)) {
           if (gameState.currentLevelId === gateLevelId) {
-            const familyId = Number(familyIdStr);
-            const firstLevel = getFirstLevelOfFamily(familyId);
+            const nextFamilyId = Number(nextFamilyIdStr);
+            const currentFamilyId = getFamilyOfLevel(gameState.currentLevelId!);
+            
+            // Unlock all remaining levels in current family
+            if (currentFamilyId) {
+              const currentFamilyLevels = getLevelsByFamily(currentFamilyId);
+              const unlockedInCurrentFamily = currentFamilyLevels.filter(id => 
+                LEVELS.find(l => l.id === id)!.sublevel <= level.sublevel
+              );
+              const remainingLevels = currentFamilyLevels.filter(
+                id => !unlockedInCurrentFamily.includes(id)
+              );
+              newUnlocks.push(...remainingLevels);
+            }
+            
+            // Unlock first level of next family
+            const firstLevel = getFirstLevelOfFamily(nextFamilyId);
             if (firstLevel) newUnlocks.push(firstLevel);
           }
         }
