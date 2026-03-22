@@ -29,11 +29,11 @@ export const LevelSelector: React.FC<LevelSelectorProps> = ({ unlockedLevels, le
     .sort((a, b) => a - b);
 
   return (
-    <div className="flex flex-col items-center justify-center h-full p-8 md:p-12 text-slate-800 relative z-20 overflow-y-auto">
+    <div className="flex flex-col items-center h-full p-8 md:p-12 text-slate-800 relative z-20 overflow-y-auto">
       <motion.div
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="text-center mb-16"
+        className="text-center mb-16 shrink-0"
       >
         <h1 className="text-7xl font-sans font-black tracking-tighter mb-4">
           Typing <span className="text-emerald-500">Foundations</span>
@@ -41,7 +41,7 @@ export const LevelSelector: React.FC<LevelSelectorProps> = ({ unlockedLevels, le
         <p className="text-slate-500 font-medium tracking-wide uppercase text-xs">Sanctuary Edition • v1.2</p>
       </motion.div>
 
-      <div className="w-full max-w-7xl pb-10 space-y-8">
+      <div className="w-full max-w-7xl pb-10 space-y-8 shrink-0">
         {orderedFamilyIds.map((familyId) => {
           const familyLevels = levelFamilies[familyId].sort((a, b) => a.sublevel - b.sublevel);
           const familyTitle = familyLevels[0]?.familyTitle ?? `Familia ${familyId}`;
