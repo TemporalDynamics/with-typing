@@ -23,7 +23,7 @@ export const LEVELS: LevelDefinition[] = [
     title: 'Fila Central',
     objective: 'Ubicá los dedos en la fila central. F y J son tus anclas.',
     targetUnitKind: 'home_row',
-    content: ['f', 'j', 'f', 'j', 'fj', 'jf', 'ff', 'jj', 'fjf', 'jfj', 'df', 'jk', 'fd', 'kj', 'sd', 'lk', 'asdf', 'jkl;', 'fdsa', ';lkj', 'fds', 'jkl', 'asd', 'fj', 'dk', 'sl', 'pa', 'ap', 'pe', 'po'],
+    content: ['f', 'j', 'fj', 'jf', 'ff', 'jj', 'fjf', 'jfj', 'df', 'jk', 'fd', 'kj', 'sd', 'lk', 'asdf', 'jkl;', 'fdsa', ';lkj', 'fds', 'jkl', 'asd', 'fj', 'dk', 'sl', 'pa', 'ap', 'pe', 'po'],
     minAccuracy: 0.80, minInputs: 45,
     backgroundUrl: '/src/assets/backgrounds/l1-nest.svg',
     colorTheme: 'emerald', mechanic: 'tutorial'
@@ -37,7 +37,7 @@ export const LEVELS: LevelDefinition[] = [
     title: 'Fila Superior',
     objective: 'Subí a la fila de arriba sin perder las anclas.',
     targetUnitKind: 'home_row',
-    content: ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'qw', 'we', 'er', 'rt', 'ty', 'yu', 'ui', 'io', 'op', 'qwer', 'tyui', 'wert', 'yuio', 'qwe', 'rty', 'uio', 'rew', 'poi', 'p', 'pa', 'pe', 'pi', 'po', 'pu', 'apa', 'epe', 'ipi', 'opo', 'upu'],
+    content: ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'qw', 'we', 'er', 'rt', 'ty', 'yu', 'ui', 'io', 'op', 'qwer', 'tyui', 'wert', 'yuio', 'qwe', 'rty', 'uio', 'rew', 'poi', 'pa', 'pe', 'pi', 'po', 'pu', 'apa', 'epe', 'ipi', 'opo', 'upu'],
     minAccuracy: 0.78, minInputs: 50,
     backgroundUrl: '/src/assets/backgrounds/l1-nest.svg',
     colorTheme: 'emerald', mechanic: 'tutorial'
@@ -51,7 +51,7 @@ export const LEVELS: LevelDefinition[] = [
     title: 'Fila Inferior',
     objective: 'Bajá a la fila inferior con control.',
     targetUnitKind: 'home_row',
-    content: ['z', 'x', 'c', 'v', 'b', 'n', 'm', 'zx', 'xc', 'cv', 'vb', 'bn', 'nm', 'zxc', 'cvb', 'bnm', 'zxcv', 'vbnm', 'xcv', 'bnm', 'zxcvb', 'mnb', 'vcx', 'g', 'h', 'ga', 'go', 'ha', 'he', 'ho', 'gato', 'hola'],
+    content: ['z', 'x', 'c', 'v', 'b', 'n', 'm', 'zx', 'xc', 'cv', 'vb', 'bn', 'nm', 'zxc', 'cvb', 'bnm', 'zxcv', 'vbn', 'xcv', 'bnm', 'zxcv', 'mnb', 'vcx', 'g', 'h', 'ga', 'go', 'ha', 'he', 'ho', 'gato', 'hola'],
     minAccuracy: 0.78, minInputs: 45,
     backgroundUrl: '/src/assets/backgrounds/l1-nest.svg',
     colorTheme: 'emerald', mechanic: 'tutorial'
@@ -225,7 +225,7 @@ export const LEVELS: LevelDefinition[] = [
     title: 'Cinco Hojas',
     objective: 'Palabras de 5 letras. Más largo, más recompensa.',
     targetUnitKind: 'word_build',
-    content: ['papas', 'pasos', 'pintas', 'pesas', 'gatos', 'gomas', 'gotas', 'horas', 'hilos', 'kilos', 'manos', 'notas', 'ideas', 'datos', 'rutas', 'nubes', 'luces', 'metas', 'casas', 'lunas', 'mesas', 'vidas', 'hojas', 'telas', 'gatos', 'lagos', 'islas', 'colas', 'ramas', 'pisos', 'rocas', 'leyes', 'voces', 'que', 'las', 'los', 'por', 'para'],
+    content: ['papas', 'pasos', 'pintas', 'pesas', 'gatos', 'gomas', 'gotas', 'horas', 'hilos', 'kilos', 'manos', 'notas', 'ideas', 'datos', 'rutas', 'nubes', 'luces', 'metas', 'casas', 'lunas', 'mesas', 'vidas', 'hojas', 'telas', 'patos', 'lagos', 'islas', 'colas', 'ramas', 'pisos', 'rocas', 'leyes', 'voces', 'que', 'las', 'los', 'por', 'para'],
     minAccuracy: 0.82, minInputs: 65,
     backgroundUrl: '/src/assets/backgrounds/l2-forest.svg',
     colorTheme: 'sky', mechanic: 'falling', fallDurationSec: 6
@@ -277,7 +277,7 @@ export const LEVELS: LevelDefinition[] = [
     title: 'Combo de Hojas',
     objective: 'Los combos recuperan vidas. Mantené la racha.',
     targetUnitKind: 'word_build',
-    content: ['pato', 'gato', 'hola', 'kilo', 'papas', 'pasos', 'gatos', 'gom as', 'hilos', 'kilos', 'casa', 'luna', 'vida', 'idea', 'sol', 'luz', 'rutas', 'nubes', 'luces', 'metas', 'hojas', 'telas', 'lagos', 'islas', 'flor', 'roca', 'vela', 'piso', 'sopa', 'que', 'las', 'los', 'por', 'para'],
+    content: ['pato', 'gato', 'hola', 'kilo', 'papas', 'pasos', 'gatos', 'gomas', 'hilos', 'kilos', 'casa', 'luna', 'vida', 'idea', 'sol', 'luz', 'rutas', 'nubes', 'luces', 'metas', 'hojas', 'telas', 'lagos', 'islas', 'flor', 'roca', 'vela', 'piso', 'sopa', 'que', 'las', 'los', 'por', 'para'],
     minAccuracy: 0.82, minInputs: 80,
     backgroundUrl: '/src/assets/backgrounds/l2-forest.svg',
     colorTheme: 'sky', mechanic: 'falling', fallDurationSec: 3.5
@@ -532,7 +532,7 @@ export const LEVELS: LevelDefinition[] = [
     title: 'Variantes',
     objective: 'Palabras similares. Cuidado con confundirlas.',
     targetUnitKind: 'word_build',
-    content: ['pato', 'gato', 'paso', 'palo', 'papa', 'tapa', 'sopa', 'goma', 'hola', 'hilo', 'kilo', 'mesa', 'meta', 'mano', 'mapa', 'dato', 'dama', 'casa', 'cama', 'nota', 'nube', 'ruta', 'rana', 'vela', 'vida', 'cola', 'cosa', 'boca', 'bola', 'isla', 'idea', 'sopa', 'sala', 'tela', 'tema', 'que', 'las', 'por'],
+    content: ['pato', 'gato', 'paso', 'palo', 'papa', 'tapa', 'sopa', 'goma', 'hola', 'hilo', 'kilo', 'mesa', 'meta', 'mano', 'mapa', 'dato', 'dama', 'casa', 'cama', 'nota', 'nube', 'ruta', 'rana', 'vela', 'vida', 'cola', 'cosa', 'boca', 'bola', 'isla', 'idea', 'pata', 'sala', 'tela', 'tema', 'que', 'las', 'por'],
     minAccuracy: 0.83, minInputs: 70,
     backgroundUrl: '/src/assets/backgrounds/l4-river.svg',
     colorTheme: 'violet', mechanic: 'rescue', fallDurationSec: 6.5
@@ -647,7 +647,7 @@ export const LEVELS: LevelDefinition[] = [
     title: 'Dos Ramas',
     objective: 'Frases de dos palabras. Espacios incluidos.',
     targetUnitKind: 'word_build',
-    content: ['mi casa', 'tu vida', 'su meta', 'mi plan', 'una idea', 'un paso', 'la clave', 'el dato', 'mi nota', 'tu ruta', 'su flor', 'un gato', 'la luna', 'el lago', 'mi isla', 'tu mano', 'un plan', 'la mesa', 'el piso', 'su rama', 'pato gato', 'hola kilo', 'que', 'las', 'los', 'por'],
+    content: ['mi casa', 'tu vida', 'su meta', 'mi plan', 'una idea', 'un paso', 'la clave', 'el dato', 'mi nota', 'tu ruta', 'su flor', 'un gato', 'la luna', 'el lago', 'mi isla', 'tu mano', 'un plan', 'la mesa', 'el piso', 'su rama', 'mi patio', 'tu globo', 'su hogar', 'un kilo', 'que', 'las', 'los', 'por'],
     minAccuracy: 0.82, minInputs: 70,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
     colorTheme: 'rose', mechanic: 'garden'
@@ -660,7 +660,7 @@ export const LEVELS: LevelDefinition[] = [
     title: 'Tres Ramas',
     objective: 'Frases de tres palabras. La planta florece.',
     targetUnitKind: 'word_build',
-    content: ['mi nueva casa', 'tu mejor idea', 'su primer paso', 'un buen plan', 'la misma meta', 'una gran vida', 'el mejor dato', 'mi propia ruta', 'tu nueva nota', 'su clara idea', 'un largo camino', 'la misma luna', 'el primer brillo', 'pato gato hola', 'kilo papas gatos', 'que las los', 'por para con'],
+    content: ['mi nueva casa', 'tu mejor idea', 'su primer paso', 'un buen plan', 'la misma meta', 'una gran vida', 'el mejor dato', 'mi propia ruta', 'tu nueva nota', 'su clara idea', 'un largo camino', 'la misma luna', 'el primer brillo', 'mi patio grande', 'tu hogar feliz', 'un kilo de pan', 'que las los', 'por para con'],
     minAccuracy: 0.82, minInputs: 75,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
     colorTheme: 'rose', mechanic: 'garden'
@@ -679,7 +679,7 @@ export const LEVELS: LevelDefinition[] = [
       'tomo mi tiempo', 'dejo una huella', 'planto una semilla',
       'miro el sendero', 'siento el ritmo', 'guardo mi fuerza',
       'cuido mi jardin', 'sigo el impulso', 'hago mi parte',
-      'pato gato hola', 'kilo papas gatos'
+      'mi patio verde', 'tu hogar tranquilo'
     ],
     minAccuracy: 0.83, minInputs: 80,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
@@ -699,7 +699,7 @@ export const LEVELS: LevelDefinition[] = [
       'cerrar la tapa', 'mover la mesa', 'leer una idea',
       'poner la meta', 'sacar la foto', 'dar un abrazo',
       'ver el camino', 'ser mas claro', 'ir con calma',
-      'pato y gato', 'hola y kilo', 'papas y gatos'
+      'mi patio bello', 'tu hogar dulce'
     ],
     minAccuracy: 0.83, minInputs: 85,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
