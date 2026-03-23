@@ -602,66 +602,72 @@ export const LEVELS: LevelDefinition[] = [
   // ═══════════════════════════════════════════════════════════════════════
 
   // F5.1 — Palabras útiles
+  // REINFORCEMENT: P/G/H/K prominent + frequent vocabulary
   {
     id: 'L41', familyId: 5, familyTitle: 'Jardín de Palabras', sublevel: 1,
     title: 'Semillas',
     objective: 'Palabras útiles. Cada letra hace crecer la planta.',
     targetUnitKind: 'word_build',
-    content: ['casa', 'vida', 'mesa', 'dato', 'nota', 'plan', 'idea', 'meta', 'paso', 'clave', 'gato', 'lago', 'isla', 'roca', 'hoja', 'tela', 'rama', 'vela', 'sopa', 'rana', 'boca', 'piso', 'luna', 'flor', 'nube'],
-    minAccuracy: 0.80, minInputs: 50,
+    content: ['pato', 'gato', 'hola', 'kilo', 'papa', 'tapa', 'sopa', 'goma', 'hilo', 'kayak', 'casa', 'vida', 'mesa', 'dato', 'nota', 'plan', 'idea', 'meta', 'paso', 'clave', 'lago', 'isla', 'roca', 'hoja', 'tela', 'rama', 'vela', 'boca', 'piso', 'luna', 'flor', 'nube', 'que', 'las', 'los', 'por'],
+    minAccuracy: 0.80, minInputs: 60,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
     colorTheme: 'rose', mechanic: 'garden'
   },
 
   // F5.2 — Palabras frecuentes
+  // REINFORCEMENT: P/G/H/K in common words
   {
     id: 'L42', familyId: 5, familyTitle: 'Jardín de Palabras', sublevel: 2,
     title: 'Brotes',
     objective: 'Palabras que usamos todos los días.',
     targetUnitKind: 'word_build',
-    content: ['bueno', 'nuevo', 'mejor', 'mismo', 'mucho', 'donde', 'ahora', 'antes', 'luego', 'nunca', 'siempre', 'pronto', 'cerca', 'lejos', 'fuera', 'junto', 'claro', 'justo', 'lento', 'suave'],
-    minAccuracy: 0.82, minInputs: 55,
-    backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
-    colorTheme: 'rose', mechanic: 'garden'
-  },
-
-  // F5.3 — Palabras más largas
-  {
-    id: 'L43', familyId: 5, familyTitle: 'Jardín de Palabras', sublevel: 3,
-    title: 'Raíces',
-    objective: 'Palabras más largas. La planta crece más.',
-    targetUnitKind: 'word_build',
-    content: ['camino', 'puente', 'destino', 'memoria', 'ventana', 'teclado', 'naranja', 'sendero', 'estrella', 'latidos', 'palabra', 'rescate', 'bosque', 'jardin', 'piedra', 'fuente', 'colina', 'brillo', 'ritmo', 'noche'],
-    minAccuracy: 0.82, minInputs: 60,
-    backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
-    colorTheme: 'rose', mechanic: 'garden'
-  },
-
-  // F5.4 — Frases de 2 palabras
-  {
-    id: 'L44', familyId: 5, familyTitle: 'Jardín de Palabras', sublevel: 4,
-    title: 'Dos Ramas',
-    objective: 'Frases de dos palabras. Espacios incluidos.',
-    targetUnitKind: 'word_build',
-    content: ['mi casa', 'tu vida', 'su meta', 'mi plan', 'una idea', 'un paso', 'la clave', 'el dato', 'mi nota', 'tu ruta', 'su flor', 'un gato', 'la luna', 'el lago', 'mi isla', 'tu mano', 'un plan', 'la mesa', 'el piso', 'su rama'],
-    minAccuracy: 0.82, minInputs: 60,
-    backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
-    colorTheme: 'rose', mechanic: 'garden'
-  },
-
-  // F5.5 — Frases de 3 palabras
-  {
-    id: 'L45', familyId: 5, familyTitle: 'Jardín de Palabras', sublevel: 5,
-    title: 'Tres Ramas',
-    objective: 'Frases de tres palabras. La planta florece.',
-    targetUnitKind: 'word_build',
-    content: ['mi nueva casa', 'tu mejor idea', 'su primer paso', 'un buen plan', 'la misma meta', 'una gran vida', 'el mejor dato', 'mi propia ruta', 'tu nueva nota', 'su clara idea', 'un largo camino', 'la misma luna', 'el primer brillo'],
+    content: ['bueno', 'nuevo', 'mejor', 'mismo', 'mucho', 'donde', 'ahora', 'antes', 'luego', 'nunca', 'siempre', 'pronto', 'cerca', 'lejos', 'fuera', 'junto', 'claro', 'justo', 'lento', 'suave', 'pato', 'gato', 'hola', 'kilo', 'papas', 'gatos', 'hilos', 'que', 'las', 'los', 'por', 'para'],
     minAccuracy: 0.82, minInputs: 65,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
     colorTheme: 'rose', mechanic: 'garden'
   },
 
+  // F5.3 — Palabras más largas
+  // REINFORCEMENT: P/G/H/K in longer words
+  {
+    id: 'L43', familyId: 5, familyTitle: 'Jardín de Palabras', sublevel: 3,
+    title: 'Raíces',
+    objective: 'Palabras más largas. La planta crece más.',
+    targetUnitKind: 'word_build',
+    content: ['pato', 'gato', 'hola', 'kilo', 'papas', 'gatos', 'hilos', 'kilos', 'camino', 'puente', 'destino', 'memoria', 'ventana', 'teclado', 'naranja', 'sendero', 'estrella', 'latidos', 'palabra', 'rescate', 'bosque', 'jardin', 'piedra', 'fuente', 'colina', 'brillo', 'ritmo', 'noche', 'precision', 'horizonte', 'que', 'las', 'los', 'por', 'para'],
+    minAccuracy: 0.82, minInputs: 70,
+    backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
+    colorTheme: 'rose', mechanic: 'garden'
+  },
+
+  // F5.4 — Frases de 2 palabras
+  // REINFORCEMENT: P/G/H/K phrases + frequent vocabulary
+  {
+    id: 'L44', familyId: 5, familyTitle: 'Jardín de Palabras', sublevel: 4,
+    title: 'Dos Ramas',
+    objective: 'Frases de dos palabras. Espacios incluidos.',
+    targetUnitKind: 'word_build',
+    content: ['mi casa', 'tu vida', 'su meta', 'mi plan', 'una idea', 'un paso', 'la clave', 'el dato', 'mi nota', 'tu ruta', 'su flor', 'un gato', 'la luna', 'el lago', 'mi isla', 'tu mano', 'un plan', 'la mesa', 'el piso', 'su rama', 'pato gato', 'hola kilo', 'que', 'las', 'los', 'por'],
+    minAccuracy: 0.82, minInputs: 70,
+    backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
+    colorTheme: 'rose', mechanic: 'garden'
+  },
+
+  // F5.5 — Frases de 3 palabras
+  // REINFORCEMENT: Longer phrases with P/G/H/K
+  {
+    id: 'L45', familyId: 5, familyTitle: 'Jardín de Palabras', sublevel: 5,
+    title: 'Tres Ramas',
+    objective: 'Frases de tres palabras. La planta florece.',
+    targetUnitKind: 'word_build',
+    content: ['mi nueva casa', 'tu mejor idea', 'su primer paso', 'un buen plan', 'la misma meta', 'una gran vida', 'el mejor dato', 'mi propia ruta', 'tu nueva nota', 'su clara idea', 'un largo camino', 'la misma luna', 'el primer brillo', 'pato gato hola', 'kilo papas gatos', 'que las los', 'por para con'],
+    minAccuracy: 0.82, minInputs: 75,
+    backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
+    colorTheme: 'rose', mechanic: 'garden'
+  },
+
   // F5.6 — Frases paralelas
+  // REINFORCEMENT: Parallel structure with P/G/H/K words
   {
     id: 'L46', familyId: 5, familyTitle: 'Jardín de Palabras', sublevel: 6,
     title: 'Frases Paralelas',
@@ -672,14 +678,16 @@ export const LEVELS: LevelDefinition[] = [
       'abro una puerta', 'cierro una etapa', 'creo una idea',
       'tomo mi tiempo', 'dejo una huella', 'planto una semilla',
       'miro el sendero', 'siento el ritmo', 'guardo mi fuerza',
-      'cuido mi jardin', 'sigo el impulso', 'hago mi parte'
+      'cuido mi jardin', 'sigo el impulso', 'hago mi parte',
+      'pato gato hola', 'kilo papas gatos'
     ],
-    minAccuracy: 0.83, minInputs: 70,
+    minAccuracy: 0.83, minInputs: 80,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
     colorTheme: 'rose', mechanic: 'garden'
   },
 
   // F5.7 — Frases útiles
+  // REINFORCEMENT: Useful phrases with P/G/H/K
   {
     id: 'L47', familyId: 5, familyTitle: 'Jardín de Palabras', sublevel: 7,
     title: 'Frases Útiles',
@@ -690,67 +698,67 @@ export const LEVELS: LevelDefinition[] = [
       'seguir el paso', 'buscar la clave', 'abrir la puerta',
       'cerrar la tapa', 'mover la mesa', 'leer una idea',
       'poner la meta', 'sacar la foto', 'dar un abrazo',
-      'ver el camino', 'ser mas claro', 'ir con calma'
+      'ver el camino', 'ser mas claro', 'ir con calma',
+      'pato y gato', 'hola y kilo', 'papas y gatos'
     ],
-    minAccuracy: 0.83, minInputs: 75,
+    minAccuracy: 0.83, minInputs: 85,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
     colorTheme: 'rose', mechanic: 'garden'
   },
 
   // F5.8 — Frases con intención
+  // REINFORCEMENT: Intentional phrases + all frequent vocabulary
   {
     id: 'L48', familyId: 5, familyTitle: 'Jardín de Palabras', sublevel: 8,
-    title: 'Frases con Intención',
-    objective: 'Frases que significan algo. Cada palabra importa.',
+    title: 'Con Intención',
+    objective: 'Frases con propósito. Escribí con sentido.',
     targetUnitKind: 'word_build',
     content: [
-      'escribo sin mirar', 'mantengo el ritmo', 'cada tecla cuenta',
-      'mi memoria mejora', 'juego con enfoque', 'confio en mis manos',
-      'no miro el teclado', 'sigo sin parar', 'mejoro cada dia',
-      'mis dedos recuerdan', 'el ritmo me guia', 'practico y avanzo',
-      'la constancia suma', 'todo tiene sentido', 'no me detengo'
+      'quiero aprender mas', 'puedo hacerlo bien', 'voy a intentarlo',
+      'me gusta escribir', 'tengo una idea', 'hago mi mejor esfuerzo',
+      'sigo adelante', 'confio en mi', 'logro mis metas',
+      'pato gato hola kilo', 'papas gatos hilos kilos',
+      'que las los por para con sin del'
     ],
-    minAccuracy: 0.84, minInputs: 80,
+    minAccuracy: 0.83, minInputs: 90,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
     colorTheme: 'rose', mechanic: 'garden'
   },
 
-  // F5.9 — Asociación simple entre frases
+  // F5.9 — Asociación simple
+  // REINFORCEMENT: Word association with P/G/H/K
   {
     id: 'L49', familyId: 5, familyTitle: 'Jardín de Palabras', sublevel: 9,
-    title: 'Asociaciones',
-    objective: 'Frases que se conectan entre sí. Puente al sistema.',
+    title: 'Asociación',
+    objective: 'Palabras que se relacionan. Asociá conceptos.',
     targetUnitKind: 'word_build',
     content: [
-      'tengo una idea', 'la idea es buena',
-      'hago un plan', 'el plan funciona',
-      'doy un paso', 'el paso me acerca',
-      'busco una clave', 'la clave aparece',
-      'planto una semilla', 'la semilla crece',
-      'abro un camino', 'el camino me lleva',
-      'elijo una meta', 'la meta me mueve'
+      'casa hogar techo', 'gato perro animal', 'hola saludo bienvenido',
+      'kilo peso medida', 'papa mama familia', 'luna sol cielo',
+      'plan idea proyecto', 'paso camino destino', 'flor planta jardin',
+      'que las los por para con sin del de'
     ],
-    minAccuracy: 0.84, minInputs: 85,
+    minAccuracy: 0.84, minInputs: 95,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
     colorTheme: 'rose', mechanic: 'garden'
   },
 
-  // F5.10 — Mastery de frase
+  // F5.10 — Mastery expresivo
+  // REINFORCEMENT: Full P/G/H/K + all vocabulary + expressive phrases
   {
     id: 'L50', familyId: 5, familyTitle: 'Jardín de Palabras', sublevel: 10,
-    title: 'Santuario',
-    objective: 'Todo junto. Palabras, frases, intención. Jardín maestro.',
+    title: 'Mastery Expresivo',
+    objective: 'Todo junto: palabras, frases, sentido. Mastery completo.',
     targetUnitKind: 'word_build',
     content: [
-      'casa', 'mi nueva casa', 'busco mi camino',
-      'idea', 'una buena idea', 'escribo sin mirar',
-      'paso', 'el primer paso', 'cada tecla cuenta',
-      'vida', 'tu mejor vida', 'mantengo el ritmo',
-      'meta', 'la misma meta', 'confio en mis manos',
-      'luna', 'una clara luna', 'mi memoria mejora',
-      'plan', 'un buen plan', 'sigo sin parar'
+      'pato', 'gato', 'hola', 'kilo', 'papa', 'tapa', 'sopa', 'goma', 'hilo', 'kayak',
+      'casa', 'vida', 'mesa', 'dato', 'nota', 'plan', 'idea', 'meta', 'paso', 'clave',
+      'mi nueva casa', 'tu mejor idea', 'su primer paso', 'un buen plan',
+      'quiero aprender mas', 'puedo hacerlo bien', 'tengo una idea',
+      'pato y gato', 'hola y kilo', 'papas y gatos',
+      'que', 'las', 'los', 'tu', 'por', 'para', 'con', 'sin', 'del', 'de', 'el', 'la'
     ],
-    minAccuracy: 0.86, minInputs: 95,
+    minAccuracy: 0.85, minInputs: 100,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
     colorTheme: 'rose', mechanic: 'garden'
   }
