@@ -194,11 +194,15 @@ interface KeyboardVisualProps {
 }
 
 export const KeyboardVisual: React.FC<KeyboardVisualProps> = ({ targetChar, inputChar, mechanic, shaking }) => {
+  // RULE: Uppercase for visibility and consistency across mechanics
+  const displayTarget = targetChar.toUpperCase();
+  const displayInput = inputChar.toUpperCase();
+  
   return (
     <div className="flex flex-col items-center justify-center p-12 text-slate-800 relative z-20">
       <div className="relative">
         <motion.div
-          key={targetChar}
+          key={displayTarget}
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{
             scale: 1,
@@ -210,13 +214,13 @@ export const KeyboardVisual: React.FC<KeyboardVisualProps> = ({ targetChar, inpu
           }}
           className="text-9xl font-mono font-black tracking-tighter mb-12 flex bg-white/60 backdrop-blur-3xl px-16 py-10 rounded-[3rem] border-4 border-white/40 shadow-2xl"
         >
-          <span className="text-emerald-500 drop-shadow-[0_0_20px_rgba(16,185,129,0.3)]">{inputChar}</span>
-          <span className="opacity-10">{targetChar.slice(inputChar.length)}</span>
+          <span className="text-emerald-500 drop-shadow-[0_0_20px_rgba(16,185,129,0.3)]">{displayInput}</span>
+          <span className="opacity-10">{displayTarget.slice(displayInput.length)}</span>
         </motion.div>
 
         {/* Visual feedback for correct/incorrect */}
         <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex space-x-4 opacity-40 text-[10px] uppercase tracking-[0.3em] font-black">
-          <span>Presiona <span className="text-emerald-600 font-black px-3 py-1 bg-emerald-100 rounded-full">{targetChar[inputChar.length] || 'Espacio'}</span></span>
+          <span>Presiona <span className="text-emerald-600 font-black px-3 py-1 bg-emerald-100 rounded-full">{displayTarget[displayInput.length] || 'Espacio'}</span></span>
         </div>
       </div>
     </div>

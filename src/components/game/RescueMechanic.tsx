@@ -21,8 +21,11 @@ export const RescueMechanic: React.FC<RescueMechanicProps> = ({
   speed = 6,
   shaking,
 }) => {
-  const chars = target.split('');
-  const typedCount = input.length;
+  // RULE: Uppercase for visibility in fast-paced mechanics (avoids P/Q confusion)
+  const displayTarget = target.toUpperCase();
+  const displayInput = input.toUpperCase();
+  const chars = displayTarget.split('');
+  const typedCount = displayInput.length;
 
   return (
     <div className="relative w-full h-48 flex items-center overflow-hidden">

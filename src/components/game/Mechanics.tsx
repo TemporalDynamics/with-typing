@@ -154,8 +154,11 @@ interface FallingLetterProps {
 
 export const FallingLetter: React.FC<FallingLetterProps> = ({ char, input, onFail, speed = 5, shaking }) => {
   const lane = React.useMemo(() => 8 + Math.random() * 84, [char]);
-  const chars = char.split('');
-  const typedCount = input.length;
+  // RULE: Uppercase for visibility in fast-paced mechanics (avoids P/Q confusion)
+  const displayChar = char.toUpperCase();
+  const displayInput = input.toUpperCase();
+  const chars = displayChar.split('');
+  const typedCount = displayInput.length;
 
   return (
     <motion.div

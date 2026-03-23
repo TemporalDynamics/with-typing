@@ -13,15 +13,19 @@ interface GardenMechanicProps {
 }
 
 export const GardenMechanic: React.FC<GardenMechanicProps> = ({ target, input, shaking, wilting }) => {
-  const progress = target.length > 0 ? input.length / target.length : 0;
+  // RULE: Uppercase for visibility and consistency across mechanics
+  const displayTarget = target.toUpperCase();
+  const displayInput = input.toUpperCase();
+  
+  const progress = displayTarget.length > 0 ? displayInput.length / displayTarget.length : 0;
   const stemHeight = Math.round(progress * 160);
   const showLeaf1 = progress >= 0.25;
   const showLeaf2 = progress >= 0.50;
   const showLeaf3 = progress >= 0.75;
   const showFlower = progress >= 1;
 
-  const chars = target.split('');
-  const typedCount = input.length;
+  const chars = displayTarget.split('');
+  const typedCount = displayInput.length;
 
   const wiltClass = wilting ? 'opacity-50 saturate-0 scale-y-75' : '';
 
