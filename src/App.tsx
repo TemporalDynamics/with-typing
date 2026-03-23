@@ -55,15 +55,19 @@ export default function App({ hostAdapter, eventEmitter, standalone = false }: A
     }
 
     if (gameState.status === 'PLAYING' && !showTutorial) {
-      if (e.key === ' ') e.preventDefault();
-      
+      if (e.key === ' ') {
+        e.preventDefault();
+        handleKeyPress(' ');
+        return;
+      }
+
       // Handle Enter key for normal/hard modes
       if (e.key === 'Enter' && difficultyMode !== 'easy') {
         e.preventDefault();
         handleEnter();
         return;
       }
-      
+
       if (e.key.length === 1) {
         handleKeyPress(e.key);
       }

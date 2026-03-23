@@ -113,7 +113,8 @@ export class TypingEngine {
     const targetBefore = this.currentTarget;
     const inputBefore = this.currentInput;
     const expectedChar = this.currentTarget[this.currentInput.length];
-    const isCorrect = key === expectedChar;
+    // Handle space bar and case-insensitive comparison
+    const isCorrect = key === expectedChar || (key === ' ' && expectedChar === ' ');
 
     this.totalCount++;
     if (isCorrect) {
