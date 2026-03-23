@@ -317,122 +317,132 @@ export const LEVELS: LevelDefinition[] = [
   // ═══════════════════════════════════════════════════════════════════════
 
   // F3.1 — Secuencias simples (caminos visibles de fila)
+  // REINFORCEMENT: P/G/H/K + frequent vocabulary (QUE, LAS, LOS)
   {
     id: 'L21', familyId: 3, familyTitle: 'Sendero de Luz', sublevel: 1,
     title: 'Primer Sendero',
     objective: 'Seguí el camino. Cada nodo se ilumina al tipear.',
     targetUnitKind: 'sequence',
-    content: ['asdf', 'jkl;', 'qwer', 'tyui', 'zxcv', 'bnm', 'fdsa', ';lkj', 'rewq', 'iuyt', 'vcxz', 'mnb', 'asd', 'jkl', 'qwe', 'tyu', 'zxc', 'fds', 'lkj', 'wer'],
-    minAccuracy: 0.80, minInputs: 40,
+    content: ['asdf', 'jkl;', 'qwer', 'tyui', 'zxcv', 'bnm', 'fdsa', ';lkj', 'rewq', 'iuyt', 'vcxz', 'mnb', 'asd', 'jkl', 'qwe', 'tyu', 'zxc', 'fds', 'lkj', 'wer', 'pato', 'gato', 'hola', 'kilo', 'que', 'las', 'los'],
+    minAccuracy: 0.80, minInputs: 50,
     backgroundUrl: '/src/assets/backgrounds/l3-sky.svg',
     colorTheme: 'indigo', mechanic: 'trail'
   },
 
   // F3.2 — Secuencias alternadas (izquierda/derecha)
+  // REINFORCEMENT: PG/HK mirror patterns + vocabulary
   {
     id: 'L22', familyId: 3, familyTitle: 'Sendero de Luz', sublevel: 2,
     title: 'Alternancia',
     objective: 'El sendero alterna entre manos. Izquierda, derecha.',
     targetUnitKind: 'sequence',
-    content: ['fjfj', 'dkdk', 'slsl', 'fjdk', 'sla;', 'dksl', 'jfjf', 'kdkd', 'lsls', 'dkfj', ';asl', 'sldk', 'a;fj', 'fjsl', 'dka;', 'jfdk', 'kdfj', 'slfjdk'],
-    minAccuracy: 0.82, minInputs: 45,
+    content: ['fjfj', 'dkdk', 'slsl', 'fjdk', 'sla;', 'dksl', 'jfjf', 'kdkd', 'lsls', 'dkfj', ';asl', 'sldk', 'a;fj', 'fjsl', 'dka;', 'jfdk', 'kdfj', 'slfjdk', 'pg', 'hk', 'ph', 'gk', 'pato', 'gato', 'que', 'las', 'por'],
+    minAccuracy: 0.82, minInputs: 55,
     backgroundUrl: '/src/assets/backgrounds/l3-sky.svg',
     colorTheme: 'indigo', mechanic: 'trail'
   },
 
   // F3.3 — Secuencias verticales (columnas)
+  // REINFORCEMENT: Vertical patterns with P/G/H/K
   {
     id: 'L23', familyId: 3, familyTitle: 'Sendero de Luz', sublevel: 3,
     title: 'Columnas',
     objective: 'Senderos verticales. Subí y bajá por columnas.',
     targetUnitKind: 'sequence',
-    content: ['qaz', 'wsx', 'edc', 'rfv', 'tgb', 'yhn', 'ujm', 'zaq', 'xsw', 'cde', 'vfr', 'bgt', 'nhy', 'mju', 'qa', 'ws', 'ed', 'rf', 'yh', 'uj', 'ik', 'ol'],
-    minAccuracy: 0.82, minInputs: 45,
+    content: ['qaz', 'wsx', 'edc', 'rfv', 'tgb', 'yhn', 'ujm', 'zaq', 'xsw', 'cde', 'vfr', 'bgt', 'nhy', 'mju', 'qa', 'ws', 'ed', 'rf', 'yh', 'uj', 'ik', 'ol', 'pag', 'hog', 'kap', 'kilo', 'hola', 'gato', 'que', 'las', 'los', 'por'],
+    minAccuracy: 0.82, minInputs: 55,
     backgroundUrl: '/src/assets/backgrounds/l3-sky.svg',
     colorTheme: 'indigo', mechanic: 'trail'
     // ← Completar L23 desbloquea F4
   },
 
   // F3.4 — Secuencias de 2 letras
+  // REINFORCEMENT: PA/PE/PI/PO, GA/GO/GE/GI, HA/HE/HO, KA/KE/KI/KO
   {
     id: 'L24', familyId: 3, familyTitle: 'Sendero de Luz', sublevel: 4,
     title: 'Pares de Luz',
     objective: 'Bigramas en el sendero. Dos nodos por unidad.',
     targetUnitKind: 'bigram',
-    content: ['la', 'mi', 'tu', 'ca', 'de', 'no', 'si', 'el', 'un', 'lo', 'me', 'pa', 'te', 'su', 'ra', 'vo', 'ni', 'se', 'en', 'es', 'al', 'da', 'ha', 'ma', 'le', 'os'],
-    minAccuracy: 0.82, minInputs: 45,
+    content: ['pa', 'pe', 'pi', 'po', 'pu', 'ga', 'go', 'ge', 'gi', 'gu', 'ha', 'he', 'hi', 'ho', 'hu', 'ka', 'ke', 'ki', 'ko', 'ku', 'la', 'mi', 'tu', 'ca', 'de', 'no', 'si', 'el', 'un', 'lo', 'me', 'te', 'su', 'ni', 'va', 'di', 'co', 'ra', 'vo', 'se', 'en', 'es', 'al', 'que', 'las', 'los', 'por'],
+    minAccuracy: 0.82, minInputs: 55,
     backgroundUrl: '/src/assets/backgrounds/l3-sky.svg',
     colorTheme: 'indigo', mechanic: 'trail'
   },
 
   // F3.5 — Secuencias de 3 letras
+  // REINFORCEMENT: Words with P/G/H/K prominent
   {
     id: 'L25', familyId: 3, familyTitle: 'Sendero de Luz', sublevel: 5,
     title: 'Tríos de Luz',
     objective: 'Tres nodos por unidad. El sendero se alarga.',
     targetUnitKind: 'sequence',
-    content: ['sol', 'pan', 'rio', 'mar', 'luz', 'sal', 'fin', 'red', 'ojo', 'pie', 'oro', 'dos', 'mes', 'rey', 'ley', 'sur', 'voz', 'ver', 'ser', 'dar', 'pez', 'sed', 'hoy', 'don', 'ven'],
-    minAccuracy: 0.83, minInputs: 50,
+    content: ['pan', 'pez', 'palo', 'papa', 'tapa', 'sopa', 'gato', 'goma', 'gota', 'hola', 'hilo', 'higo', 'kilo', 'kayak', 'sol', 'rio', 'mar', 'luz', 'sal', 'fin', 'red', 'ojo', 'pie', 'oro', 'dos', 'mes', 'rey', 'ley', 'sur', 'voz', 'ver', 'ser', 'dar', 'tos', 'gas', 'col', 'miel', 'sed', 'hoy', 'ven', 'don', 'que', 'las', 'los'],
+    minAccuracy: 0.83, minInputs: 60,
     backgroundUrl: '/src/assets/backgrounds/l3-sky.svg',
     colorTheme: 'indigo', mechanic: 'trail'
   },
 
   // F3.6 — Secuencias pronunciables
+  // REINFORCEMENT: PA/PE/PI/PO, GA/GO, HA/HE/HO phonetic patterns
   {
     id: 'L26', familyId: 3, familyTitle: 'Sendero de Luz', sublevel: 6,
     title: 'Sendero Fonético',
     objective: 'Secuencias que se pueden pronunciar. Sentí el ritmo.',
     targetUnitKind: 'bigram',
-    content: ['ta', 'ma', 'na', 'ra', 'pa', 'sa', 'la', 'da', 'fa', 'va', 'to', 'po', 'co', 'ro', 'mo', 'no', 'lo', 'do', 'ti', 'mi', 'ni', 'li', 'di', 'ri', 'pi', 'si', 'te', 'me', 'ne', 'le'],
-    minAccuracy: 0.83, minInputs: 50,
+    content: ['pa', 'pe', 'pi', 'po', 'pu', 'ga', 'go', 'ge', 'gi', 'gu', 'ha', 'he', 'hi', 'ho', 'hu', 'ka', 'ke', 'ki', 'ko', 'ku', 'ta', 'ma', 'na', 'ra', 'sa', 'la', 'da', 'fa', 'va', 'to', 'co', 'ro', 'mo', 'no', 'lo', 'do', 'ti', 'mi', 'ni', 'li', 'di', 'ri', 'si', 'te', 'me', 'ne', 'le', 'que', 'las', 'los', 'por'],
+    minAccuracy: 0.83, minInputs: 60,
     backgroundUrl: '/src/assets/backgrounds/l3-sky.svg',
     colorTheme: 'indigo', mechanic: 'trail'
   },
 
   // F3.7 — Palabras cortas en sendero
+  // REINFORCEMENT: P/G/H/K words + frequent vocabulary
   {
     id: 'L27', familyId: 3, familyTitle: 'Sendero de Luz', sublevel: 7,
     title: 'Camino de Palabras',
     objective: 'Palabras cortas iluminan el sendero.',
     targetUnitKind: 'word_build',
-    content: ['casa', 'luna', 'mesa', 'dato', 'palo', 'vida', 'flor', 'nube', 'plan', 'nota', 'idea', 'meta', 'paso', 'gato', 'lago', 'isla', 'roca', 'hoja', 'tela', 'rama', 'vela', 'sopa', 'rana', 'boca'],
-    minAccuracy: 0.83, minInputs: 55,
+    content: ['pato', 'papa', 'tapa', 'sopa', 'piso', 'palo', 'gato', 'goma', 'gota', 'hola', 'hilo', 'higo', 'kilo', 'kayak', 'casa', 'luna', 'mesa', 'dato', 'vida', 'mano', 'ruta', 'nube', 'flor', 'plan', 'nota', 'idea', 'paso', 'meta', 'lago', 'isla', 'roca', 'hoja', 'tela', 'rama', 'vela', 'boca', 'que', 'las', 'los', 'tu', 'por', 'para'],
+    minAccuracy: 0.83, minInputs: 65,
     backgroundUrl: '/src/assets/backgrounds/l3-sky.svg',
     colorTheme: 'indigo', mechanic: 'trail'
   },
 
   // F3.8 — Palabras medias
+  // REINFORCEMENT: P/G/H/K in longer words
   {
     id: 'L28', familyId: 3, familyTitle: 'Sendero de Luz', sublevel: 8,
     title: 'Sendero Largo',
     objective: 'Palabras más largas. El sendero crece.',
     targetUnitKind: 'word_build',
-    content: ['camino', 'puente', 'destino', 'ventana', 'naranja', 'teclado', 'sendero', 'estrella', 'latidos', 'palabra', 'rescate', 'bosque', 'jardin', 'piedra', 'ritmo', 'noche', 'fuente', 'colina', 'brillo'],
-    minAccuracy: 0.84, minInputs: 60,
+    content: ['pato', 'gato', 'hola', 'kilo', 'papas', 'gatos', 'hilos', 'kilos', 'camino', 'puente', 'destino', 'ventana', 'naranja', 'teclado', 'sendero', 'estrella', 'latidos', 'palabra', 'rescate', 'bosque', 'jardin', 'piedra', 'ritmo', 'noche', 'fuente', 'colina', 'brillo', 'que', 'las', 'los', 'por', 'para', 'con'],
+    minAccuracy: 0.84, minInputs: 70,
     backgroundUrl: '/src/assets/backgrounds/l3-sky.svg',
     colorTheme: 'indigo', mechanic: 'trail'
   },
 
   // F3.9 — Patrones largos
+  // REINFORCEMENT: P/G/H/K in long patterns + vocabulary
   {
     id: 'L29', familyId: 3, familyTitle: 'Sendero de Luz', sublevel: 9,
     title: 'Sendero Extendido',
     objective: 'Secuencias largas. Mantené el ritmo todo el camino.',
     targetUnitKind: 'word_build',
-    content: ['memoria', 'latidos', 'palabra', 'rescate', 'constante', 'precision', 'horizonte', 'aventura', 'universo', 'santuario', 'sendero', 'estrella', 'brillante', 'sincero', 'corriente', 'esfuerzo', 'comienzo'],
-    minAccuracy: 0.84, minInputs: 65,
+    content: ['memoria', 'latidos', 'palabra', 'rescate', 'constante', 'precision', 'horizonte', 'aventura', 'universo', 'santuario', 'sendero', 'estrella', 'brillante', 'sincero', 'corriente', 'esfuerzo', 'comienzo', 'pato', 'gato', 'hola', 'kilo', 'que', 'las', 'los', 'por', 'para', 'con', 'sin'],
+    minAccuracy: 0.84, minInputs: 75,
     backgroundUrl: '/src/assets/backgrounds/l3-sky.svg',
     colorTheme: 'indigo', mechanic: 'trail'
   },
 
   // F3.10 — Mastery de ritmo
+  // REINFORCEMENT: Full P/G/H/K integration + all frequent vocabulary
   {
     id: 'L30', familyId: 3, familyTitle: 'Sendero de Luz', sublevel: 10,
     title: 'Mastery de Ritmo',
     objective: 'Mezcla de todo: patrones, sílabas, palabras. Ritmo puro.',
     targetUnitKind: 'word_build',
-    content: ['fj', 'sol', 'casa', 'camino', 'memoria', 'dk', 'pan', 'luna', 'puente', 'teclado', 'sl', 'mar', 'dato', 'sendero', 'latidos', 'a;', 'luz', 'vida', 'estrella', 'aventura', 'rio', 'nota', 'destino', 'horizonte'],
-    minAccuracy: 0.85, minInputs: 70,
+    content: ['fj', 'sol', 'casa', 'camino', 'memoria', 'dk', 'pan', 'luna', 'puente', 'teclado', 'sl', 'mar', 'dato', 'sendero', 'latidos', 'a;', 'luz', 'vida', 'estrella', 'aventura', 'rio', 'nota', 'destino', 'horizonte', 'pato', 'gato', 'hola', 'kilo', 'papas', 'gatos', 'hilos', 'que', 'las', 'los', 'tu', 'por', 'para', 'con', 'sin', 'del', 'de'],
+    minAccuracy: 0.85, minInputs: 80,
     backgroundUrl: '/src/assets/backgrounds/l3-sky.svg',
     colorTheme: 'indigo', mechanic: 'trail'
   },
@@ -450,122 +460,132 @@ export const LEVELS: LevelDefinition[] = [
   // ═══════════════════════════════════════════════════════════════════════
 
   // F4.1 — Rescate de sílabas
+  // REINFORCEMENT: PA/PE/PI/PO, GA/GO/GE/GI, HA/HE/HO, KA/KE/KI/KO
   {
     id: 'L31', familyId: 4, familyTitle: 'Rescate en el Río', sublevel: 1,
     title: 'Sílabas en el Río',
     objective: 'Sílabas simples flotando. Rescatalas a tiempo.',
     targetUnitKind: 'bigram',
-    content: ['la', 'mi', 'tu', 'ca', 'de', 'no', 'si', 'el', 'un', 'lo', 'me', 'pa', 'te', 'su', 'ni', 'va', 'di', 'co', 'ra', 'se', 'en', 'es', 'al', 'da', 'ha', 'ma'],
-    minAccuracy: 0.78, minInputs: 35,
+    content: ['pa', 'pe', 'pi', 'po', 'pu', 'ga', 'go', 'ge', 'gi', 'gu', 'ha', 'he', 'hi', 'ho', 'hu', 'ka', 'ke', 'ki', 'ko', 'ku', 'la', 'mi', 'tu', 'ca', 'de', 'no', 'si', 'el', 'un', 'lo', 'me', 'te', 'su', 'ni', 'va', 'di', 'co', 'ra', 'se', 'en', 'es', 'al', 'que', 'las', 'los'],
+    minAccuracy: 0.78, minInputs: 45,
     backgroundUrl: '/src/assets/backgrounds/l4-river.svg',
     colorTheme: 'violet', mechanic: 'rescue', fallDurationSec: 9
   },
 
   // F4.2 — Rescate de pares útiles
+  // REINFORCEMENT: P/G/H/K pairs prominent
   {
     id: 'L32', familyId: 4, familyTitle: 'Rescate en el Río', sublevel: 2,
     title: 'Pares Útiles',
     objective: 'Bigramas con sentido. Más largo, más recompensa.',
     targetUnitKind: 'bigram',
-    content: ['me', 'pa', 'te', 'su', 'ra', 'vo', 'ni', 'sa', 'pe', 'di', 'ma', 'co', 'le', 'da', 'ha', 'se', 'en', 'al', 'os', 'as', 'es', 'do', 'ta', 'na', 'fa', 've'],
-    minAccuracy: 0.80, minInputs: 40,
+    content: ['pa', 'pe', 'pi', 'po', 'ga', 'go', 'ge', 'gi', 'ha', 'he', 'ho', 'ka', 'ke', 'ki', 'ko', 'me', 'te', 'su', 'ra', 'vo', 'ni', 'sa', 'di', 'ma', 'co', 'le', 'da', 'se', 'en', 'al', 'os', 'as', 'es', 'do', 'ta', 'na', 'fa', 've', 'que', 'las', 'los', 'por'],
+    minAccuracy: 0.80, minInputs: 50,
     backgroundUrl: '/src/assets/backgrounds/l4-river.svg',
     colorTheme: 'violet', mechanic: 'rescue', fallDurationSec: 8.5
   },
 
   // F4.3 — Rescate de 3 letras
+  // REINFORCEMENT: Words with P/G/H/K
   {
     id: 'L33', familyId: 4, familyTitle: 'Rescate en el Río', sublevel: 3,
     title: 'Tríos en el Río',
     objective: 'Tres letras flotando. Rescatá antes de perderlas.',
     targetUnitKind: 'sequence',
-    content: ['sol', 'pan', 'rio', 'mar', 'luz', 'sal', 'fin', 'red', 'ojo', 'pie', 'oro', 'dos', 'mes', 'rey', 'ley', 'sur', 'voz', 'ver', 'ser', 'dar', 'pez', 'sed', 'hoy', 'don', 'ven', 'tos'],
-    minAccuracy: 0.80, minInputs: 45,
+    content: ['pan', 'pez', 'palo', 'papa', 'tapa', 'sopa', 'gato', 'goma', 'gota', 'hola', 'hilo', 'higo', 'kilo', 'kayak', 'sol', 'rio', 'mar', 'luz', 'sal', 'fin', 'red', 'ojo', 'pie', 'oro', 'dos', 'mes', 'rey', 'ley', 'sur', 'voz', 'ver', 'ser', 'dar', 'tos', 'gas', 'col', 'miel', 'sed', 'hoy', 'ven', 'don', 'que', 'las', 'los'],
+    minAccuracy: 0.80, minInputs: 55,
     backgroundUrl: '/src/assets/backgrounds/l4-river.svg',
     colorTheme: 'violet', mechanic: 'rescue', fallDurationSec: 8
     // ← Completar L33 desbloquea F5
   },
 
   // F4.4 — Construcción de palabra corta
+  // REINFORCEMENT: P/G/H/K 4-letter words
   {
     id: 'L34', familyId: 4, familyTitle: 'Rescate en el Río', sublevel: 4,
     title: 'Palabras Cortas',
     objective: 'Palabras de 4 letras flotando en el río.',
     targetUnitKind: 'word_build',
-    content: ['casa', 'luna', 'mesa', 'dato', 'vida', 'mano', 'ruta', 'nube', 'flor', 'plan', 'nota', 'idea', 'meta', 'gato', 'lago', 'isla', 'roca', 'hoja', 'tela', 'rama', 'vela', 'sopa', 'rana', 'boca', 'piso'],
-    minAccuracy: 0.82, minInputs: 55,
+    content: ['pato', 'papa', 'tapa', 'sopa', 'piso', 'palo', 'peine', 'gato', 'goma', 'gota', 'gorra', 'hola', 'higo', 'hueso', 'kilo', 'kayak', 'casa', 'luna', 'mesa', 'dato', 'vida', 'mano', 'ruta', 'nube', 'flor', 'plan', 'nota', 'idea', 'paso', 'meta', 'lago', 'isla', 'roca', 'hoja', 'tela', 'rama', 'vela', 'boca', 'que', 'las', 'los', 'tu', 'por'],
+    minAccuracy: 0.82, minInputs: 65,
     backgroundUrl: '/src/assets/backgrounds/l4-river.svg',
     colorTheme: 'violet', mechanic: 'rescue', fallDurationSec: 7.5
   },
 
   // F4.5 — Construcción de palabra media
+  // REINFORCEMENT: P/G/H/K in longer words + vocabulary
   {
     id: 'L35', familyId: 4, familyTitle: 'Rescate en el Río', sublevel: 5,
     title: 'Palabras Medias',
     objective: 'Palabras más largas. El río no espera.',
     targetUnitKind: 'word_build',
-    content: ['camino', 'puente', 'destino', 'ventana', 'naranja', 'teclado', 'memoria', 'sendero', 'estrella', 'latidos', 'palabra', 'rescate', 'bosque', 'jardin', 'piedra', 'fuente', 'colina', 'brillo'],
-    minAccuracy: 0.82, minInputs: 60,
+    content: ['pato', 'gato', 'hola', 'kilo', 'papas', 'gatos', 'hilos', 'kilos', 'camino', 'puente', 'destino', 'ventana', 'naranja', 'teclado', 'memoria', 'sendero', 'estrella', 'latidos', 'palabra', 'rescate', 'bosque', 'jardin', 'piedra', 'fuente', 'colina', 'brillo', 'que', 'las', 'los', 'por', 'para', 'con'],
+    minAccuracy: 0.82, minInputs: 70,
     backgroundUrl: '/src/assets/backgrounds/l4-river.svg',
     colorTheme: 'violet', mechanic: 'rescue', fallDurationSec: 7
   },
 
   // F4.6 — Variantes válidas
+  // REINFORCEMENT: P/G/H/K minimal pairs
   {
     id: 'L36', familyId: 4, familyTitle: 'Rescate en el Río', sublevel: 6,
     title: 'Variantes',
     objective: 'Palabras similares. Cuidado con confundirlas.',
     targetUnitKind: 'word_build',
-    content: ['mesa', 'meta', 'mano', 'mapa', 'dato', 'dama', 'paso', 'palo', 'casa', 'cama', 'nota', 'nube', 'ruta', 'rana', 'vela', 'vida', 'cola', 'cosa', 'boca', 'bola', 'isla', 'idea', 'sopa', 'sala', 'tela', 'tema'],
-    minAccuracy: 0.83, minInputs: 60,
+    content: ['pato', 'gato', 'paso', 'palo', 'papa', 'tapa', 'sopa', 'goma', 'hola', 'hilo', 'kilo', 'mesa', 'meta', 'mano', 'mapa', 'dato', 'dama', 'casa', 'cama', 'nota', 'nube', 'ruta', 'rana', 'vela', 'vida', 'cola', 'cosa', 'boca', 'bola', 'isla', 'idea', 'sopa', 'sala', 'tela', 'tema', 'que', 'las', 'por'],
+    minAccuracy: 0.83, minInputs: 70,
     backgroundUrl: '/src/assets/backgrounds/l4-river.svg',
     colorTheme: 'violet', mechanic: 'rescue', fallDurationSec: 6.5
   },
 
   // F4.7 — Distractores
+  // REINFORCEMENT: P/G/H/K priority targets under pressure
   {
     id: 'L37', familyId: 4, familyTitle: 'Rescate en el Río', sublevel: 7,
     title: 'Corriente Cruzada',
     objective: 'Más unidades, más presión. Elegí bien.',
     targetUnitKind: 'word_build',
-    content: ['nota', 'nube', 'idea', 'paso', 'clave', 'dato', 'plan', 'meta', 'vida', 'ruta', 'mano', 'flor', 'gato', 'lago', 'isla', 'roca', 'hoja', 'tela', 'rama', 'vela', 'sopa', 'rana', 'boca', 'piso', 'luna', 'mesa', 'casa'],
-    minAccuracy: 0.82, minInputs: 65,
+    content: ['pato', 'gato', 'hola', 'kilo', 'papa', 'tapa', 'sopa', 'goma', 'hilo', 'kayak', 'nota', 'nube', 'idea', 'paso', 'clave', 'dato', 'plan', 'meta', 'vida', 'ruta', 'mano', 'flor', 'lago', 'isla', 'roca', 'hoja', 'tela', 'rama', 'vela', 'boca', 'piso', 'luna', 'mesa', 'casa', 'que', 'las', 'los', 'por'],
+    minAccuracy: 0.82, minInputs: 75,
     backgroundUrl: '/src/assets/backgrounds/l4-river.svg',
     colorTheme: 'violet', mechanic: 'rescue', fallDurationSec: 5.5
   },
 
   // F4.8 — Más velocidad
+  // REINFORCEMENT: P/G/H/K under speed pressure
   {
     id: 'L38', familyId: 4, familyTitle: 'Rescate en el Río', sublevel: 8,
     title: 'Rápidos',
     objective: 'Río rápido. Sin margen de error.',
     targetUnitKind: 'word_build',
-    content: ['camino', 'puente', 'rescate', 'ventana', 'destino', 'memoria', 'teclado', 'latidos', 'sendero', 'estrella', 'bosque', 'jardin', 'piedra', 'fuente', 'colina', 'brillo', 'naranja', 'palabra'],
-    minAccuracy: 0.82, minInputs: 70,
+    content: ['pato', 'gato', 'hola', 'kilo', 'papas', 'gatos', 'hilos', 'kilos', 'camino', 'puente', 'rescate', 'ventana', 'destino', 'memoria', 'teclado', 'latidos', 'sendero', 'estrella', 'bosque', 'jardin', 'piedra', 'fuente', 'colina', 'brillo', 'naranja', 'palabra', 'que', 'las', 'los', 'por', 'para'],
+    minAccuracy: 0.82, minInputs: 80,
     backgroundUrl: '/src/assets/backgrounds/l4-river.svg',
     colorTheme: 'violet', mechanic: 'rescue', fallDurationSec: 4.5
   },
 
   // F4.9 — Corriente fuerte
+  // REINFORCEMENT: Long words with P/G/H/K
   {
     id: 'L39', familyId: 4, familyTitle: 'Rescate en el Río', sublevel: 9,
     title: 'Corriente Fuerte',
     objective: 'Construcciones largas a máxima velocidad.',
     targetUnitKind: 'word_build',
-    content: ['aprendizaje', 'santuario', 'precision', 'constante', 'brillante', 'sincero', 'horizonte', 'aventura', 'universo', 'corriente', 'esfuerzo', 'comienzo', 'estructura', 'naturaleza', 'movimiento', 'equilibrio'],
-    minAccuracy: 0.82, minInputs: 75,
+    content: ['aprendizaje', 'santuario', 'precision', 'constante', 'brillante', 'sincero', 'horizonte', 'aventura', 'universo', 'corriente', 'esfuerzo', 'comienzo', 'estructura', 'naturaleza', 'movimiento', 'equilibrio', 'pato', 'gato', 'hola', 'kilo', 'que', 'las', 'los', 'por'],
+    minAccuracy: 0.82, minInputs: 85,
     backgroundUrl: '/src/assets/backgrounds/l4-river.svg',
     colorTheme: 'violet', mechanic: 'rescue', fallDurationSec: 4
   },
 
   // F4.10 — Mastery de construcción
+  // REINFORCEMENT: Full P/G/H/K + all frequent vocabulary
   {
     id: 'L40', familyId: 4, familyTitle: 'Rescate en el Río', sublevel: 10,
     title: 'Mastery del Río',
     objective: 'Todo junto: sílabas, palabras, construcciones. Río maestro.',
     targetUnitKind: 'word_build',
-    content: ['la', 'sol', 'casa', 'camino', 'memoria', 'mi', 'pan', 'luna', 'puente', 'precision', 'de', 'mar', 'dato', 'sendero', 'aventura', 'el', 'luz', 'vida', 'destino', 'universo', 'tu', 'rio', 'flor', 'estrella', 'horizonte'],
-    minAccuracy: 0.84, minInputs: 80,
+    content: ['pa', 'sol', 'casa', 'camino', 'memoria', 'mi', 'pan', 'luna', 'puente', 'precision', 'de', 'mar', 'dato', 'sendero', 'aventura', 'el', 'luz', 'vida', 'destino', 'universo', 'tu', 'rio', 'flor', 'estrella', 'horizonte', 'pato', 'gato', 'hola', 'kilo', 'papas', 'gatos', 'hilos', 'que', 'las', 'los', 'por', 'para', 'con', 'sin', 'del'],
+    minAccuracy: 0.84, minInputs: 90,
     backgroundUrl: '/src/assets/backgrounds/l4-river.svg',
     colorTheme: 'violet', mechanic: 'rescue', fallDurationSec: 3.5
   },
