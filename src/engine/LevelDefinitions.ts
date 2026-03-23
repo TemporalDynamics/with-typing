@@ -766,10 +766,9 @@ export const LEVELS: LevelDefinition[] = [
   // ═══════════════════════════════════════════════════════════════════════
   // F6 — EXPRESIÓN CREATIVA (L51-L60)
   //   Objetivo humano: decisión expresiva + tipeo bajo presión.
-  //   Mecánica: phrase_complete, column_match, flash_memory, rule_switch.
+  //   Mecánica: phrase — elegí la mejor opción y tipeala completa.
   //   No es solo tipear — es elegir, recordar, asociar, crear.
-  //   Progresión: completar frases → unir columnas → memoria flash →
-  //               cambio de regla → expresión libre → mastery.
+  //   Formato content: [phraseStart, option1, option2, option3, option4]
   // ═══════════════════════════════════════════════════════════════════════
 
   // F6.1 — Completar frases (coherente)
@@ -778,10 +777,10 @@ export const LEVELS: LevelDefinition[] = [
     title: 'Frases Coherentes',
     objective: 'Elegí la opción más coherente y tipeala.',
     targetUnitKind: 'word_build',
-    content: ['mi casa es', 'tu vida tiene', 'su meta es', 'mi plan es', 'una idea', 'un paso', 'la clave es', 'el dato', 'mi nota', 'tu ruta', 'su flor', 'un gato', 'la luna', 'el lago', 'mi isla'],
+    content: ['mi casa es', 'un hogar cálido', 'muy grande', 'de color azul', 'nueva y linda'],
     minAccuracy: 0.80, minInputs: 50,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
-    colorTheme: 'amber', mechanic: 'garden'
+    colorTheme: 'amber', mechanic: 'phrase'
   },
 
   // F6.2 — Completar frases (gracioso)
@@ -790,22 +789,22 @@ export const LEVELS: LevelDefinition[] = [
     title: 'Frases Graciosas',
     objective: 'Elegí la opción más graciosa y tipeala.',
     targetUnitKind: 'word_build',
-    content: ['mi casa tiene', 'tu vida es', 'su meta fue', 'mi plan era', 'una idea loca', 'un paso falso', 'la clave fue', 'el dato raro', 'mi nota baja', 'tu ruta larga'],
+    content: ['mi casa tiene', 'un dragón en el sótano', 'muchas ventanas', 'un jardín lindo', 'tres pisos'],
     minAccuracy: 0.80, minInputs: 50,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
-    colorTheme: 'amber', mechanic: 'garden'
+    colorTheme: 'amber', mechanic: 'phrase'
   },
 
-  // F6.3 — Unir columnas simple
+  // F6.3 — Asociaciones
   {
     id: 'L53', familyId: 6, familyTitle: 'Expresión Creativa', sublevel: 3,
     title: 'Asociaciones',
-    objective: 'Uní cada palabra con su pareja.',
+    objective: 'Elegí la palabra que mejor se asocia.',
     targetUnitKind: 'word_build',
-    content: ['casa-hogar', 'vida-muerte', 'luz-oscuridad', 'amor-odio', 'dia-noche', 'bueno-malo', 'grande-chico', 'alto-bajo'],
+    content: ['fuego es', 'calor y luz', 'muy caliente', 'peligroso siempre', 'rojo y naranja'],
     minAccuracy: 0.82, minInputs: 50,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
-    colorTheme: 'indigo', mechanic: 'garden'
+    colorTheme: 'indigo', mechanic: 'phrase'
   },
 
   // F6.4 — Memoria flash (2 opciones)
@@ -814,10 +813,10 @@ export const LEVELS: LevelDefinition[] = [
     title: 'Memoria Flash',
     objective: 'Memorizá las opciones y elegí la correcta.',
     targetUnitKind: 'word_build',
-    content: ['mi casa', 'tu casa', 'mi vida', 'tu vida', 'mi plan', 'tu plan', 'mi idea', 'tu idea'],
+    content: ['mi vida es', 'una aventura', 'muy ocupada', 'tranquila y paz', 'llena de sueños'],
     minAccuracy: 0.80, minInputs: 50,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
-    colorTheme: 'purple', mechanic: 'garden'
+    colorTheme: 'purple', mechanic: 'phrase'
   },
 
   // F6.5 — Cambio de regla (coherente → gracioso)
@@ -826,22 +825,22 @@ export const LEVELS: LevelDefinition[] = [
     title: 'Cambio de Regla',
     objective: 'Cambiar entre criterio coherente y gracioso.',
     targetUnitKind: 'word_build',
-    content: ['mi casa es', 'mi casa tiene', 'tu vida es', 'tu vida tiene', 'su meta fue', 'su meta es', 'mi plan era', 'mi plan es'],
+    content: ['tu vida es', 'única y valiosa', 'una montaña rusa', 'corta pero intensa', 'como una película'],
     minAccuracy: 0.82, minInputs: 60,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
-    colorTheme: 'purple', mechanic: 'garden'
+    colorTheme: 'purple', mechanic: 'phrase'
   },
 
-  // F6.6 — Completar con 4 opciones
+  // F6.6 — Múltiples opciones (4)
   {
     id: 'L56', familyId: 6, familyTitle: 'Expresión Creativa', sublevel: 6,
     title: 'Múltiples Opciones',
     objective: 'Elegí la mejor entre 4 opciones.',
     targetUnitKind: 'word_build',
-    content: ['mi nueva casa', 'tu vieja casa', 'su gran casa', 'una casa', 'mi mejor idea', 'tu peor idea', 'su idea', 'una idea'],
+    content: ['mi plan es', 'viajar mucho', 'aprender más', 'ser feliz siempre', 'ayudar a otros'],
     minAccuracy: 0.83, minInputs: 60,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
-    colorTheme: 'amber', mechanic: 'garden'
+    colorTheme: 'amber', mechanic: 'phrase'
   },
 
   // F6.7 — Asociación semántica
@@ -850,22 +849,22 @@ export const LEVELS: LevelDefinition[] = [
     title: 'Asociaciones Semánticas',
     objective: 'Uní conceptos relacionados.',
     targetUnitKind: 'word_build',
-    content: ['fuego-calor', 'agua-frio', 'sol-verano', 'nieve-invierno', 'flor-jardin', 'libro-lectura', 'musica-baile', 'comida-hambre'],
+    content: ['agua es', 'vida y frescura', 'líquido transparente', 'necesaria siempre', 'azul y profunda'],
     minAccuracy: 0.83, minInputs: 60,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
-    colorTheme: 'indigo', mechanic: 'garden'
+    colorTheme: 'indigo', mechanic: 'phrase'
   },
 
-  // F6.8 — Memoria flash avanzada (4 opciones)
+  // F6.8 — Memoria avanzada (4 opciones)
   {
     id: 'L58', familyId: 6, familyTitle: 'Expresión Creativa', sublevel: 8,
     title: 'Memoria Avanzada',
     objective: 'Memorizá 4 opciones y recordá la correcta.',
     targetUnitKind: 'word_build',
-    content: ['mi casa bella', 'tu casa fea', 'su casa grande', 'una casa', 'mi vida plena', 'tu vida vacia', 'su vida loca', 'una vida'],
+    content: ['su meta es', 'llegar lejos', 'ser exitoso', 'ayudar al mundo', 'vivir en paz'],
     minAccuracy: 0.84, minInputs: 70,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
-    colorTheme: 'purple', mechanic: 'garden'
+    colorTheme: 'purple', mechanic: 'phrase'
   },
 
   // F6.9 — Expresión libre con criterio
@@ -874,10 +873,10 @@ export const LEVELS: LevelDefinition[] = [
     title: 'Expresión Libre',
     objective: 'Elegí según el criterio indicado.',
     targetUnitKind: 'word_build',
-    content: ['quiero aprender', 'puedo lograr', 'voy a intentar', 'me gusta crear', 'tengo un sueño', 'hago mi parte', 'sigo adelante', 'confio en mi'],
+    content: ['quiero', 'aprender siempre', 'ser mejor persona', 'viajar el mundo', 'crear cosas nuevas'],
     minAccuracy: 0.84, minInputs: 70,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
-    colorTheme: 'amber', mechanic: 'garden'
+    colorTheme: 'amber', mechanic: 'phrase'
   },
 
   // F6.10 — Mastery expresivo
@@ -886,9 +885,9 @@ export const LEVELS: LevelDefinition[] = [
     title: 'Mastery Creativo',
     objective: 'Todo junto: elegir, recordar, asociar, expresar.',
     targetUnitKind: 'word_build',
-    content: ['mi nueva casa', 'tu mejor idea', 'su primer paso', 'un buen plan', 'quiero aprender mas', 'puedo hacerlo bien', 'tengo una idea', 'hago mi mejor esfuerzo', 'mi casa es bella', 'tu vida es plena', 'su meta es clara', 'mi plan es firme'],
+    content: ['mi nueva casa', 'es grande y linda', 'tiene jardín amplio', 'está en la playa', 'es muy acogedora'],
     minAccuracy: 0.85, minInputs: 80,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
-    colorTheme: 'rose', mechanic: 'garden'
+    colorTheme: 'rose', mechanic: 'phrase'
   }
 ];

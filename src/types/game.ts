@@ -33,7 +33,7 @@ export interface LevelDefinition {
   minInputs: number;
   backgroundUrl: string;
   colorTheme: string;
-  mechanic: 'tutorial' | 'falling' | 'trail' | 'rescue' | 'garden';
+  mechanic: 'tutorial' | 'falling' | 'trail' | 'rescue' | 'garden' | 'phrase';
   fallDurationSec?: number;
 }
 

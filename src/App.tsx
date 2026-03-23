@@ -12,6 +12,7 @@ import { FullKeyboard } from './components/game/FullKeyboard';
 import { TrailMechanic } from './components/game/TrailMechanic';
 import { RescueMechanic } from './components/game/RescueMechanic';
 import { GardenMechanic } from './components/game/GardenMechanic';
+import { PhraseMechanic } from './components/game/PhraseMechanic';
 import { HostCharacter, EnemyActor, ComboBurst } from './components/characters/Characters';
 import { StarSVG } from './components/icons/Icons';
 import { LEVELS } from './engine/LevelDefinitions';
@@ -269,6 +270,27 @@ export default function App({ hostAdapter, eventEmitter, standalone = false }: A
                   />
                 </>
               )}
+
+              {currentLevel.mechanic === 'phrase' && (() => {
+                // Parse content: first item is phraseStart, rest are options
+                const phraseStart = currentLevel.content[0] || '';
+                const options = currentLevel.content.slice(1, 5); // Max 4 options
+                const criterion = currentLevel.sublevel % 2 === 1 ? 'coherent' : 'funny';
+                
+                return (
+                  <PhraseMechanic
+                    key={`phrase-${gameState.currentLevelId}-${gameState.progress}`}
+                    phraseStart={phraseStart}
+                    options={options}
+                    criterion={criterion}
+                    onComplete={(completedPhrase) => {
+                      // Mark as complete - engine will handle progression
+                      // For now, just complete the current target
+                    }}
+                    onFail={failUnit}
+                  />
+                );
+              })()}
             </div>
           );
         })()}
