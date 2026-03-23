@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { LevelDefinition, TargetUnitKind } from '../types/game';
+import { LevelDefinition, TargetUnitKind, DifficultyMode } from '../types/game';
 
 export interface TypingMetrics {
   accuracy: number;
@@ -17,6 +17,7 @@ export interface TypingMetrics {
 
 export class TypingEngine {
   private currentLevel: LevelDefinition;
+  private difficultyMode: DifficultyMode = 'easy';
   private currentContentIndex: number = 0;
   private currentTarget: string = '';
   private currentInput: string = '';
@@ -31,8 +32,9 @@ export class TypingEngine {
   private targetQueue: string[] = [];
   private queueIndex: number = 0;
 
-  constructor(level: LevelDefinition) {
+  constructor(level: LevelDefinition, difficultyMode: DifficultyMode = 'easy') {
     this.currentLevel = level;
+    this.difficultyMode = difficultyMode;
     this.reset();
   }
 
@@ -83,10 +85,10 @@ export class TypingEngine {
     this.lives = 5;
   }
 
-  public submitKey(key: string): { 
-    isCorrect: boolean; 
-    latencyMs: number; 
-    isUnitComplete: boolean; 
+  public submitKey(key: string): {
+    isCorrect: boolean;
+    latencyMs: number;
+    isUnitComplete: boolean;
     isLevelComplete: boolean;
     lives: number;
     combo: number;
@@ -94,11 +96,12 @@ export class TypingEngine {
     target: string;
     inputBefore: string;
     inputAfter: string;
+    requiresEnter: boolean;
   } {
     const now = Date.now();
     const latencyMs = now - this.lastInputTime;
     this.lastInputTime = now;
-    
+
     const targetBefore = this.currentTarget;
     const inputBefore = this.currentInput;
     const expectedChar = this.currentTarget[this.currentInput.length];
@@ -117,8 +120,13 @@ export class TypingEngine {
 
     const isUnitComplete = this.currentInput === this.currentTarget;
     let isLevelComplete = false;
+    
+    // In easy mode, unit completes automatically
+    // In normal/hard mode, user must press Enter
+    const requiresEnter = this.difficultyMode !== 'easy';
+    const shouldCompleteUnit = isUnitComplete && (!requiresEnter);
 
-    if (isUnitComplete) {
+    if (shouldCompleteUnit) {
       this.queueIndex++;
       this.currentContentIndex++;
       if (this.queueIndex < this.targetQueue.length) {
@@ -132,15 +140,38 @@ export class TypingEngine {
     return {
       isCorrect,
       latencyMs,
-      isUnitComplete,
+      isUnitComplete: shouldCompleteUnit,
       isLevelComplete,
       lives: this.lives,
       combo: this.combo,
       expectedChar,
       target: targetBefore,
       inputBefore,
-      inputAfter: this.currentInput
+      inputAfter: this.currentInput,
+      requiresEnter
     };
+  }
+
+  /** Submit unit completion with Enter key (for normal/hard modes) */
+  public submitEnter(): {
+    isUnitComplete: boolean;
+    isLevelComplete: boolean;
+  } {
+    const isUnitComplete = this.currentInput === this.currentTarget;
+    let isLevelComplete = false;
+
+    if (isUnitComplete) {
+      this.queueIndex++;
+      this.currentContentIndex++;
+      if (this.queueIndex < this.targetQueue.length) {
+        this.currentTarget = this.targetQueue[this.queueIndex];
+        this.currentInput = '';
+      } else {
+        isLevelComplete = true;
+      }
+    }
+
+    return { isUnitComplete, isLevelComplete };
   }
 
   public failUnit() {

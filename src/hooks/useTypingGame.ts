@@ -7,11 +7,12 @@ import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { TypingEngine } from '../engine/TypingEngine';
 import { LEVELS } from '../engine/LevelDefinitions';
 import { GameHostAdapter, GameEventEmitter, MockHostAdapter, ConsoleEventEmitter } from '../adapters';
-import { GameState, GameProgress, GameEvent, LevelId, LevelScore } from '../types/game';
+import { GameState, GameProgress, GameEvent, LevelId, LevelScore, DifficultyMode } from '../types/game';
 import { SignalService } from '../services/SignalService';
 import { soundService } from '../services/soundService';
 
 const MAX_LIVES = 5;
+const DEFAULT_DIFFICULTY: DifficultyMode = 'easy';
 
 /** Cross-family unlock gates.
  *  Key = familyId that becomes accessible, Value = level that triggers the unlock.
@@ -70,13 +71,15 @@ export function useTypingGame(
     progress: 0,
     playerHandle: 'Player',
     lives: 5,
-    combo: 0
+    combo: 0,
+    difficultyMode: DEFAULT_DIFFICULTY
   });
 
   const [unlockedLevels, setUnlockedLevels] = useState<LevelId[]>(['L1']);
   const [levelScores, setLevelScores] = useState<Partial<Record<LevelId, LevelScore>>>({});
   const [wilting, setWilting] = useState(false);
   const [lifeLost, setLifeLost] = useState(false);
+  const [difficultyMode, setDifficultyMode] = useState<DifficultyMode>(DEFAULT_DIFFICULTY);
   const engineRef = useRef<TypingEngine | null>(null);
   const sessionId = useRef<string>(crypto.randomUUID());
   const runId = useRef<string>(crypto.randomUUID());
@@ -106,9 +109,19 @@ export function useTypingGame(
       if (initialState.lastProgress?.levelScores) {
         setLevelScores(initialState.lastProgress.levelScores);
       }
+      if (initialState.difficultyMode) {
+        setDifficultyMode(initialState.difficultyMode);
+      }
     };
     init();
   }, [resolvedHostAdapter]);
+
+  // Persist difficulty when it changes
+  useEffect(() => {
+    resolvedHostAdapter.saveDifficulty(difficultyMode).catch(() => {
+      // Best-effort persistence
+    });
+  }, [difficultyMode, resolvedHostAdapter]);
 
   const emitSignals = useCallback((event: GameEvent) => {
     const signals = signalService.mapEventToSignals(event);
@@ -117,7 +130,7 @@ export function useTypingGame(
 
   const startLevel = useCallback((levelId: LevelId) => {
     const level = LEVELS.find(l => l.id === levelId)!;
-    engineRef.current = new TypingEngine(level);
+    engineRef.current = new TypingEngine(level, difficultyMode);
     runId.current = crypto.randomUUID();
     sessionTurnCountRef.current = 0;
     unitAttemptCountRef.current = 0;
@@ -132,9 +145,10 @@ export function useTypingGame(
       accuracy: 0,
       progress: 0,
       lives: MAX_LIVES,
-      combo: 0
+      combo: 0,
+      difficultyMode
     }));
-  }, []);
+  }, [difficultyMode]);
 
   const goToLobby = useCallback(() => {
     setWilting(false);
@@ -402,6 +416,95 @@ export function useTypingGame(
     }
   }, [gameState.status, gameState.currentLevelId, gameState.score, levelScores, resolvedHostAdapter, emitSignals]);
 
+  /** Handle Enter key for normal/hard difficulty modes */
+  const handleEnter = useCallback(() => {
+    if (!engineRef.current || gameState.status !== 'PLAYING') return;
+    if (difficultyMode === 'easy') return; // Enter not required in easy mode
+
+    const result = engineRef.current.submitEnter();
+    const metrics = engineRef.current.getMetrics();
+    const currentLevelDef = LEVELS.find(l => l.id === gameState.currentLevelId);
+
+    // Play node-complete sound for trail mechanic
+    if (result.isUnitComplete && currentLevelDef?.mechanic === 'trail') {
+      soundService.playNodeComplete();
+    }
+
+    if (result.isLevelComplete) {
+      const level = LEVELS.find(l => l.id === gameState.currentLevelId)!;
+      const passed = metrics.accuracy >= level.minAccuracy && gameState.lives > 0;
+
+      if (passed) {
+        soundService.playLevelComplete();
+      }
+
+      setGameState(prev => ({
+        ...prev,
+        status: passed ? 'LEVEL_COMPLETE' : 'LOBBY',
+        accuracy: metrics.accuracy,
+        progress: passed ? 100 : engineRef.current?.getProgress() ?? prev.progress,
+        combo: metrics.combo
+      }));
+
+      if (passed) {
+        const stars = computeStars(metrics.accuracy, level.minAccuracy);
+        const newScore: LevelScore = { bestAccuracy: metrics.accuracy, bestWpm: metrics.wpm, stars };
+
+        setLevelScores(prev => {
+          const existing = prev[level.id];
+          const merged: LevelScore = existing
+            ? {
+                bestAccuracy: Math.max(existing.bestAccuracy, metrics.accuracy),
+                bestWpm: Math.max(existing.bestWpm, metrics.wpm),
+                stars: Math.max(existing.stars, stars) as 0 | 1 | 2 | 3,
+              }
+            : newScore;
+
+          const updatedScores = { ...prev, [level.id]: merged };
+          persistProgress(updatedScores, unlockedLevels, metrics.accuracy);
+
+          return updatedScores;
+        });
+
+        // Unlock next levels (same logic as handleKeyPress)
+        const currentIndex = LEVELS.findIndex(l => l.id === gameState.currentLevelId);
+        const newUnlocks: LevelId[] = [];
+        if (currentIndex < LEVELS.length - 1) {
+          newUnlocks.push(LEVELS[currentIndex + 1].id);
+        }
+
+        for (const [nextFamilyIdStr, gateLevelId] of Object.entries(FAMILY_UNLOCK_GATES)) {
+          if (gameState.currentLevelId === gateLevelId) {
+            const nextFamilyId = Number(nextFamilyIdStr);
+            const currentFamilyId = getFamilyOfLevel(gameState.currentLevelId!);
+
+            if (currentFamilyId) {
+              const currentFamilyLevels = getLevelsByFamily(currentFamilyId);
+              const unlockedInCurrentFamily = currentFamilyLevels.filter(id =>
+                LEVELS.find(l => l.id === id)!.sublevel <= level.sublevel
+              );
+              const remainingLevels = currentFamilyLevels.filter(
+                id => !unlockedInCurrentFamily.includes(id)
+              );
+              newUnlocks.push(...remainingLevels);
+            }
+
+            const firstLevel = getFirstLevelOfFamily(nextFamilyId);
+            if (firstLevel) newUnlocks.push(firstLevel);
+          }
+        }
+
+        if (newUnlocks.length > 0) {
+          setUnlockedLevels(prev => {
+            const updatedUnlocks = Array.from(new Set([...prev, ...newUnlocks]));
+            persistProgress(levelScores, updatedUnlocks, metrics.accuracy);
+            return updatedUnlocks;
+          });
+        }
+      }
+    }
+  }, [gameState.status, gameState.currentLevelId, gameState.lives, levelScores, unlockedLevels, difficultyMode, resolvedHostAdapter, emitSignals]);
+
   useEffect(() => {
     if (gameState.status === 'PLAYING') {
       return;
@@ -462,9 +565,12 @@ export function useTypingGame(
     levelScores,
     wilting,
     lifeLost,
+    difficultyMode,
+    setDifficultyMode,
     startLevel,
     goToLobby,
     handleKeyPress,
+    handleEnter,
     failUnit,
     engine: engineRef.current
   };

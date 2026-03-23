@@ -4,18 +4,26 @@
  */
 
 import React from 'react';
-import { LevelId, LevelScore } from '../types/game';
+import { LevelId, LevelScore, DifficultyMode } from '../types/game';
 import { LEVELS } from '../engine/LevelDefinitions';
 import { motion } from 'motion/react';
-import { Play, Lock, Star } from 'lucide-react';
+import { Play, Lock, Star, Trophy, Zap, Target } from 'lucide-react';
 
 interface LevelSelectorProps {
   unlockedLevels: LevelId[];
   levelScores: Partial<Record<LevelId, LevelScore>>;
   onSelect: (levelId: LevelId) => void;
+  difficultyMode?: DifficultyMode;
+  onDifficultyChange?: (mode: DifficultyMode) => void;
 }
 
-export const LevelSelector: React.FC<LevelSelectorProps> = ({ unlockedLevels, levelScores, onSelect }) => {
+export const LevelSelector: React.FC<LevelSelectorProps> = ({ 
+  unlockedLevels, 
+  levelScores, 
+  onSelect,
+  difficultyMode = 'easy',
+  onDifficultyChange
+}) => {
   const levelFamilies = LEVELS.reduce<Record<number, typeof LEVELS>>((acc, level) => {
     if (!acc[level.familyId]) {
       acc[level.familyId] = [];
@@ -27,6 +35,30 @@ export const LevelSelector: React.FC<LevelSelectorProps> = ({ unlockedLevels, le
   const orderedFamilyIds = Object.keys(levelFamilies)
     .map(Number)
     .sort((a, b) => a - b);
+
+  const difficultyOptions: { mode: DifficultyMode; label: string; description: string; icon: React.ReactNode; color: string }[] = [
+    { 
+      mode: 'easy', 
+      label: 'Fácil', 
+      description: 'Sin Enter. Enfocate en aprender.',
+      icon: <Trophy className="w-4 h-4" />,
+      color: 'emerald'
+    },
+    { 
+      mode: 'normal', 
+      label: 'Normal', 
+      description: 'Usá Enter para confirmar.',
+      icon: <Target className="w-4 h-4" />,
+      color: 'amber'
+    },
+    { 
+      mode: 'hard', 
+      label: 'Difícil', 
+      description: 'Enter + tiempo límite.',
+      icon: <Zap className="w-4 h-4" />,
+      color: 'rose'
+    },
+  ];
 
   return (
     <div className="flex flex-col items-start min-h-full py-12 text-slate-800">
@@ -40,6 +72,58 @@ export const LevelSelector: React.FC<LevelSelectorProps> = ({ unlockedLevels, le
         </h1>
         <p className="text-slate-500 font-medium tracking-wide uppercase text-xs">Sanctuary Edition • v1.2</p>
       </motion.div>
+
+      {/* Difficulty Selector */}
+      {onDifficultyChange && (
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="w-full max-w-7xl mb-12"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-black uppercase tracking-[0.2em] text-slate-600">Dificultad</h3>
+            <span className="text-[10px] font-bold text-slate-400">
+              {difficultyOptions.find(d => d.mode === difficultyMode)?.description}
+            </span>
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            {difficultyOptions.map((opt) => {
+              const isActive = difficultyMode === opt.mode;
+              const colorClasses = {
+                emerald: isActive 
+                  ? 'bg-emerald-500 text-white border-emerald-600 shadow-lg shadow-emerald-500/30' 
+                  : 'bg-white/50 text-slate-600 border-slate-200 hover:bg-white/80',
+                amber: isActive 
+                  ? 'bg-amber-500 text-white border-amber-600 shadow-lg shadow-amber-500/30' 
+                  : 'bg-white/50 text-slate-600 border-slate-200 hover:bg-white/80',
+                rose: isActive 
+                  ? 'bg-rose-500 text-white border-rose-600 shadow-lg shadow-rose-500/30' 
+                  : 'bg-white/50 text-slate-600 border-slate-200 hover:bg-white/80',
+              };
+
+              return (
+                <motion.button
+                  key={opt.mode}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => onDifficultyChange(opt.mode)}
+                  className={`
+                    relative px-4 py-3 rounded-xl border-2 transition-all duration-200
+                    flex flex-col items-center gap-1.5
+                    ${colorClasses[opt.color as keyof typeof colorClasses]}
+                  `}
+                >
+                  <div className="flex items-center gap-1.5">
+                    {opt.icon}
+                    <span className="text-sm font-black">{opt.label}</span>
+                  </div>
+                </motion.button>
+              );
+            })}
+          </div>
+        </motion.div>
+      )}
 
       <div className="w-full max-w-7xl pb-10 space-y-8 shrink-0">
         {orderedFamilyIds.map((familyId) => {

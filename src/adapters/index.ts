@@ -3,21 +3,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { GameEvent, GameProgress, LevelId } from '../types/game';
+import { GameEvent, GameProgress, LevelId, DifficultyMode } from '../types/game';
 import { B1Signal } from '../types/game';
 
 const DEBUG_GAME_EVENTS = import.meta.env.VITE_DEBUG_GAME_EVENTS === 'true';
 const STORAGE_KEY = 'typing-foundations-progress';
+const DIFFICULTY_KEY = 'typing-foundations-difficulty';
 
 export interface GameHostAdapter {
   getInitialState(): Promise<{
     playerHandle: string;
     unlockedLevels: LevelId[];
     lastProgress?: GameProgress;
+    difficultyMode?: DifficultyMode;
   }>;
   onGameEvent(event: GameEvent): void;
   onProgressUpdate(progress: GameProgress): Promise<void>;
   getLeaderboard(): Promise<any[]>;
+  saveDifficulty(mode: DifficultyMode): Promise<void>;
 }
 
 export interface GameEventEmitter {
@@ -29,9 +32,11 @@ export interface GameEventEmitter {
  */
 export class MockHostAdapter implements GameHostAdapter {
   private progress: GameProgress;
+  private difficulty: DifficultyMode = 'easy';
 
   constructor() {
     this.progress = MockHostAdapter.loadFromStorage();
+    this.difficulty = MockHostAdapter.loadDifficulty();
   }
 
   private static loadFromStorage(): GameProgress {
@@ -52,6 +57,18 @@ export class MockHostAdapter implements GameHostAdapter {
     */
   }
 
+  private static loadDifficulty(): DifficultyMode {
+    try {
+      const raw = localStorage.getItem(DIFFICULTY_KEY);
+      if (raw && (raw === 'easy' || raw === 'normal' || raw === 'hard')) {
+        return raw as DifficultyMode;
+      }
+    } catch {
+      // ignore corrupt data
+    }
+    return 'easy';
+  }
+
   private saveToStorage() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.progress));
@@ -62,8 +79,16 @@ export class MockHostAdapter implements GameHostAdapter {
     return {
       playerHandle: 'Player_One',
       unlockedLevels: this.progress.unlockedLevels,
-      lastProgress: this.progress
+      lastProgress: this.progress,
+      difficultyMode: this.difficulty
     };
+  }
+
+  async saveDifficulty(mode: DifficultyMode) {
+    this.difficulty = mode;
+    try {
+      localStorage.setItem(DIFFICULTY_KEY, mode);
+    } catch { /* quota exceeded — best effort */ }
   }
 
   onGameEvent(event: GameEvent) {

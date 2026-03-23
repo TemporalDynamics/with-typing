@@ -32,9 +32,12 @@ export default function App({ hostAdapter, eventEmitter, standalone = false }: A
     levelScores,
     wilting,
     lifeLost,
+    difficultyMode,
+    setDifficultyMode,
     startLevel,
     goToLobby,
     handleKeyPress,
+    handleEnter,
     failUnit,
     engine
   } = useTypingGame(hostAdapter, eventEmitter);
@@ -53,11 +56,19 @@ export default function App({ hostAdapter, eventEmitter, standalone = false }: A
 
     if (gameState.status === 'PLAYING' && !showTutorial) {
       if (e.key === ' ') e.preventDefault();
+      
+      // Handle Enter key for normal/hard modes
+      if (e.key === 'Enter' && difficultyMode !== 'easy') {
+        e.preventDefault();
+        handleEnter();
+        return;
+      }
+      
       if (e.key.length === 1) {
         handleKeyPress(e.key);
       }
     }
-  }, [gameState.status, goToLobby, handleKeyPress, showTutorial]);
+  }, [gameState.status, goToLobby, handleKeyPress, handleEnter, difficultyMode, showTutorial]);
 
   useEffect(() => {
     window.addEventListener('keydown', onKeyDown);
@@ -166,6 +177,8 @@ export default function App({ hostAdapter, eventEmitter, standalone = false }: A
               unlockedLevels={unlockedLevels}
               levelScores={levelScores}
               onSelect={startLevel}
+              difficultyMode={difficultyMode}
+              onDifficultyChange={setDifficultyMode}
             />
           </div>
         )}
