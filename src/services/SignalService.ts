@@ -3,11 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { GameEvent, B1Signal, B1SignalType, F1SignalClass } from '../types/game';
+import { GameEvent, B1Signal, B1SignalType, F1SignalClass, DifficultyMode } from '../types/game';
 import { LEVELS } from '../engine/LevelDefinitions';
 import { KEYBOARD_ROWS, getKeyMapping } from '../engine/KeyboardMap';
 
 const APP_VERSION = '1.0.0';
+
+type SignalClass = 'observabilidad' | 'apoyo' | 'promocion';
 
 export class SignalService {
   private static instance: SignalService;
@@ -18,6 +20,10 @@ export class SignalService {
   private mirrorPatternSet: ReadonlySet<string>;
   private lowFrequencyKeySet: ReadonlySet<string>;
   private f1SignalClassMap: ReadonlyMap<string, F1SignalClass>;
+  private f2SignalClassMap: ReadonlyMap<string, SignalClass>;
+  private f3SignalClassMap: ReadonlyMap<string, SignalClass>;
+  private f4SignalClassMap: ReadonlyMap<string, SignalClass>;
+  private f5SignalClassMap: ReadonlyMap<string, SignalClass>;
 
   private constructor() {
     this.keyCoords = this.buildKeyCoords();
@@ -45,6 +51,54 @@ export class SignalService {
       ['f1.error_recovery_pattern', 'apoyo'],
       ['f1.population_consistency', 'promocion']
     ]);
+    this.f2SignalClassMap = new Map<string, SignalClass>([
+      ['f2.reaction_latency_ms', 'observabilidad'],
+      ['f2.pressure_error_rate', 'observabilidad'],
+      ['f2.drop_pattern', 'apoyo'],
+      ['f2.multi_target_priority', 'apoyo'],
+      ['f2.combo_recovery_rate', 'apoyo'],
+      ['f2.speed_accuracy_tradeoff', 'promocion'],
+      ['f2.panic_backspace_rate', 'promocion'],
+      ['f2.late_commit_rate', 'promocion'],
+      ['f2.streak_sustain_time', 'apoyo'],
+      ['f2.cascade_failure_count', 'promocion']
+    ]);
+    this.f3SignalClassMap = new Map<string, SignalClass>([
+      ['f3.chunk_length_mean', 'observabilidad'],
+      ['f3.rhythm_stability', 'observabilidad'],
+      ['f3.pause_at_boundary', 'apoyo'],
+      ['f3.sequencing_error_rate', 'apoyo'],
+      ['f3.flow_break_count', 'apoyo'],
+      ['f3.anticipation_latency', 'promocion'],
+      ['f3.chunking_efficiency', 'promocion'],
+      ['f3.continuity_score', 'promocion'],
+      ['f3.predictive_acceleration', 'apoyo'],
+      ['f3.recovery_after_break', 'apoyo']
+    ]);
+    this.f4SignalClassMap = new Map<string, SignalClass>([
+      ['f4.build_pressure_rate', 'observabilidad'],
+      ['f4.partial_completion_rate', 'observabilidad'],
+      ['f4.word_assembly_time', 'apoyo'],
+      ['f4.salvage_decision_time', 'apoyo'],
+      ['f4.abandon_rate', 'apoyo'],
+      ['f4.recovery_from_near_loss', 'promocion'],
+      ['f4.multi_word_juggle', 'promocion'],
+      ['f4.priority_selection_accuracy', 'promocion'],
+      ['f4.flow_under_pressure', 'apoyo'],
+      ['f4.strategic_abandon_count', 'promocion']
+    ]);
+    this.f5SignalClassMap = new Map<string, SignalClass>([
+      ['f5.semantic_completion_rate', 'observabilidad'],
+      ['f5.word_length_tolerance', 'observabilidad'],
+      ['f5.phrase_coherence_score', 'apoyo'],
+      ['f5.space_handling_accuracy', 'apoyo'],
+      ['f5.meaningful_vs_nonsense', 'apoyo'],
+      ['f5.expressive_choice_consistency', 'promocion'],
+      ['f5.context_switch_cost', 'promocion'],
+      ['f5.intentional_typing_score', 'promocion'],
+      ['f5.association_strength', 'apoyo'],
+      ['f5.fluency_with_meaning', 'promocion']
+    ]);
   }
 
   public static getInstance(): SignalService {
@@ -57,12 +111,12 @@ export class SignalService {
   public mapEventToSignals(event: GameEvent): B1Signal[] {
     const signals: B1Signal[] = [];
     const level = this.getLevel(event.levelId);
-    const isF1Level = level?.familyId === 1;
+    const familyId = level?.familyId ?? 1;
 
     switch (event.type) {
       case 'TUTORIAL_COMPLETED':
         signals.push(this.createSignal('feature.action_bar_action_usage', {
-          action: 'game.typing_foundations.l1.tutorial_completed'
+          action: `game.typing_foundations.f${familyId}.tutorial_completed`
         }));
         break;
 
@@ -73,14 +127,17 @@ export class SignalService {
       case 'KEY_VALIDATED':
         const { isCorrect, latencyMs } = event.payload;
         signals.push(this.createSignal('feature.action_bar_action_usage', {
-          action: `game.typing_foundations.${String(event.levelId).toLowerCase()}.${isCorrect ? 'key_correct' : 'key_incorrect'}`
+          action: `game.typing_foundations.f${familyId}.${isCorrect ? 'key_correct' : 'key_incorrect'}`
         }));
         signals.push(this.createSignal('interaction.response_latency_ms', {
           value: latencyMs
         }));
-        if (isF1Level) {
-          this.mapF1KeyValidatedSignals(event, signals);
-        }
+        // Map family-specific signals
+        if (familyId === 1) this.mapF1KeyValidatedSignals(event, signals);
+        if (familyId === 2) this.mapF2KeyValidatedSignals(event, signals);
+        if (familyId === 3) this.mapF3KeyValidatedSignals(event, signals);
+        if (familyId === 4) this.mapF4KeyValidatedSignals(event, signals);
+        if (familyId === 5) this.mapF5KeyValidatedSignals(event, signals);
         break;
 
       case 'LEVEL_COMPLETED':
@@ -89,18 +146,22 @@ export class SignalService {
             resolutionKind: 'alphabet_sequence_candidate'
           }));
         }
-        if (isF1Level) {
-          this.mapF1LevelCompletedSignals(event, signals);
-        }
+        // Map family-specific level completed signals
+        if (familyId === 1) this.mapF1LevelCompletedSignals(event, signals);
+        if (familyId === 2) this.mapF2LevelCompletedSignals(event, signals);
+        if (familyId === 3) this.mapF3LevelCompletedSignals(event, signals);
+        if (familyId === 4) this.mapF4LevelCompletedSignals(event, signals);
+        if (familyId === 5) this.mapF5LevelCompletedSignals(event, signals);
         break;
 
       case 'UNIT_FAILED':
         signals.push(this.createSignal('feature.action_bar_action_usage', {
-          action: `game.typing_foundations.${String(event.levelId).toLowerCase()}.unit_failed`
+          action: `game.typing_foundations.f${familyId}.unit_failed`
         }));
-        if (isF1Level) {
-          this.mapF1UnitFailedSignals(event, signals);
-        }
+        // Map family-specific unit failed signals
+        if (familyId === 1) this.mapF1UnitFailedSignals(event, signals);
+        if (familyId === 2) this.mapF2UnitFailedSignals(event, signals);
+        if (familyId === 4) this.mapF4UnitFailedSignals(event, signals);
         break;
 
       case 'SESSION_COMPLETED':
@@ -116,9 +177,12 @@ export class SignalService {
         signals.push(this.createSignal('feature.resolver_id_usage', {
           resolverId: 'game.typing_foundations'
         }));
-        if (isF1Level) {
-          this.mapF1SessionSignals(event, signals);
-        }
+        // Map family-specific session signals
+        if (familyId === 1) this.mapF1SessionSignals(event, signals);
+        if (familyId === 2) this.mapF2SessionSignals(event, signals);
+        if (familyId === 3) this.mapF3SessionSignals(event, signals);
+        if (familyId === 4) this.mapF4SessionSignals(event, signals);
+        if (familyId === 5) this.mapF5SessionSignals(event, signals);
         break;
     }
 
@@ -280,6 +344,244 @@ export class SignalService {
         topPairs
       }, true));
     }
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // F2 SIGNALS — Lluvia de Hojas (Pressure/Reaction)
+  // ═══════════════════════════════════════════════════════════════════════
+
+  private mapF2KeyValidatedSignals(event: GameEvent, signals: B1Signal[]) {
+    const { isCorrect, latencyMs, combo } = event.payload;
+    
+    // f2.reaction_latency_ms
+    signals.push(this.createSignal('feature.action_bar_action_usage', {
+      action: 'f2.reaction_latency_ms',
+      latency: latencyMs,
+      isCorrect
+    }, true));
+
+    // f2.speed_accuracy_tradeoff
+    if (isCorrect) {
+      signals.push(this.createSignal('feature.action_bar_action_usage', {
+        action: 'f2.speed_accuracy_tradeoff',
+        latency: latencyMs,
+        combo
+      }, true));
+    }
+  }
+
+  private mapF2LevelCompletedSignals(event: GameEvent, signals: B1Signal[]) {
+    const payload = event.payload ?? {};
+    const passed = Boolean(payload.passed);
+    const accuracy = Number(payload.accuracy ?? 0);
+
+    signals.push(this.createSignal('feature.action_bar_action_usage', {
+      action: 'f2.streak_sustain_time',
+      passed,
+      accuracy
+    }, true));
+
+    if (passed) {
+      signals.push(this.createSignal('feature.action_bar_action_usage', {
+        action: 'f2.cascade_failure_count',
+        sublevel: payload.sublevel ?? null
+      }, true));
+    }
+  }
+
+  private mapF2UnitFailedSignals(event: GameEvent, signals: B1Signal[]) {
+    // f2.pressure_error_rate
+    signals.push(this.createSignal('feature.action_bar_action_usage', {
+      action: 'f2.pressure_error_rate',
+      reason: event.payload?.reason ?? 'timeout',
+      mechanic: 'falling'
+    }, true));
+
+    // f2.drop_pattern
+    signals.push(this.createSignal('feature.action_bar_action_usage', {
+      action: 'f2.drop_pattern',
+      target: event.payload?.target ?? null
+    }, true));
+  }
+
+  private mapF2SessionSignals(event: GameEvent, signals: B1Signal[]) {
+    const payload = event.payload ?? {};
+    signals.push(this.createSignal('feature.action_bar_action_usage', {
+      action: 'f2.panic_backspace_rate',
+      turnCount: payload.turn_count_total ?? 0
+    }, true));
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // F3 SIGNALS — Sendero de Luz (Rhythm/Chunking)
+  // ═══════════════════════════════════════════════════════════════════════
+
+  private mapF3KeyValidatedSignals(event: GameEvent, signals: B1Signal[]) {
+    const { isCorrect, latencyMs } = event.payload;
+
+    // f3.rhythm_stability
+    signals.push(this.createSignal('feature.action_bar_action_usage', {
+      action: 'f3.rhythm_stability',
+      latency: latencyMs,
+      isCorrect
+    }, true));
+  }
+
+  private mapF3LevelCompletedSignals(event: GameEvent, signals: B1Signal[]) {
+    const payload = event.payload ?? {};
+    const passed = Boolean(payload.passed);
+    const accuracy = Number(payload.accuracy ?? 0);
+
+    // f3.continuity_score
+    signals.push(this.createSignal('feature.action_bar_action_usage', {
+      action: 'f3.continuity_score',
+      passed,
+      accuracy
+    }, true));
+
+    // f3.chunking_efficiency
+    if (passed) {
+      signals.push(this.createSignal('feature.action_bar_action_usage', {
+        action: 'f3.chunking_efficiency',
+        sublevel: payload.sublevel ?? null
+      }, true));
+    }
+  }
+
+  private mapF3SessionSignals(event: GameEvent, signals: B1Signal[]) {
+    const payload = event.payload ?? {};
+    signals.push(this.createSignal('feature.action_bar_action_usage', {
+      action: 'f3.flow_break_count',
+      turnCount: payload.turn_count_total ?? 0
+    }, true));
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // F4 SIGNALS — Rescate en el Río (Construction under Pressure)
+  // ═══════════════════════════════════════════════════════════════════════
+
+  private mapF4KeyValidatedSignals(event: GameEvent, signals: B1Signal[]) {
+    const { isCorrect, latencyMs } = event.payload;
+
+    // f4.word_assembly_time
+    signals.push(this.createSignal('feature.action_bar_action_usage', {
+      action: 'f4.word_assembly_time',
+      latency: latencyMs,
+      isCorrect
+    }, true));
+
+    // f4.flow_under_pressure
+    if (isCorrect) {
+      signals.push(this.createSignal('feature.action_bar_action_usage', {
+        action: 'f4.flow_under_pressure',
+        latency: latencyMs
+      }, true));
+    }
+  }
+
+  private mapF4LevelCompletedSignals(event: GameEvent, signals: B1Signal[]) {
+    const payload = event.payload ?? {};
+    const passed = Boolean(payload.passed);
+    const accuracy = Number(payload.accuracy ?? 0);
+
+    // f4.recovery_from_near_loss
+    signals.push(this.createSignal('feature.action_bar_action_usage', {
+      action: 'f4.recovery_from_near_loss',
+      passed,
+      accuracy
+    }, true));
+
+    // f4.priority_selection_accuracy
+    if (passed) {
+      signals.push(this.createSignal('feature.action_bar_action_usage', {
+        action: 'f4.priority_selection_accuracy',
+        sublevel: payload.sublevel ?? null
+      }, true));
+    }
+  }
+
+  private mapF4UnitFailedSignals(event: GameEvent, signals: B1Signal[]) {
+    // f4.build_pressure_rate
+    signals.push(this.createSignal('feature.action_bar_action_usage', {
+      action: 'f4.build_pressure_rate',
+      reason: event.payload?.reason ?? 'timeout',
+      mechanic: 'rescue'
+    }, true));
+
+    // f4.partial_completion_rate
+    signals.push(this.createSignal('feature.action_bar_action_usage', {
+      action: 'f4.partial_completion_rate',
+      target: event.payload?.target ?? null
+    }, true));
+  }
+
+  private mapF4SessionSignals(event: GameEvent, signals: B1Signal[]) {
+    const payload = event.payload ?? {};
+    signals.push(this.createSignal('feature.action_bar_action_usage', {
+      action: 'f4.strategic_abandon_count',
+      turnCount: payload.turn_count_total ?? 0
+    }, true));
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // F5 SIGNALS — Jardín de Palabras (Semantic/Expressive)
+  // ═══════════════════════════════════════════════════════════════════════
+
+  private mapF5KeyValidatedSignals(event: GameEvent, signals: B1Signal[]) {
+    const { isCorrect, latencyMs } = event.payload;
+
+    // f5.semantic_completion_rate
+    signals.push(this.createSignal('feature.action_bar_action_usage', {
+      action: 'f5.semantic_completion_rate',
+      latency: latencyMs,
+      isCorrect
+    }, true));
+
+    // f5.word_length_tolerance
+    const target = event.payload?.target ?? '';
+    if (isCorrect && target.length > 5) {
+      signals.push(this.createSignal('feature.action_bar_action_usage', {
+        action: 'f5.word_length_tolerance',
+        wordLength: target.length
+      }, true));
+    }
+  }
+
+  private mapF5LevelCompletedSignals(event: GameEvent, signals: B1Signal[]) {
+    const payload = event.payload ?? {};
+    const passed = Boolean(payload.passed);
+    const accuracy = Number(payload.accuracy ?? 0);
+
+    // f5.phrase_coherence_score
+    signals.push(this.createSignal('feature.action_bar_action_usage', {
+      action: 'f5.phrase_coherence_score',
+      passed,
+      accuracy
+    }, true));
+
+    // f5.expressive_choice_consistency
+    if (passed) {
+      signals.push(this.createSignal('feature.action_bar_action_usage', {
+        action: 'f5.expressive_choice_consistency',
+        sublevel: payload.sublevel ?? null
+      }, true));
+    }
+  }
+
+  private mapF5SessionSignals(event: GameEvent, signals: B1Signal[]) {
+    const payload = event.payload ?? {};
+    
+    // f5.context_switch_cost
+    signals.push(this.createSignal('feature.action_bar_action_usage', {
+      action: 'f5.context_switch_cost',
+      turnCount: payload.turn_count_total ?? 0
+    }, true));
+
+    // f5.intentional_typing_score
+    signals.push(this.createSignal('feature.action_bar_action_usage', {
+      action: 'f5.intentional_typing_score',
+      passed: payload.passed ?? false
+    }, true));
   }
 
   private getLevel(levelId: string | null | undefined) {
