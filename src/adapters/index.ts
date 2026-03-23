@@ -35,16 +35,21 @@ export class MockHostAdapter implements GameHostAdapter {
   }
 
   private static loadFromStorage(): GameProgress {
+    // DEV MODE: Always unlock all levels for testing/analysis
+    const allLevelIds: LevelId[] = Array.from({ length: 50 }, (_, i) => `L${i + 1}` as LevelId);
+    return { unlockedLevels: allLevelIds, levelScores: {}, totalAccuracy: 0 };
+    /*
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw) as GameProgress;
         if (parsed.unlockedLevels?.length) return parsed;
       }
-    } catch { /* ignore corrupt data */ }
-    // DEV MODE: Unlock all levels for testing
-    const allLevelIds: LevelId[] = Array.from({ length: 50 }, (_, i) => `L${i + 1}` as LevelId);
-    return { unlockedLevels: allLevelIds, levelScores: {}, totalAccuracy: 0 };
+    } catch {
+      // ignore corrupt data
+    }
+    return { unlockedLevels: ['L1'], levelScores: {}, totalAccuracy: 0 };
+    */
   }
 
   private saveToStorage() {
