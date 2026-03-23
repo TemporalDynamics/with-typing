@@ -621,7 +621,41 @@ export class SignalService {
         promotion_eligible: signalClass === 'promocion'
       };
     }
-    return {
+    // Also enrich F2-F5 signals with class info
+    if (enrichF1Class && typeof payload.action === 'string') {
+      const action = payload.action as string;
+      if (action.startsWith('f2.')) {
+        const signalClass = this.f2SignalClassMap.get(action) ?? 'observabilidad';
+        nextPayload = {
+          ...nextPayload,
+          signal_class: signalClass,
+          promotion_eligible: signalClass === 'promocion'
+        };
+      } else if (action.startsWith('f3.')) {
+        const signalClass = this.f3SignalClassMap.get(action) ?? 'observabilidad';
+        nextPayload = {
+          ...nextPayload,
+          signal_class: signalClass,
+          promotion_eligible: signalClass === 'promocion'
+        };
+      } else if (action.startsWith('f4.')) {
+        const signalClass = this.f4SignalClassMap.get(action) ?? 'observabilidad';
+        nextPayload = {
+          ...nextPayload,
+          signal_class: signalClass,
+          promotion_eligible: signalClass === 'promocion'
+        };
+      } else if (action.startsWith('f5.')) {
+        const signalClass = this.f5SignalClassMap.get(action) ?? 'observabilidad';
+        nextPayload = {
+          ...nextPayload,
+          signal_class: signalClass,
+          promotion_eligible: signalClass === 'promocion'
+        };
+      }
+    }
+    
+    const signal: B1Signal = {
       signal_id: crypto.randomUUID(),
       signal_type: type,
       schema_version: 'v1',
@@ -630,5 +664,17 @@ export class SignalService {
       app_version: APP_VERSION,
       emitted_at: new Date().toISOString()
     };
+
+    // Dev mode logging for signal verification
+    if (typeof window !== 'undefined' && (window as any).DEBUG_SIGNALS) {
+      console.log('[SignalService] Signal emitted:', {
+        type: signal.signal_type,
+        action: (signal.payload as any).action,
+        class: (signal.payload as any).signal_class,
+        promotion_eligible: (signal.payload as any).promotion_eligible
+      });
+    }
+
+    return signal;
   }
 }
