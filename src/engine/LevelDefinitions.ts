@@ -761,5 +761,134 @@ export const LEVELS: LevelDefinition[] = [
     minAccuracy: 0.85, minInputs: 100,
     backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
     colorTheme: 'rose', mechanic: 'garden'
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // F6 — EXPRESIÓN CREATIVA (L51-L60)
+  //   Objetivo humano: decisión expresiva + tipeo bajo presión.
+  //   Mecánica: phrase_complete, column_match, flash_memory, rule_switch.
+  //   No es solo tipear — es elegir, recordar, asociar, crear.
+  //   Progresión: completar frases → unir columnas → memoria flash →
+  //               cambio de regla → expresión libre → mastery.
+  // ═══════════════════════════════════════════════════════════════════════
+
+  // F6.1 — Completar frases (coherente)
+  {
+    id: 'L51', familyId: 6, familyTitle: 'Expresión Creativa', sublevel: 1,
+    title: 'Frases Coherentes',
+    objective: 'Elegí la opción más coherente y tipeala.',
+    targetUnitKind: 'word_build',
+    content: ['mi casa es', 'tu vida tiene', 'su meta es', 'mi plan es', 'una idea', 'un paso', 'la clave es', 'el dato', 'mi nota', 'tu ruta', 'su flor', 'un gato', 'la luna', 'el lago', 'mi isla'],
+    minAccuracy: 0.80, minInputs: 50,
+    backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
+    colorTheme: 'amber', mechanic: 'garden'
+  },
+
+  // F6.2 — Completar frases (gracioso)
+  {
+    id: 'L52', familyId: 6, familyTitle: 'Expresión Creativa', sublevel: 2,
+    title: 'Frases Graciosas',
+    objective: 'Elegí la opción más graciosa y tipeala.',
+    targetUnitKind: 'word_build',
+    content: ['mi casa tiene', 'tu vida es', 'su meta fue', 'mi plan era', 'una idea loca', 'un paso falso', 'la clave fue', 'el dato raro', 'mi nota baja', 'tu ruta larga'],
+    minAccuracy: 0.80, minInputs: 50,
+    backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
+    colorTheme: 'amber', mechanic: 'garden'
+  },
+
+  // F6.3 — Unir columnas simple
+  {
+    id: 'L53', familyId: 6, familyTitle: 'Expresión Creativa', sublevel: 3,
+    title: 'Asociaciones',
+    objective: 'Uní cada palabra con su pareja.',
+    targetUnitKind: 'word_build',
+    content: ['casa-hogar', 'vida-muerte', 'luz-oscuridad', 'amor-odio', 'dia-noche', 'bueno-malo', 'grande-chico', 'alto-bajo'],
+    minAccuracy: 0.82, minInputs: 50,
+    backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
+    colorTheme: 'indigo', mechanic: 'garden'
+  },
+
+  // F6.4 — Memoria flash (2 opciones)
+  {
+    id: 'L54', familyId: 6, familyTitle: 'Expresión Creativa', sublevel: 4,
+    title: 'Memoria Flash',
+    objective: 'Memorizá las opciones y elegí la correcta.',
+    targetUnitKind: 'word_build',
+    content: ['mi casa', 'tu casa', 'mi vida', 'tu vida', 'mi plan', 'tu plan', 'mi idea', 'tu idea'],
+    minAccuracy: 0.80, minInputs: 50,
+    backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
+    colorTheme: 'purple', mechanic: 'garden'
+  },
+
+  // F6.5 — Cambio de regla (coherente → gracioso)
+  {
+    id: 'L55', familyId: 6, familyTitle: 'Expresión Creativa', sublevel: 5,
+    title: 'Cambio de Regla',
+    objective: 'Cambiar entre criterio coherente y gracioso.',
+    targetUnitKind: 'word_build',
+    content: ['mi casa es', 'mi casa tiene', 'tu vida es', 'tu vida tiene', 'su meta fue', 'su meta es', 'mi plan era', 'mi plan es'],
+    minAccuracy: 0.82, minInputs: 60,
+    backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
+    colorTheme: 'purple', mechanic: 'garden'
+  },
+
+  // F6.6 — Completar con 4 opciones
+  {
+    id: 'L56', familyId: 6, familyTitle: 'Expresión Creativa', sublevel: 6,
+    title: 'Múltiples Opciones',
+    objective: 'Elegí la mejor entre 4 opciones.',
+    targetUnitKind: 'word_build',
+    content: ['mi nueva casa', 'tu vieja casa', 'su gran casa', 'una casa', 'mi mejor idea', 'tu peor idea', 'su idea', 'una idea'],
+    minAccuracy: 0.83, minInputs: 60,
+    backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
+    colorTheme: 'amber', mechanic: 'garden'
+  },
+
+  // F6.7 — Asociación semántica
+  {
+    id: 'L57', familyId: 6, familyTitle: 'Expresión Creativa', sublevel: 7,
+    title: 'Asociaciones Semánticas',
+    objective: 'Uní conceptos relacionados.',
+    targetUnitKind: 'word_build',
+    content: ['fuego-calor', 'agua-frio', 'sol-verano', 'nieve-invierno', 'flor-jardin', 'libro-lectura', 'musica-baile', 'comida-hambre'],
+    minAccuracy: 0.83, minInputs: 60,
+    backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
+    colorTheme: 'indigo', mechanic: 'garden'
+  },
+
+  // F6.8 — Memoria flash avanzada (4 opciones)
+  {
+    id: 'L58', familyId: 6, familyTitle: 'Expresión Creativa', sublevel: 8,
+    title: 'Memoria Avanzada',
+    objective: 'Memorizá 4 opciones y recordá la correcta.',
+    targetUnitKind: 'word_build',
+    content: ['mi casa bella', 'tu casa fea', 'su casa grande', 'una casa', 'mi vida plena', 'tu vida vacia', 'su vida loca', 'una vida'],
+    minAccuracy: 0.84, minInputs: 70,
+    backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
+    colorTheme: 'purple', mechanic: 'garden'
+  },
+
+  // F6.9 — Expresión libre con criterio
+  {
+    id: 'L59', familyId: 6, familyTitle: 'Expresión Creativa', sublevel: 9,
+    title: 'Expresión Libre',
+    objective: 'Elegí según el criterio indicado.',
+    targetUnitKind: 'word_build',
+    content: ['quiero aprender', 'puedo lograr', 'voy a intentar', 'me gusta crear', 'tengo un sueño', 'hago mi parte', 'sigo adelante', 'confio en mi'],
+    minAccuracy: 0.84, minInputs: 70,
+    backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
+    colorTheme: 'amber', mechanic: 'garden'
+  },
+
+  // F6.10 — Mastery expresivo
+  {
+    id: 'L60', familyId: 6, familyTitle: 'Expresión Creativa', sublevel: 10,
+    title: 'Mastery Creativo',
+    objective: 'Todo junto: elegir, recordar, asociar, expresar.',
+    targetUnitKind: 'word_build',
+    content: ['mi nueva casa', 'tu mejor idea', 'su primer paso', 'un buen plan', 'quiero aprender mas', 'puedo hacerlo bien', 'tengo una idea', 'hago mi mejor esfuerzo', 'mi casa es bella', 'tu vida es plena', 'su meta es clara', 'mi plan es firme'],
+    minAccuracy: 0.85, minInputs: 80,
+    backgroundUrl: '/src/assets/backgrounds/l5-garden.svg',
+    colorTheme: 'rose', mechanic: 'garden'
   }
 ];
