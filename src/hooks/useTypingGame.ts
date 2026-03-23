@@ -204,7 +204,7 @@ export function useTypingGame(
     }
 
     let nextLives = result.lives;
-    const lifeRecovered = result.isCorrect && result.combo > 0 && result.combo % 12 === 0 && result.lives < MAX_LIVES;
+    const lifeRecovered = result.isCorrect && result.combo > 0 && result.combo % engineRef.current.getComboLifeRecovery() === 0 && result.lives < MAX_LIVES;
     if (lifeRecovered) {
       nextLives = engineRef.current.rewardLife(MAX_LIVES);
       soundService.playComboMilestone();

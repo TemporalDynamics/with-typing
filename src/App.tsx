@@ -125,7 +125,8 @@ export default function App({ hostAdapter, eventEmitter, standalone = false }: A
   }, [gameState.status, gameState.lives, gameState.combo]);
 
   const currentLevel = LEVELS.find(l => l.id === gameState.currentLevelId);
-  const fallingDuration = currentLevel?.fallDurationSec ?? 5;
+  // Use adjusted fall duration from engine if available, otherwise use level default
+  const fallingDuration = engine?.getAdjustedFallDuration() ?? currentLevel?.fallDurationSec ?? 5;
   const getNextLevelId = () => {
     if (!gameState.currentLevelId) return null;
     const currentIndex = LEVELS.findIndex(l => l.id === gameState.currentLevelId);

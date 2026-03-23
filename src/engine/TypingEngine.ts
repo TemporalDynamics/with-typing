@@ -4,6 +4,7 @@
  */
 
 import { LevelDefinition, TargetUnitKind, DifficultyMode } from '../types/game';
+import { getDifficultyConfig } from './DifficultyConfig';
 
 export interface TypingMetrics {
   accuracy: number;
@@ -18,6 +19,7 @@ export interface TypingMetrics {
 export class TypingEngine {
   private currentLevel: LevelDefinition;
   private difficultyMode: DifficultyMode = 'easy';
+  private difficultyConfig = getDifficultyConfig('easy');
   private currentContentIndex: number = 0;
   private currentTarget: string = '';
   private currentInput: string = '';
@@ -31,10 +33,16 @@ export class TypingEngine {
   /** Shuffled queue of targets, recycled until minInputs is met. */
   private targetQueue: string[] = [];
   private queueIndex: number = 0;
+  private adjustedFallDuration: number = 0;
 
   constructor(level: LevelDefinition, difficultyMode: DifficultyMode = 'easy') {
     this.currentLevel = level;
     this.difficultyMode = difficultyMode;
+    this.difficultyConfig = getDifficultyConfig(difficultyMode);
+    this.lives = this.difficultyConfig.lives;
+    // Adjust fall duration based on difficulty
+    const baseDuration = level.fallDurationSec ?? 5;
+    this.adjustedFallDuration = baseDuration * this.difficultyConfig.timeMultiplier;
     this.reset();
   }
 
@@ -82,7 +90,7 @@ export class TypingEngine {
     this.totalCount = 0;
     this.latencies = [];
     this.combo = 0;
-    this.lives = 5;
+    this.lives = this.difficultyConfig.lives;
   }
 
   public submitKey(key: string): {
@@ -207,9 +215,14 @@ export class TypingEngine {
   public getProgress() { return (this.queueIndex / this.targetQueue.length) * 100; }
   public getLives() { return this.lives; }
   public getCombo() { return this.combo; }
+  public getAdjustedFallDuration() { return this.adjustedFallDuration; }
 
   public rewardLife(maxLives: number = 5) {
     this.lives = Math.min(maxLives, this.lives + 1);
     return this.lives;
+  }
+
+  public getComboLifeRecovery(): number {
+    return this.difficultyConfig.comboLifeRecovery;
   }
 }
