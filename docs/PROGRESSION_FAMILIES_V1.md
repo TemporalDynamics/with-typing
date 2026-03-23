@@ -1,204 +1,171 @@
-# Typing Foundations - Progresión por Familias v1
+# Typing Foundations — Progression Families v1
 
-Estado: diseño canónico de progresión (pre-implementación completa)  
-Objetivo: escalar el juego sin perder foco pedagógico ni trazabilidad de señales.
-
-Documento complementario:
-- `docs/LEARNING_CAPABILITY_MATRIX_V1.md` (qué aprende el humano vs qué gana el sistema por familia).
-- `docs/F1_SIGNAL_MATRIX_V1.md` (tabla canónica de señales F1: observabilidad/apoyo/promoción).
-
-Manifiestos ejecutables:
-- `docs/manifests/LEVEL_MANIFEST_V1.json`
-- `docs/manifests/ENEMY_MECHANICS_V1.json`
-- `docs/manifests/CAPABILITY_PROMOTION_MAP_V1.json`
-- `docs/manifests/F1_SIGNAL_MANIFEST_V1.json`
-
-## Estado implementado (snapshot actual)
-
-- 50 niveles jugables en total.
-- Familias activas:
-  - F1 `Nido de Inicio` (10 subniveles)
-  - F2 `Lluvia de Hojas` (10 subniveles)
-  - F3 `Sendero de Luz` (10 subniveles)
-  - F4 `Rescate en el Río` (10 subniveles)
-  - F5 `Jardín de Palabras` (10 subniveles)
-- El selector ya muestra `Familia + Subnivel` (`F#.##`) y permite volver a cualquier nivel desbloqueado.
-
-## 1) Principio rector
-
-Primero aprende el humano, después aprende el sistema.
-
-Regla de enfoque por bloques:
-- F1–F2 enseñan teclado.
-- F3–F4 enseñan estructura.
-- F5 enseña fluidez y relaciones.
-
-Secuencia obligatoria de adquisición:
-
-1. letras sueltas  
-2. secuencias  
-3. sílabas  
-4. palabras  
-5. frases
-
-No se invierte este orden.
+**Estado:** Canónico (F1–F6 = L1–L60)
+**Última actualización:** Marzo 2026
 
 ---
 
-## 2) Familias canónicas
+## Resumen de familias
 
-## Familia 1 — Nido de Inicio
-
-**Objetivo humano:** dominio básico del teclado (F/J, home row, recorrido completo).  
-**Mecánica principal:** target guiado + dedo sugerido + precisión.  
-**Reward loop:** combo base, feedback visual claro, mastery.
-
-**Subniveles (1.1–1.10):**
-- 1.1 índices en F/J
-- 1.2 home row izquierda
-- 1.3 home row derecha
-- 1.4 teclas vecinas
-- 1.5 recorrido completo básico
-- 1.6 velocidad baja
-- 1.7 velocidad media
-- 1.8 recuperación de error
-- 1.9 combo básico
-- 1.10 mastery
-
-## Familia 2 — Lluvia de Letras
-
-**Objetivo humano:** reacción visual + ubicación de letras bajo presión.  
-**Mecánica principal:** caída vertical con variación real de posición/velocidad.  
-**Reward loop:** supervivencia + bonus por racha + control de vidas.
-
-**Subniveles (2.1–2.10):**
-- 2.1 caída lenta, pocas posiciones
-- 2.2 caída lenta, más posiciones
-- 2.3 más letras simultáneas
-- 2.4 velocidad media
-- 2.5 enemigos suaves (comen letras)
-- 2.6 bonus por racha
-- 2.7 recuperación de vida por combo
-- 2.8 velocidad alta
-- 2.9 lluvia mixta
-- 2.10 mastery
-
-## Familia 3 — Secuencias
-
-**Objetivo humano:** continuidad y orden de patrones útiles.  
-**Mecánica principal:** cadenas de teclas/segmentos con dificultad creciente.  
-**Reward loop:** precisión sostenida + velocidad controlada.
-
-**Subniveles (3.1–3.10):**
-- 3.1 alfabéticas simples
-- 3.2 bloques por zonas del teclado
-- 3.3 patrones repetitivos útiles
-- 3.4 alternancia izquierda/derecha
-- 3.5 secuencias con salto
-- 3.6 secuencias largas
-- 3.7 presión temporal media
-- 3.8 presión temporal alta
-- 3.9 patrones mixtos
-- 3.10 mastery
-
-## Familia 4 — Sílabas y Construcción
-
-**Objetivo humano:** combinar piezas y formar opciones válidas (ej: CA + SA + TA).  
-**Mecánica principal:** selección/composición de sílabas.  
-**Reward loop:** más de una solución posible, puntaje por calidad.
-
-**Subniveles (4.1–4.10):**
-- 4.1 combinaciones simples de 2 sílabas
-- 4.2 combinaciones con distractores
-- 4.3 dos salidas válidas
-- 4.4 tres salidas válidas
-- 4.5 presión de tiempo suave
-- 4.6 presión de tiempo media
-- 4.7 cadenas de construcción
-- 4.8 rescate de sílabas (enemigo)
-- 4.9 composición mixta
-- 4.10 mastery
-
-## Familia 5 — Jardín de Palabras
-
-**Objetivo humano:** escritura estable de palabras con menor repetición tonta.  
-**Mecánica principal:** pools amplios + longitud variable + ritmo.  
-**Reward loop:** progresión de dificultad visible por longitud/estructura.
-
-**Subniveles (5.1–5.10):**
-- 5.1 palabras cortas frecuentes
-- 5.2 palabras cortas variadas
-- 5.3 palabras medias
-- 5.4 palabras medias + distractores
-- 5.5 control de errores
-- 5.6 velocidad media
-- 5.7 velocidad alta
-- 5.8 rescate de palabras (enemigo)
-- 5.9 mezcla completa
-- 5.10 mastery
-
-## Nota de roadmap
-
-El tramo "Frases y Rescate" no está modelado como familia separada en el runtime actual.
-Su progresión vive en F5 (`L41..L50`) y puede separarse como F6 en una etapa posterior.
+| Familia | Niveles | Mecánica | Objetivo humano | Ganancia sistema |
+|---------|---------|----------|-----------------|------------------|
+| F1 | L1–L10 | tutorial | Mapa motriz del teclado | `keyboard_map_v1` |
+| F2 | L11–L20 | falling | Reacción bajo presión | `reaction_under_pressure_v1` |
+| F3 | L21–L30 | trail | Secuencia y ritmo | `rhythm_chunking_v1` |
+| F4 | L31–L40 | rescue | Construcción bajo presión | `construction_under_pressure_v1` |
+| F5 | L41–L50 | garden | Palabras y frases con sentido | `semantic_writing_v1` |
+| F6 | L51–L60 | phrase | Decisión expresiva + tipeo | `expressive_choice_v1` |
 
 ---
 
-## 3) Señales por familia (B1/B2-ready)
+## F1: Nido de Inicio (L1–L10)
 
-Todas las familias emiten señales allowlisted (sin texto privado crudo).
+**Objetivo:** Instalar la geometría del teclado en el cuerpo.
 
-- `feature.action_bar_action_usage`
-- `interaction.response_latency_ms` (observabilidad, no promoción B1)
-- `interaction.session_turn_count`
-- `feature.resolution_kind_usage`
-- `reliability.insufficient_evidence_count`
-- `reliability.fallback_path_used`
+| Nivel | Título | Foco | Contenido clave |
+|-------|--------|------|-----------------|
+| L1 | Fila Central | Anclas F/J | f, j, df, jk, asdf, jkl; |
+| L2 | Fila Superior | P explícita | qwer, tyui, p, pa/pe/pi/po/pu |
+| L3 | Fila Inferior | G/H tempranas | zxcv, bnm, g, h, ga/go, ha/he/ho |
+| L4 | Mano Izquierda | Columnas izq | qaz, wsx, edc, rfv + pa/pe, que/las |
+| L5 | Mano Derecha | Columnas der | yhn, ujm, ik, ol + ha/he/hi, kilo/hola |
+| L6 | Recorridos Guiados | Verticalidad | qas, wsd, edf + pag/hog/kap |
+| L7 | Espejo | Alternancia | fj, dk, sl, pg/hk/ph/gk |
+| L8 | Mezcla Guiada | Integración | asdf/qwer/zxcv + pato/gato/hola/kilo |
+| L9 | Velocidad | Presión | Mismo contenido, más rápido |
+| L10 | Mastery Motriz | Cierre | Todo el teclado + vocabulario frecuente |
 
-**Regla de diseño:** velocidad puede mejorar experiencia de usuario, pero no domina sola la promoción de capability.
-
----
-
-## 4) Curva de dificultad (regla general)
-
-Cada subnivel solo sube 1–2 variables:
-
-- velocidad
-- simultaneidad
-- longitud
-- variabilidad
-- tensión (enemigos)
-
-Evitar subir todo junto.
+**Señales F1:** `neighbor_confusion`, `transition_break`, `base_pattern_mastery`
 
 ---
 
-## 5) Cierre de etapa (Definition of Done)
+## F2: Lluvia de Hojas (L11–L20)
 
-Se considera cerrada esta etapa de diseño cuando:
+**Objetivo:** Reacción y escritura bajo presión temporal.
 
-- existe mapa completo 6 familias x 10 subniveles
-- cada familia declara objetivo humano + mecánica + reward loop
-- cada familia tiene salida de señales definida
-- existe plan de implementación por lotes (no codificación aleatoria)
+| Nivel | Título | Foco | Duración |
+|-------|--------|------|----------|
+| L11 | Una Hoja | Letras sueltas P/G/H/K | 8s |
+| L12 | Pares | PA/PE/PI/PO, GA/GO, HA/HE, KA/KE | 7.5s |
+| L13 | Tríos | pal/gat/hol/kil | 7s |
+| L14 | Cuartetos | pato/gato/hola/kilo | 6.5s |
+| L15 | Cinco Hojas | papas/gatos/hilos/kilos | 6s |
+| L16 | Brisa Rápida | Velocidad | 4.5s |
+| L17 | Lluvia Densa | Múltiples targets | 4s |
+| L18 | Pájaro Ladrón | Presión extra | 3.8s |
+| L19 | Combo de Hojas | Recuperación por combo | 3.5s |
+| L20 | Tormenta | Mastery | 3s |
+
+**Señales F2:** `pressure_error_rate`, `reaction_latency_ms`, `speed_accuracy_tradeoff`
 
 ---
 
-## 6) Plan de implementación recomendado
+## F3: Sendero de Luz (L21–L30)
 
-### Fase A (rápida, impacto alto)
-- completar Familia 1 y 2 con subniveles reales
-- ajustar caída (posiciones + velocidad) y vidas/combos
-- reducir repetición de contenido
+**Objetivo:** Secuencia, ritmo y continuidad (chunking).
 
-### Fase B
-- Familia 3 y 4 completas
-- introducir composición (sílabas con múltiples salidas)
+| Nivel | Título | Foco |
+|-------|--------|-------|
+| L21 | Primer Sendero | Filas completas |
+| L22 | Alternancia | Izquierda/derecha |
+| L23 | Columnas | Verticalidad |
+| L24 | Pares de Luz | PA/PE/PI/PO, GA/GO, HA/HE, KA/KE |
+| L25 | Tríos de Luz | pan/pez/gato/hola/kilo |
+| L26 | Sendero Fonético | ta/ma/na/ra + pa/ga/ha/ka |
+| L27 | Camino de Palabras | pato/gato/hola/kilo + frecuentes |
+| L28 | Sendero Largo | Palabras medias |
+| L29 | Sendero Extendido | Patrones largos |
+| L30 | Mastery de Ritmo | Integración |
 
-### Fase C
-- Familia 5 y 6
-- frases + mecánicas de rescate/enemigos
+**Señales F3:** `chunk_length_mean`, `rhythm_stability`, `chunking_efficiency`
 
-### Fase D
-- tuning de balance + telemetría
-- congelar v1 jugable y empezar B2
+---
+
+## F4: Rescate en el Río (L31–L40)
+
+**Objetivo:** Construcción bajo presión (sílabas → palabras).
+
+| Nivel | Título | Foco | Duración |
+|-------|--------|------|----------|
+| L31 | Sílabas en el Río | PA/PE/PI/PO, GA/GO, HA/HE, KA/KE | 9s |
+| L32 | Pares Útiles | Bigramas P/G/H/K | 8.5s |
+| L33 | Tríos en el Río | pan/pez/gato/hola/kilo | 8s |
+| L34 | Palabras Cortas | pato/gato/hola/kilo (4 letras) | 7.5s |
+| L35 | Palabras Medias | camino/puente/destino | 7s |
+| L36 | Variantes | mesa/meta, paso/palo | 6.5s |
+| L37 | Corriente Cruzada | Distractores | 5.5s |
+| L38 | Rápidos | Velocidad | 4.5s |
+| L39 | Corriente Fuerte | Palabras largas | 4s |
+| L40 | Mastery del Río | Integración | 3.5s |
+
+**Señales F4:** `build_pressure_rate`, `word_assembly_time`, `recovery_from_near_loss`
+
+---
+
+## F5: Jardín de Palabras (L41–L50)
+
+**Objetivo:** Palabras, frases y sentido (la planta crece con cada acierto).
+
+| Nivel | Título | Foco |
+|-------|--------|-------|
+| L41 | Semillas | Palabras útiles con P/G/H/K |
+| L42 | Brotes | Palabras frecuentes |
+| L43 | Raíces | Palabras largas |
+| L44 | Dos Ramas | Frases de 2 palabras |
+| L45 | Tres Ramas | Frases de 3 palabras |
+| L46 | Frases Paralelas | Estructura similar |
+| L47 | Frases Útiles | Frases del día a día |
+| L48 | Con Intención | Frases con propósito |
+| L49 | Asociación | Palabras que se relacionan |
+| L50 | Mastery Expresivo | Integración semántica |
+
+**Señales F5:** `semantic_completion_rate`, `phrase_coherence_score`, `expressive_choice_consistency`
+
+---
+
+## F6: Expresión Creativa (L51–L60)
+
+**Objetivo:** Decisión expresiva + tipeo bajo presión (elegir antes de tipear).
+
+| Nivel | Título | Mecánica | Criterio |
+|-------|--------|----------|----------|
+| L51 | Frases Coherentes | Elegí 1 de 4 | Coherente |
+| L52 | Frases Graciosas | Elegí 1 de 4 | Gracioso |
+| L53 | Asociaciones | Elegí la mejor asociación | Semántico |
+| L54 | Memoria Flash | 2 opciones, timer | Memoria |
+| L55 | Cambio de Regla | Cambia criterio | Flexibilidad |
+| L56 | Múltiples Opciones | 4 opciones | Elección |
+| L57 | Asociaciones Semánticas | Conceptos relacionados | Semántico |
+| L58 | Memoria Avanzada | 4 opciones, timer | Memoria |
+| L59 | Expresión Libre | Criterio indicado | Intencional |
+| L60 | Mastery Creativo | Todo junto | Integración |
+
+**Señales F6:** `expressive_choice_consistency`, `context_switch_cost`, `intentional_typing_score`
+
+---
+
+## Reglas canónicas de progresión
+
+1. **Vocabulario frecuente persistente:** QUE, LAS, LOS, TU, POR, PARA, CON, SIN, DEL aparecen en TODOS los niveles desde L1.
+
+2. **Refuerzo P/G/H/K:**
+   - P: 15-20% en L1-L40
+   - G: 10-15% en L1-L40
+   - H: 10-15% en L1-L40
+   - K: 5-10% en L1-L40 (forzada, no natural)
+
+3. **Mecánicas por familia:**
+   - F1: tutorial (teclado visible, guías)
+   - F2: falling (caída, presión temporal)
+   - F3: trail (nodos horizontales, ritmo)
+   - F4: rescue (construcción bajo presión)
+   - F5: garden (palabras/frases, planta crece)
+   - F6: phrase (elección + tipeo, criterio)
+
+4. **Dificultad progresiva:**
+   - L1-L10: instalación motriz
+   - L11-L20: presión temporal
+   - L21-L30: ritmo y chunking
+   - L31-L40: construcción bajo presión
+   - L41-L50: semántica y sentido
+   - L51-L60: decisión expresiva
