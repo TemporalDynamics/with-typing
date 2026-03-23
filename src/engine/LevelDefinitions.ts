@@ -17,39 +17,42 @@ export const LEVELS: LevelDefinition[] = [
 
   // F1.1 — Fila central
   // Resaltar fila central, dedo correcto. Ejercicios simples.
+  // REINFORCEMENT: P appears early (pa, ap, pe, po)
   {
     id: 'L1', familyId: 1, familyTitle: 'Nido de Inicio', sublevel: 1,
     title: 'Fila Central',
     objective: 'Ubicá los dedos en la fila central. F y J son tus anclas.',
     targetUnitKind: 'home_row',
-    content: ['f', 'j', 'f', 'j', 'fj', 'jf', 'ff', 'jj', 'fjf', 'jfj', 'df', 'jk', 'fd', 'kj', 'sd', 'lk', 'asdf', 'jkl;', 'fdsa', ';lkj', 'fds', 'jkl', 'asd', 'fj', 'dk', 'sl'],
-    minAccuracy: 0.80, minInputs: 40,
+    content: ['f', 'j', 'f', 'j', 'fj', 'jf', 'ff', 'jj', 'fjf', 'jfj', 'df', 'jk', 'fd', 'kj', 'sd', 'lk', 'asdf', 'jkl;', 'fdsa', ';lkj', 'fds', 'jkl', 'asd', 'fj', 'dk', 'sl', 'pa', 'ap', 'pe', 'po'],
+    minAccuracy: 0.80, minInputs: 45,
     backgroundUrl: '/src/assets/backgrounds/l1-nest.svg',
     colorTheme: 'emerald', mechanic: 'tutorial'
   },
 
   // F1.2 — Fila superior
   // Resaltar fila superior, dedos correctos.
+  // REINFORCEMENT: P is in top row - emphasize heavily
   {
     id: 'L2', familyId: 1, familyTitle: 'Nido de Inicio', sublevel: 2,
     title: 'Fila Superior',
     objective: 'Subí a la fila de arriba sin perder las anclas.',
     targetUnitKind: 'home_row',
-    content: ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'qw', 'we', 'er', 'rt', 'ty', 'yu', 'ui', 'io', 'op', 'qwer', 'tyui', 'wert', 'yuio', 'qwe', 'rty', 'uio', 'rew', 'poi'],
-    minAccuracy: 0.78, minInputs: 40,
+    content: ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'qw', 'we', 'er', 'rt', 'ty', 'yu', 'ui', 'io', 'op', 'qwer', 'tyui', 'wert', 'yuio', 'qwe', 'rty', 'uio', 'rew', 'poi', 'p', 'pa', 'pe', 'pi', 'po', 'pu', 'apa', 'epe', 'ipi', 'opo', 'upu'],
+    minAccuracy: 0.78, minInputs: 50,
     backgroundUrl: '/src/assets/backgrounds/l1-nest.svg',
     colorTheme: 'emerald', mechanic: 'tutorial'
   },
 
   // F1.3 — Fila inferior
   // Resaltar fila inferior, dedos correctos.
+  // REINFORCEMENT: G and H appear early (ga, go, ha, he)
   {
     id: 'L3', familyId: 1, familyTitle: 'Nido de Inicio', sublevel: 3,
     title: 'Fila Inferior',
     objective: 'Bajá a la fila inferior con control.',
     targetUnitKind: 'home_row',
-    content: ['z', 'x', 'c', 'v', 'b', 'n', 'm', 'zx', 'xc', 'cv', 'vb', 'bn', 'nm', 'zxc', 'cvb', 'bnm', 'zxcv', 'vbnm', 'xcv', 'bnm', 'zxcvb', 'mnb', 'vcx'],
-    minAccuracy: 0.78, minInputs: 35,
+    content: ['z', 'x', 'c', 'v', 'b', 'n', 'm', 'zx', 'xc', 'cv', 'vb', 'bn', 'nm', 'zxc', 'cvb', 'bnm', 'zxcv', 'vbnm', 'xcv', 'bnm', 'zxcvb', 'mnb', 'vcx', 'g', 'h', 'ga', 'go', 'ha', 'he', 'ho', 'gato', 'hola'],
+    minAccuracy: 0.78, minInputs: 45,
     backgroundUrl: '/src/assets/backgrounds/l1-nest.svg',
     colorTheme: 'emerald', mechanic: 'tutorial'
     // ← Completar L3 desbloquea F2
@@ -57,91 +60,98 @@ export const LEVELS: LevelDefinition[] = [
 
   // F1.4 — Mano izquierda
   // Recorrido columnas mano izquierda.
+  // REINFORCEMENT: P and G with left hand
   {
     id: 'L4', familyId: 1, familyTitle: 'Nido de Inicio', sublevel: 4,
     title: 'Mano Izquierda',
     objective: 'Columnas verticales solo con mano izquierda.',
     targetUnitKind: 'home_row',
-    content: ['qaz', 'wsx', 'edc', 'rfv', 'tgb', 'zaq', 'xsw', 'cde', 'vfr', 'bgt', 'qa', 'ws', 'ed', 'rf', 'tg', 'az', 'sx', 'dc', 'fv', 'gb'],
-    minAccuracy: 0.80, minInputs: 40,
+    content: ['qaz', 'wsx', 'edc', 'rfv', 'tgb', 'zaq', 'xsw', 'cde', 'vfr', 'bgt', 'qa', 'ws', 'ed', 'rf', 'tg', 'az', 'sx', 'dc', 'fv', 'gb', 'pa', 'pe', 'ga', 'go', 'que', 'las', 'los', 'tu'],
+    minAccuracy: 0.80, minInputs: 50,
     backgroundUrl: '/src/assets/backgrounds/l1-nest.svg',
     colorTheme: 'emerald', mechanic: 'tutorial'
   },
 
   // F1.5 — Mano derecha
   // Recorrido columnas mano derecha.
+  // REINFORCEMENT: H and K with right hand
   {
     id: 'L5', familyId: 1, familyTitle: 'Nido de Inicio', sublevel: 5,
     title: 'Mano Derecha',
     objective: 'Columnas verticales solo con mano derecha.',
     targetUnitKind: 'home_row',
-    content: ['yhn', 'ujm', 'ik', 'ol', 'p;', 'nhy', 'mju', 'ki', 'lo', ';p', 'yh', 'uj', 'ik', 'ol', 'hn', 'jm', 'yhnuj', 'ikolp'],
-    minAccuracy: 0.80, minInputs: 35,
+    content: ['yhn', 'ujm', 'ik', 'ol', 'p;', 'nhy', 'mju', 'ki', 'lo', ';p', 'yh', 'uj', 'ik', 'ol', 'hn', 'jm', 'yhnuj', 'ikolp', 'ha', 'he', 'hi', 'ki', 'ko', 'ku', 'kilo', 'hola'],
+    minAccuracy: 0.80, minInputs: 45,
     backgroundUrl: '/src/assets/backgrounds/l1-nest.svg',
     colorTheme: 'emerald', mechanic: 'tutorial'
   },
 
   // F1.6 — Arriba / centro / abajo
   // Movimiento por columnas cruzando filas.
+  // REINFORCEMENT: P/G/H/K in vertical patterns
   {
     id: 'L6', familyId: 1, familyTitle: 'Nido de Inicio', sublevel: 6,
     title: 'Recorridos Guiados',
     objective: 'Subí, bajá, volvé al centro. Recorridos verticales.',
     targetUnitKind: 'home_row',
-    content: ['qas', 'wsd', 'edf', 'rfv', 'yhn', 'ujm', 'qaz', 'wsx', 'edc', 'saq', 'dsw', 'fde', 'vfr', 'nhy', 'mju', 'zaq', 'xsw', 'cde', 'aqz', 'swx', 'dec'],
-    minAccuracy: 0.82, minInputs: 45,
+    content: ['qas', 'wsd', 'edf', 'rfv', 'yhn', 'ujm', 'qaz', 'wsx', 'edc', 'saq', 'dsw', 'fde', 'vfr', 'nhy', 'mju', 'zaq', 'xsw', 'cde', 'aqz', 'swx', 'dec', 'pag', 'hog', 'kap', 'gol', 'hal', 'que', 'las', 'por'],
+    minAccuracy: 0.82, minInputs: 55,
     backgroundUrl: '/src/assets/backgrounds/l1-nest.svg',
     colorTheme: 'emerald', mechanic: 'tutorial'
   },
 
   // F1.7 — Espejo / alternancia izquierda-derecha
   // Simetría entre manos.
+  // REINFORCEMENT: P/G/H/K mirror patterns
   {
     id: 'L7', familyId: 1, familyTitle: 'Nido de Inicio', sublevel: 7,
     title: 'Espejo',
     objective: 'Alternancia izquierda-derecha. Simetría entre manos.',
     targetUnitKind: 'home_row',
-    content: ['fj', 'dk', 'sl', 'a;', 'fjdk', 'sla;', 'fjfj', 'dkdk', 'slsl', 'jf', 'kd', 'ls', ';a', 'dkfj', ';asl', 'jfjf', 'kdkd', 'lsls', 'fjsl', 'dka;', 'sldk', 'a;fj'],
-    minAccuracy: 0.83, minInputs: 45,
+    content: ['fj', 'dk', 'sl', 'a;', 'fjdk', 'sla;', 'fjfj', 'dkdk', 'slsl', 'jf', 'kd', 'ls', ';a', 'dkfj', ';asl', 'jfjf', 'kdkd', 'lsls', 'fjsl', 'dka;', 'sldk', 'a;fj', 'pg', 'hk', 'ph', 'gk', 'hp', 'kg', 'que', 'las', 'los'],
+    minAccuracy: 0.83, minInputs: 55,
     backgroundUrl: '/src/assets/backgrounds/l1-nest.svg',
     colorTheme: 'emerald', mechanic: 'tutorial'
   },
 
   // F1.8 — Random simple
   // Combinaciones ya aprendidas (no caótico). Patrones reconocibles.
+  // REINFORCEMENT: P/G/H/K + frequent vocabulary
   {
     id: 'L8', familyId: 1, familyTitle: 'Nido de Inicio', sublevel: 8,
     title: 'Mezcla Guiada',
     objective: 'Combinaciones de todo lo aprendido. Sin caos, con lógica.',
     targetUnitKind: 'home_row',
-    content: ['asdf', 'qwer', 'zxcv', 'jkl;', 'tyui', 'bnm', 'qaz', 'wsx', 'fj', 'dk', 'fdsa', ';lkj', 'rewq', 'vcxz', 'iuyt', 'mnb', 'zaq', 'xsw', 'sl', 'a;', 'edc', 'rfv', 'yhn', 'ujm', 'fjdk', 'sla;'],
-    minAccuracy: 0.84, minInputs: 55,
+    content: ['asdf', 'qwer', 'zxcv', 'jkl;', 'tyui', 'bnm', 'qaz', 'wsx', 'fj', 'dk', 'fdsa', ';lkj', 'rewq', 'vcxz', 'iuyt', 'mnb', 'zaq', 'xsw', 'sl', 'a;', 'edc', 'rfv', 'yhn', 'ujm', 'fjdk', 'sla;', 'pato', 'gato', 'hola', 'kilo', 'papa', 'mama', 'que', 'las', 'los', 'tu', 'por', 'para'],
+    minAccuracy: 0.84, minInputs: 65,
     backgroundUrl: '/src/assets/backgrounds/l1-nest.svg',
     colorTheme: 'emerald', mechanic: 'tutorial'
   },
 
   // F1.9 — Velocidad
   // Mismo contenido ya dominado, más ritmo, más presión.
+  // REINFORCEMENT: P/G/H/K under pressure
   {
     id: 'L9', familyId: 1, familyTitle: 'Nido de Inicio', sublevel: 9,
     title: 'Velocidad',
     objective: 'Todo lo que sabés, pero más rápido. Ritmo sostenido.',
     targetUnitKind: 'home_row',
-    content: ['asdf', 'jkl;', 'qwer', 'zxcv', 'fj', 'dk', 'sl', 'a;', 'qaz', 'yhn', 'fjdk', 'sla;', 'fdsa', ';lkj', 'rewq', 'vcxz', 'ujm', 'edc', 'rfv', 'wsx', 'tgb', 'ik', 'ol', 'p;', 'dkfj', ';asl', 'mnb', 'tyui'],
-    minAccuracy: 0.86, minInputs: 65,
+    content: ['asdf', 'jkl;', 'qwer', 'zxcv', 'fj', 'dk', 'sl', 'a;', 'qaz', 'yhn', 'fjdk', 'sla;', 'fdsa', ';lkj', 'rewq', 'vcxz', 'ujm', 'edc', 'rfv', 'wsx', 'tgb', 'ik', 'ol', 'p;', 'dkfj', ';asl', 'mnb', 'tyui', 'pato', 'gato', 'hola', 'kilo', 'papa', 'tapa', 'soga', 'hogar', 'kiosco', 'que', 'las', 'los', 'por'],
+    minAccuracy: 0.86, minInputs: 75,
     backgroundUrl: '/src/assets/backgrounds/l1-nest.svg',
     colorTheme: 'emerald', mechanic: 'tutorial'
   },
 
   // F1.10 — Mastery motriz
   // Mezcla de filas, manos y patrones. Cierre del mapa del teclado.
+  // REINFORCEMENT: Full P/G/H/K integration + frequent vocabulary
   {
     id: 'L10', familyId: 1, familyTitle: 'Nido de Inicio', sublevel: 10,
     title: 'Mastery Motriz',
     objective: 'Todo el teclado. Precisión alta. Cierre del mapa.',
     targetUnitKind: 'home_row',
-    content: ['qaz', 'wsx', 'edc', 'rfv', 'tgb', 'yhn', 'ujm', 'ik', 'ol', 'p;', 'asdf', 'jkl;', 'qwer', 'zxcv', 'fjdk', 'sla;', 'zaq', 'xsw', 'cde', 'vfr', 'bgt', 'nhy', 'mju', 'ki', 'lo', ';p', 'fdsa', ';lkj', 'rewq', 'vcxz', 'dkfj', ';asl', 'tyui', 'bnm'],
-    minAccuracy: 0.88, minInputs: 75,
+    content: ['qaz', 'wsx', 'edc', 'rfv', 'tgb', 'yhn', 'ujm', 'ik', 'ol', 'p;', 'asdf', 'jkl;', 'qwer', 'zxcv', 'fjdk', 'sla;', 'zaq', 'xsw', 'cde', 'vfr', 'bgt', 'nhy', 'mju', 'ki', 'lo', ';p', 'fdsa', ';lkj', 'rewq', 'vcxz', 'dkfj', ';asl', 'tyui', 'bnm', 'pato', 'gato', 'hola', 'kilo', 'papa', 'tapa', 'soga', 'hogar', 'kiosco', 'koala', 'kayak', 'que', 'las', 'los', 'tu', 'por', 'para', 'con', 'sin', 'del'],
+    minAccuracy: 0.88, minInputs: 85,
     backgroundUrl: '/src/assets/backgrounds/l1-nest.svg',
     colorTheme: 'emerald', mechanic: 'tutorial'
   },
@@ -156,130 +166,141 @@ export const LEVELS: LevelDefinition[] = [
   // ═══════════════════════════════════════════════════════════════════════
 
   // F2.1 — Lluvia de 1 letra (lentas, pocas)
+  // REINFORCEMENT: P/G/H/K weighted higher than other letters
   {
     id: 'L11', familyId: 2, familyTitle: 'Lluvia de Hojas', sublevel: 1,
     title: 'Una Hoja',
     objective: 'Una letra cae lento. Tipeala antes de tocar el suelo.',
     targetUnitKind: 'letter',
-    content: ['a', 's', 'd', 'f', 'j', 'k', 'l', 'e', 'i', 'o', 'n', 'r', 't', 'q', 'w', 'u', 'p', 'g', 'h', 'z', 'x', 'c', 'v', 'b', 'm', 'y'],
-    minAccuracy: 0.80, minInputs: 35,
+    content: ['p', 'p', 'p', 'g', 'g', 'h', 'h', 'k', 'a', 's', 'd', 'f', 'j', 'k', 'l', 'e', 'i', 'o', 'n', 'r', 't', 'q', 'w', 'u', 'z', 'x', 'c', 'v', 'b', 'm', 'y'],
+    minAccuracy: 0.80, minInputs: 40,
     backgroundUrl: '/src/assets/backgrounds/l2-forest.svg',
     colorTheme: 'sky', mechanic: 'falling', fallDurationSec: 8
   },
 
   // F2.2 — Lluvia de 2 letras (bigramas)
+  // REINFORCEMENT: PA/PE/PI/PO, GA/GO/GE/GI, HA/HE/HO, KA/KE/KI/KO
   {
     id: 'L12', familyId: 2, familyTitle: 'Lluvia de Hojas', sublevel: 2,
     title: 'Pares',
     objective: 'Bigramas cayendo. Dos letras, un golpe.',
     targetUnitKind: 'bigram',
-    content: ['la', 'mi', 'tu', 'ca', 'de', 'no', 'si', 'el', 'un', 'lo', 'me', 'pa', 'te', 'su', 'ni', 'va', 'di', 'co', 'ra', 'vo', 'se', 'en', 'es', 'al', 'os', 'as', 'le', 'da', 'ha', 'ma'],
-    minAccuracy: 0.80, minInputs: 40,
+    content: ['pa', 'pe', 'pi', 'po', 'pu', 'ga', 'go', 'ge', 'gi', 'ha', 'he', 'hi', 'ho', 'ka', 'ke', 'ki', 'ko', 'la', 'mi', 'tu', 'ca', 'de', 'no', 'si', 'el', 'un', 'lo', 'me', 'te', 'su', 'ni', 'va', 'di', 'co', 'ra', 'vo', 'se', 'en', 'es', 'al', 'que', 'las', 'los'],
+    minAccuracy: 0.80, minInputs: 50,
     backgroundUrl: '/src/assets/backgrounds/l2-forest.svg',
     colorTheme: 'sky', mechanic: 'falling', fallDurationSec: 7.5
   },
 
   // F2.3 — Lluvia de 3 letras
+  // REINFORCEMENT: Words with P/G/H/K
   {
     id: 'L13', familyId: 2, familyTitle: 'Lluvia de Hojas', sublevel: 3,
     title: 'Tríos',
     objective: 'Tres letras cayendo. Más rápido, más ritmo.',
     targetUnitKind: 'sequence',
-    content: ['sol', 'pan', 'rio', 'mar', 'luz', 'sal', 'fin', 'red', 'ojo', 'pie', 'oro', 'dos', 'mes', 'rey', 'ley', 'sur', 'voz', 'ver', 'ser', 'dar', 'tos', 'gas', 'col', 'miel', 'pez', 'sed', 'hoy', 'ven', 'don'],
-    minAccuracy: 0.80, minInputs: 45,
+    content: ['pan', 'pez', 'piso', 'palo', 'papa', 'tapa', 'sopa', 'gato', 'goma', 'gola', 'hola', 'hilo', 'hueso', 'kilo', 'kiosco', 'sol', 'rio', 'mar', 'luz', 'sal', 'fin', 'red', 'ojo', 'pie', 'oro', 'dos', 'mes', 'rey', 'ley', 'sur', 'voz', 'ver', 'ser', 'dar', 'tos', 'gas', 'col', 'miel', 'sed', 'hoy', 'ven', 'don'],
+    minAccuracy: 0.80, minInputs: 55,
     backgroundUrl: '/src/assets/backgrounds/l2-forest.svg',
     colorTheme: 'sky', mechanic: 'falling', fallDurationSec: 7
     // ← Completar L13 desbloquea F3
   },
 
   // F2.4 — Lluvia de 4 letras
+  // REINFORCEMENT: P/G/H/K words prominent
   {
     id: 'L14', familyId: 2, familyTitle: 'Lluvia de Hojas', sublevel: 4,
     title: 'Cuartetos',
     objective: 'Palabras de 4 letras cayendo.',
     targetUnitKind: 'word_build',
-    content: ['casa', 'luna', 'mesa', 'dato', 'vida', 'mano', 'ruta', 'nube', 'flor', 'plan', 'nota', 'idea', 'paso', 'meta', 'cama', 'dama', 'palo', 'gato', 'lago', 'rama', 'hoja', 'tela', 'cola', 'isla'],
-    minAccuracy: 0.82, minInputs: 50,
+    content: ['pato', 'papa', 'tapa', 'sopa', 'piso', 'palo', 'peine', 'gato', 'goma', 'gota', 'gorra', 'hola', 'higo', 'hueso', 'kilo', 'kayak', 'casa', 'luna', 'mesa', 'dato', 'vida', 'mano', 'ruta', 'nube', 'flor', 'plan', 'nota', 'idea', 'paso', 'meta', 'cama', 'dama', 'lago', 'rama', 'hoja', 'tela', 'isla', 'que', 'las', 'los', 'por'],
+    minAccuracy: 0.82, minInputs: 60,
     backgroundUrl: '/src/assets/backgrounds/l2-forest.svg',
     colorTheme: 'sky', mechanic: 'falling', fallDurationSec: 6.5
   },
 
   // F2.5 — Lluvia de 5 letras
+  // REINFORCEMENT: P/G/H/K 5-letter words
   {
     id: 'L15', familyId: 2, familyTitle: 'Lluvia de Hojas', sublevel: 5,
     title: 'Cinco Hojas',
     objective: 'Palabras de 5 letras. Más largo, más recompensa.',
     targetUnitKind: 'word_build',
-    content: ['manos', 'notas', 'ideas', 'pasos', 'datos', 'rutas', 'nubes', 'luces', 'metas', 'casas', 'lunas', 'mesas', 'vidas', 'hojas', 'telas', 'gatos', 'lagos', 'islas', 'colas', 'ramas', 'pisos', 'rocas', 'leyes', 'voces'],
-    minAccuracy: 0.82, minInputs: 55,
+    content: ['papas', 'pasos', 'pintas', 'pesas', 'gatos', 'gomas', 'gotas', 'horas', 'hilos', 'kilos', 'manos', 'notas', 'ideas', 'datos', 'rutas', 'nubes', 'luces', 'metas', 'casas', 'lunas', 'mesas', 'vidas', 'hojas', 'telas', 'gatos', 'lagos', 'islas', 'colas', 'ramas', 'pisos', 'rocas', 'leyes', 'voces', 'que', 'las', 'los', 'por', 'para'],
+    minAccuracy: 0.82, minInputs: 65,
     backgroundUrl: '/src/assets/backgrounds/l2-forest.svg',
     colorTheme: 'sky', mechanic: 'falling', fallDurationSec: 6
   },
 
   // F2.6 — Más velocidad
+  // REINFORCEMENT: P/G/H/K under speed pressure
   {
     id: 'L16', familyId: 2, familyTitle: 'Lluvia de Hojas', sublevel: 6,
     title: 'Brisa Rápida',
     objective: 'Lo mismo que sabés, pero caen más rápido.',
     targetUnitKind: 'word_build',
-    content: ['casa', 'luna', 'sol', 'pan', 'mano', 'idea', 'dato', 'nota', 'paso', 'nube', 'flor', 'gato', 'lago', 'isla', 'roca', 'meta', 'plan', 'cama', 'vida', 'hoja', 'tela', 'rama', 'cola', 'palo'],
-    minAccuracy: 0.82, minInputs: 60,
+    content: ['pato', 'gato', 'hola', 'kilo', 'papa', 'tapa', 'sopa', 'goma', 'hilo', 'kayak', 'casa', 'luna', 'sol', 'pan', 'mano', 'idea', 'dato', 'nota', 'paso', 'nube', 'flor', 'lago', 'isla', 'roca', 'meta', 'plan', 'cama', 'vida', 'hoja', 'tela', 'rama', 'cola', 'palo', 'que', 'las', 'los', 'por'],
+    minAccuracy: 0.82, minInputs: 70,
     backgroundUrl: '/src/assets/backgrounds/l2-forest.svg',
     colorTheme: 'sky', mechanic: 'falling', fallDurationSec: 4.5
   },
 
   // F2.7 — Más simultaneidad (más unidades en pantalla)
+  // REINFORCEMENT: P/G/H/K priority targets
   {
     id: 'L17', familyId: 2, familyTitle: 'Lluvia de Hojas', sublevel: 7,
     title: 'Lluvia Densa',
     objective: 'Más hojas al mismo tiempo. Priorizá bien.',
     targetUnitKind: 'word_build',
-    content: ['sol', 'rio', 'mar', 'luz', 'casa', 'mesa', 'vida', 'mano', 'dato', 'nota', 'idea', 'paso', 'fin', 'red', 'ojo', 'flor', 'nube', 'plan', 'meta', 'gato', 'lago', 'isla', 'hoja', 'roca', 'tela', 'rama'],
-    minAccuracy: 0.80, minInputs: 65,
+    content: ['pato', 'gato', 'hola', 'kilo', 'papa', 'tapa', 'sopa', 'goma', 'hilo', 'kayak', 'sol', 'rio', 'mar', 'luz', 'casa', 'mesa', 'vida', 'mano', 'dato', 'nota', 'idea', 'paso', 'fin', 'red', 'ojo', 'flor', 'nube', 'plan', 'meta', 'lago', 'isla', 'hoja', 'roca', 'tela', 'rama', 'que', 'las', 'los'],
+    minAccuracy: 0.80, minInputs: 75,
     backgroundUrl: '/src/assets/backgrounds/l2-forest.svg',
     colorTheme: 'sky', mechanic: 'falling', fallDurationSec: 4
   },
 
   // F2.8 — Enemigo roba una unidad
+  // REINFORCEMENT: P/G/H/K words are "stolen" faster
   {
     id: 'L18', familyId: 2, familyTitle: 'Lluvia de Hojas', sublevel: 8,
     title: 'Pájaro Ladrón',
     objective: 'El pájaro roba hojas. Tipeá rápido o las pierde.',
     targetUnitKind: 'word_build',
-    content: ['flor', 'nube', 'luna', 'mesa', 'dato', 'plan', 'idea', 'meta', 'paso', 'clave', 'gato', 'lago', 'isla', 'roca', 'hoja', 'tela', 'rama', 'cola', 'piso', 'vela', 'rana', 'sopa', 'boca', 'miel'],
-    minAccuracy: 0.80, minInputs: 65,
+    content: ['pato', 'gato', 'hola', 'kilo', 'papa', 'tapa', 'sopa', 'goma', 'hilo', 'kayak', 'flor', 'nube', 'luna', 'mesa', 'dato', 'plan', 'idea', 'meta', 'paso', 'clave', 'lago', 'isla', 'roca', 'hoja', 'tela', 'rama', 'cola', 'piso', 'vela', 'rana', 'boca', 'miel', 'que', 'las', 'por'],
+    minAccuracy: 0.80, minInputs: 75,
     backgroundUrl: '/src/assets/backgrounds/l2-forest.svg',
     colorTheme: 'sky', mechanic: 'falling', fallDurationSec: 3.8
   },
 
   // F2.9 — Recuperación por combo
+  // REINFORCEMENT: P/G/H/K + frequent vocabulary
   {
     id: 'L19', familyId: 2, familyTitle: 'Lluvia de Hojas', sublevel: 9,
     title: 'Combo de Hojas',
     objective: 'Los combos recuperan vidas. Mantené la racha.',
     targetUnitKind: 'word_build',
-    content: ['manos', 'notas', 'pasos', 'datos', 'casa', 'luna', 'vida', 'idea', 'sol', 'luz', 'rutas', 'nubes', 'luces', 'metas', 'hojas', 'telas', 'gatos', 'lagos', 'islas', 'flor', 'roca', 'vela', 'piso', 'sopa'],
-    minAccuracy: 0.82, minInputs: 70,
+    content: ['pato', 'gato', 'hola', 'kilo', 'papas', 'pasos', 'gatos', 'gom as', 'hilos', 'kilos', 'casa', 'luna', 'vida', 'idea', 'sol', 'luz', 'rutas', 'nubes', 'luces', 'metas', 'hojas', 'telas', 'lagos', 'islas', 'flor', 'roca', 'vela', 'piso', 'sopa', 'que', 'las', 'los', 'por', 'para'],
+    minAccuracy: 0.82, minInputs: 80,
     backgroundUrl: '/src/assets/backgrounds/l2-forest.svg',
     colorTheme: 'sky', mechanic: 'falling', fallDurationSec: 3.5
   },
 
   // F2.10 — Tormenta mastery
+  // REINFORCEMENT: Full P/G/H/K integration + frequent vocabulary
   {
     id: 'L20', familyId: 2, familyTitle: 'Lluvia de Hojas', sublevel: 10,
     title: 'Tormenta',
     objective: 'Todo junto: velocidad, variedad, presión. Mastery.',
     targetUnitKind: 'word_build',
     content: [
-      'a', 'la', 'sol', 'casa', 'manos',
-      'e', 'mi', 'pan', 'luna', 'notas',
-      'o', 'tu', 'rio', 'mesa', 'ideas',
+      'p', 'g', 'h', 'k', 'pato', 'gato',
+      'e', 'mi', 'pan', 'hola', 'kilo',
+      'o', 'tu', 'rio', 'mesa', 'papas',
       'i', 'de', 'mar', 'dato', 'pasos',
       'u', 'no', 'luz', 'vida', 'rutas',
       's', 'el', 'fin', 'mano', 'luces',
-      'n', 'si', 'red', 'flor', 'metas'
+      'n', 'si', 'red', 'flor', 'metas',
+      'que', 'las', 'los', 'por', 'para', 'con'
     ],
-    minAccuracy: 0.82, minInputs: 80,
+    minAccuracy: 0.82, minInputs: 90,
     backgroundUrl: '/src/assets/backgrounds/l2-forest.svg',
     colorTheme: 'sky', mechanic: 'falling', fallDurationSec: 3
   },
