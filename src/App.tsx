@@ -177,7 +177,7 @@ export default function App({ hostAdapter, eventEmitter, standalone = false }: A
           const typedChars = input.split('');
 
           return (
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center w-full">
               {currentLevel.mechanic === 'tutorial' && (
                 <>
                   <KeyboardVisual
@@ -196,14 +196,16 @@ export default function App({ hostAdapter, eventEmitter, standalone = false }: A
               )}
 
               {currentLevel.mechanic === 'falling' && (
-                <FallingLetter
-                  key={`fall-${target}-${gameState.progress}`}
-                  char={target}
-                  input={input}
-                  onFail={failUnit}
-                  speed={fallingDuration}
-                  shaking={gameState.combo > 10}
-                />
+                <div className="relative w-full h-screen max-h-[600px]">
+                  <FallingLetter
+                    key={`fall-${target}-${gameState.progress}`}
+                    char={target}
+                    input={input}
+                    onFail={failUnit}
+                    speed={fallingDuration}
+                    shaking={gameState.combo > 10}
+                  />
+                </div>
               )}
 
               {currentLevel.mechanic === 'trail' && (
@@ -222,14 +224,16 @@ export default function App({ hostAdapter, eventEmitter, standalone = false }: A
               )}
 
               {currentLevel.mechanic === 'rescue' && (
-                <RescueMechanic
-                  key={`rescue-${target}-${gameState.progress}`}
-                  target={target}
-                  input={input}
-                  onFail={failUnit}
-                  speed={fallingDuration || 6}
-                  shaking={gameState.combo > 10}
-                />
+                <div className="relative w-full h-screen max-h-[600px] flex items-center">
+                  <RescueMechanic
+                    key={`rescue-${target}-${gameState.progress}`}
+                    target={target}
+                    input={input}
+                    onFail={failUnit}
+                    speed={fallingDuration || 6}
+                    shaking={gameState.combo > 10}
+                  />
+                </div>
               )}
 
               {currentLevel.mechanic === 'garden' && (
