@@ -87,10 +87,10 @@ export const PhraseMechanic: React.FC<PhraseMechanicProps> = ({
   }, [handleKeyDown]);
 
   const criterionColors = {
-    coherent: 'emerald',
-    funny: 'amber',
-    absurd: 'purple',
-    logical: 'blue'
+    coherent: 'bg-emerald-100 text-emerald-700',
+    funny: 'bg-amber-100 text-amber-700',
+    absurd: 'bg-purple-100 text-purple-700',
+    logical: 'bg-blue-100 text-blue-700'
   };
 
   const criterionLabels = {
@@ -104,7 +104,7 @@ export const PhraseMechanic: React.FC<PhraseMechanicProps> = ({
     <div className="flex flex-col items-center gap-6 p-8 bg-white/80 backdrop-blur-xl rounded-[3rem] border-4 border-slate-400/20 shadow-2xl max-w-4xl w-full">
       {/* Criterion + Timer */}
       <div className="flex items-center justify-between w-full">
-        <div className={`flex items-center gap-2 px-4 py-2 rounded-full bg-${criterionColors[criterion]}-100 text-${criterionColors[criterion]}-700`}>
+        <div className={`flex items-center gap-2 px-4 py-2 rounded-full ${criterionColors[criterion]}`}>
           <span className="text-xs font-black uppercase tracking-widest">
             {criterionLabels[criterion]}
           </span>
