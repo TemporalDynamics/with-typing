@@ -124,7 +124,7 @@ export class TypingEngine {
       this.latencies.push(latencyMs);
     } else {
       this.combo = 0;
-      this.lives = Math.max(0, this.lives - 1);
+      this.lives = Math.max(0, this.lives - (1 + this.difficultyConfig.penaltyPerError));
     }
 
     const isUnitComplete = this.currentInput === this.currentTarget;
@@ -217,6 +217,20 @@ export class TypingEngine {
   public getLives() { return this.lives; }
   public getCombo() { return this.combo; }
   public getAdjustedFallDuration() { return this.adjustedFallDuration; }
+  public getMaxLives() { return this.difficultyConfig.lives; }
+
+  public completeExternalUnit(correctInputs: number) {
+    const boundedInputs = Math.max(1, correctInputs);
+    this.correctCount += boundedInputs;
+    this.totalCount += boundedInputs;
+    this.combo += boundedInputs;
+    this.latencies.push(Date.now() - this.lastInputTime);
+    this.lastInputTime = Date.now();
+    this.queueIndex = this.targetQueue.length;
+    this.currentContentIndex = this.targetQueue.length;
+    this.currentInput = '';
+    return { isLevelComplete: true, combo: this.combo, lives: this.lives };
+  }
 
   public rewardLife(maxLives: number = 5) {
     this.lives = Math.min(maxLives, this.lives + 1);

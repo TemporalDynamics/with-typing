@@ -5,27 +5,18 @@
 
 import { GameEvent, GameProgress, LevelId, DifficultyMode } from '../types/game';
 import { B1Signal } from '../types/game';
+import type { GameHostAdapter } from './WithIframeAdapter';
+import type { GameEventEmitter } from './WithSignalEmitter';
+import { WithIframeAdapter } from './WithIframeAdapter';
+import { WithIframeSignalEmitter } from './WithSignalEmitter';
 
 const DEBUG_GAME_EVENTS = import.meta.env.VITE_DEBUG_GAME_EVENTS === 'true';
 const STORAGE_KEY = 'typing-foundations-progress';
 const DIFFICULTY_KEY = 'typing-foundations-difficulty';
 
-export interface GameHostAdapter {
-  getInitialState(): Promise<{
-    playerHandle: string;
-    unlockedLevels: LevelId[];
-    lastProgress?: GameProgress;
-    difficultyMode?: DifficultyMode;
-  }>;
-  onGameEvent(event: GameEvent): void;
-  onProgressUpdate(progress: GameProgress): Promise<void>;
-  getLeaderboard(): Promise<any[]>;
-  saveDifficulty(mode: DifficultyMode): Promise<void>;
-}
-
-export interface GameEventEmitter {
-  emitSignal(signal: B1Signal): void;
-}
+// Re-export interfaces desde los archivos individuales
+export type { GameHostAdapter } from './WithIframeAdapter';
+export type { GameEventEmitter } from './WithSignalEmitter';
 
 /**
  * Mock implementation for standalone mode — persists to localStorage.
@@ -41,7 +32,7 @@ export class MockHostAdapter implements GameHostAdapter {
 
   private static loadFromStorage(): GameProgress {
     // DEV MODE: Always unlock all levels for testing/analysis
-    const allLevelIds: LevelId[] = Array.from({ length: 50 }, (_, i) => `L${i + 1}` as LevelId);
+    const allLevelIds: LevelId[] = Array.from({ length: 60 }, (_, i) => `L${i + 1}` as LevelId);
     return { unlockedLevels: allLevelIds, levelScores: {}, totalAccuracy: 0 };
     /*
     try {
@@ -120,4 +111,44 @@ export class ConsoleEventEmitter implements GameEventEmitter {
       console.log('[ConsoleEmitter] Signal Emitted:', signal.signal_type, signal.payload);
     }
   }
+}
+
+// Re-export adapters para modo embedded
+export { WithIframeAdapter } from './WithIframeAdapter';
+export { WithIframeSignalEmitter } from './WithSignalEmitter';
+
+/**
+ * Resultado de la factory de adapters.
+ */
+export interface AdapterPair {
+  hostAdapter: GameHostAdapter;
+  eventEmitter: GameEventEmitter;
+}
+
+/**
+ * Factory para detectar modo de ejecución y crear adapters apropiados.
+ * Detecta surface=universo_with en query params para usar el adapter de iframe.
+ */
+export function createAdaptersForSurface(): AdapterPair {
+  const urlParams = typeof window !== 'undefined' 
+    ? new URLSearchParams(window.location.search) 
+    : null;
+  
+  const surface = urlParams?.get('surface');
+  
+  if (surface === 'universo_with') {
+    // Modo embedded: usar adapters reales de iframe
+    console.log('[createAdaptersForSurface] Detected embedded mode (surface=universo_with)');
+    return {
+      hostAdapter: new WithIframeAdapter(),
+      eventEmitter: new WithIframeSignalEmitter()
+    };
+  }
+  
+  // Modo standalone: usar mocks/console
+  console.log('[createAdaptersForSurface] Detected standalone mode');
+  return {
+    hostAdapter: new MockHostAdapter(),
+    eventEmitter: new ConsoleEventEmitter()
+  };
 }

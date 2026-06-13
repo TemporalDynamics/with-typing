@@ -24,6 +24,7 @@ export class SignalService {
   private f3SignalClassMap: ReadonlyMap<string, SignalClass>;
   private f4SignalClassMap: ReadonlyMap<string, SignalClass>;
   private f5SignalClassMap: ReadonlyMap<string, SignalClass>;
+  private f6SignalClassMap: ReadonlyMap<string, SignalClass>;
 
   private constructor() {
     this.keyCoords = this.buildKeyCoords();
@@ -99,6 +100,11 @@ export class SignalService {
       ['f5.association_strength', 'apoyo'],
       ['f5.fluency_with_meaning', 'promocion']
     ]);
+    this.f6SignalClassMap = new Map<string, SignalClass>([
+      ['f6.expressive_choice_completion', 'promocion'],
+      ['f6.criterion_following_accuracy', 'promocion'],
+      ['f6.creative_phrase_completion', 'apoyo']
+    ]);
   }
 
   public static getInstance(): SignalService {
@@ -152,6 +158,7 @@ export class SignalService {
         if (familyId === 3) this.mapF3LevelCompletedSignals(event, signals);
         if (familyId === 4) this.mapF4LevelCompletedSignals(event, signals);
         if (familyId === 5) this.mapF5LevelCompletedSignals(event, signals);
+        if (familyId === 6) this.mapF6LevelCompletedSignals(event, signals);
         break;
 
       case 'UNIT_FAILED':
@@ -183,6 +190,7 @@ export class SignalService {
         if (familyId === 3) this.mapF3SessionSignals(event, signals);
         if (familyId === 4) this.mapF4SessionSignals(event, signals);
         if (familyId === 5) this.mapF5SessionSignals(event, signals);
+        if (familyId === 6) this.mapF6SessionSignals(event, signals);
         break;
     }
 
@@ -351,7 +359,7 @@ export class SignalService {
   // ═══════════════════════════════════════════════════════════════════════
 
   private mapF2KeyValidatedSignals(event: GameEvent, signals: B1Signal[]) {
-    const { isCorrect, latencyMs, combo } = event.payload;
+    const { isCorrect, latencyMs } = event.payload;
     
     // f2.reaction_latency_ms
     signals.push(this.createSignal('feature.action_bar_action_usage', {
@@ -365,7 +373,7 @@ export class SignalService {
       signals.push(this.createSignal('feature.action_bar_action_usage', {
         action: 'f2.speed_accuracy_tradeoff',
         latency: latencyMs,
-        combo
+        combo: event.payload?.comboAfter ?? event.payload?.combo ?? 0
       }, true));
     }
   }
@@ -584,6 +592,33 @@ export class SignalService {
     }, true));
   }
 
+  private mapF6LevelCompletedSignals(event: GameEvent, signals: B1Signal[]) {
+    const payload = event.payload ?? {};
+    const passed = Boolean(payload.passed);
+    const completedPhrase = String(payload.completedPhrase ?? '');
+
+    signals.push(this.createSignal('feature.action_bar_action_usage', {
+      action: 'f6.expressive_choice_completion',
+      passed,
+      sublevel: payload.sublevel ?? null
+    }, true));
+
+    if (passed) {
+      signals.push(this.createSignal('feature.action_bar_action_usage', {
+        action: 'f6.creative_phrase_completion',
+        phraseLength: completedPhrase.length
+      }, true));
+    }
+  }
+
+  private mapF6SessionSignals(event: GameEvent, signals: B1Signal[]) {
+    const payload = event.payload ?? {};
+    signals.push(this.createSignal('feature.action_bar_action_usage', {
+      action: 'f6.criterion_following_accuracy',
+      passed: Boolean(payload.passed)
+    }, true));
+  }
+
   private getLevel(levelId: string | null | undefined) {
     if (!levelId) return null;
     return LEVELS.find((level) => level.id === levelId) ?? null;
@@ -621,7 +656,7 @@ export class SignalService {
         promotion_eligible: signalClass === 'promocion'
       };
     }
-    // Also enrich F2-F5 signals with class info
+    // Also enrich F2-F6 signals with class info
     if (enrichF1Class && typeof payload.action === 'string') {
       const action = payload.action as string;
       if (action.startsWith('f2.')) {
@@ -647,6 +682,13 @@ export class SignalService {
         };
       } else if (action.startsWith('f5.')) {
         const signalClass = this.f5SignalClassMap.get(action) ?? 'observabilidad';
+        nextPayload = {
+          ...nextPayload,
+          signal_class: signalClass,
+          promotion_eligible: signalClass === 'promocion'
+        };
+      } else if (action.startsWith('f6.')) {
+        const signalClass = this.f6SignalClassMap.get(action) ?? 'observabilidad';
         nextPayload = {
           ...nextPayload,
           signal_class: signalClass,

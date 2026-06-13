@@ -25,6 +25,7 @@ const FAMILY_UNLOCK_GATES: Record<number, LevelId> = {
   3: 'L13',  // Complete F2.3 → unlock rest of F2 (L14-L20) + F3 (L21)
   4: 'L23',  // Complete F3.3 → unlock rest of F3 (L24-L30) + F4 (L31)
   5: 'L33',  // Complete F4.3 → unlock rest of F4 (L34-L40) + F5 (L41)
+  6: 'L43',  // Complete F5.3 → unlock rest of F5 (L44-L50) + F6 (L51)
 };
 
 /** Get all levels belonging to a family */
@@ -144,7 +145,7 @@ export function useTypingGame(
       score: 0,
       accuracy: 0,
       progress: 0,
-      lives: MAX_LIVES,
+      lives: engineRef.current?.getMaxLives() ?? MAX_LIVES,
       combo: 0,
       difficultyMode
     }));
@@ -158,7 +159,7 @@ export function useTypingGame(
       status: 'LOBBY',
       progress: 0,
       combo: 0,
-      lives: MAX_LIVES,
+      lives: engineRef.current?.getMaxLives() ?? MAX_LIVES,
     }));
   }, []);
 
@@ -395,6 +396,7 @@ export function useTypingGame(
           insufficient_evidence_count: 0,
           fallback_used: false,
           familyId: level.familyId,
+          passed,
           top_confusion_pairs: Object.entries(runConfusionPairsRef.current)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 5)
@@ -415,6 +417,110 @@ export function useTypingGame(
       }));
     }
   }, [gameState.status, gameState.currentLevelId, gameState.score, levelScores, resolvedHostAdapter, emitSignals]);
+
+  const completePhrase = useCallback((completedPhrase: string) => {
+    if (!engineRef.current || gameState.status !== 'PLAYING' || !gameState.currentLevelId) return;
+
+    const level = LEVELS.find(l => l.id === gameState.currentLevelId)!;
+    const result = engineRef.current.completeExternalUnit(completedPhrase.length);
+    const metrics = engineRef.current.getMetrics();
+    const passed = metrics.accuracy >= level.minAccuracy && result.lives > 0;
+
+    sessionTurnCountRef.current += completedPhrase.length;
+
+    if (passed) {
+      soundService.playLevelComplete();
+    }
+
+    setGameState(prev => ({
+      ...prev,
+      status: passed ? 'LEVEL_COMPLETE' : 'LOBBY',
+      accuracy: metrics.accuracy,
+      progress: passed ? 100 : engineRef.current?.getProgress() ?? prev.progress,
+      lives: result.lives,
+      combo: result.combo,
+      score: prev.score + (passed ? 1000 : 0)
+    }));
+
+    if (passed) {
+      const stars = computeStars(metrics.accuracy, level.minAccuracy);
+      const newScore: LevelScore = { bestAccuracy: metrics.accuracy, bestWpm: metrics.wpm, stars };
+
+      setLevelScores(prev => {
+        const existing = prev[level.id];
+        const merged: LevelScore = existing
+          ? {
+              bestAccuracy: Math.max(existing.bestAccuracy, metrics.accuracy),
+              bestWpm: Math.max(existing.bestWpm, metrics.wpm),
+              stars: Math.max(existing.stars, stars) as 0 | 1 | 2 | 3,
+            }
+          : newScore;
+
+        const updatedScores = { ...prev, [level.id]: merged };
+        persistProgress(updatedScores, unlockedLevels, metrics.accuracy);
+        return updatedScores;
+      });
+
+      const currentIndex = LEVELS.findIndex(l => l.id === gameState.currentLevelId);
+      const newUnlocks: LevelId[] = [];
+      if (currentIndex < LEVELS.length - 1) {
+        newUnlocks.push(LEVELS[currentIndex + 1].id);
+      }
+
+      if (newUnlocks.length > 0) {
+        setUnlockedLevels(prev => {
+          const updatedUnlocks = Array.from(new Set([...prev, ...newUnlocks]));
+          persistProgress(levelScores, updatedUnlocks, metrics.accuracy);
+          return updatedUnlocks;
+        });
+      }
+    }
+
+    const endEvent: GameEvent = {
+      type: 'LEVEL_COMPLETED',
+      levelId: gameState.currentLevelId,
+      runId: runId.current,
+      sessionId: sessionId.current,
+      payload: {
+        accuracy: metrics.accuracy,
+        passed,
+        score: gameState.score + (passed ? 1000 : 0),
+        previousBestAccuracy: levelScores[level.id]?.bestAccuracy ?? null,
+        improvementDelta:
+          levelScores[level.id]?.bestAccuracy != null
+            ? metrics.accuracy - levelScores[level.id]!.bestAccuracy
+            : null,
+        familyId: level.familyId,
+        sublevel: level.sublevel,
+        targetUnitKind: level.targetUnitKind,
+        mechanic: level.mechanic,
+        completedPhrase
+      },
+      timestamp: Date.now()
+    };
+
+    resolvedHostAdapter.onGameEvent(endEvent);
+    emitSignals(endEvent);
+
+    const sessionEvent: GameEvent = {
+      type: 'SESSION_COMPLETED',
+      levelId: gameState.currentLevelId,
+      runId: runId.current,
+      sessionId: sessionId.current,
+      payload: {
+        turn_count_total: sessionTurnCountRef.current,
+        insufficient_evidence_count: 0,
+        fallback_used: false,
+        familyId: level.familyId,
+        passed,
+        top_confusion_pairs: []
+      },
+      timestamp: Date.now()
+    };
+
+    resolvedHostAdapter.onGameEvent(sessionEvent);
+    emitSignals(sessionEvent);
+  }, [emitSignals, gameState.currentLevelId, gameState.score, gameState.status, levelScores, persistProgress, resolvedHostAdapter, unlockedLevels]);
 
   /** Handle Enter key for normal/hard difficulty modes */
   const handleEnter = useCallback(() => {
@@ -571,6 +677,7 @@ export function useTypingGame(
     goToLobby,
     handleKeyPress,
     handleEnter,
+    completePhrase,
     failUnit,
     engine: engineRef.current
   };

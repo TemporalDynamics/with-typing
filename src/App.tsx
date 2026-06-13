@@ -19,6 +19,7 @@ import { LEVELS } from './engine/LevelDefinitions';
 import { GameHostAdapter, GameEventEmitter } from './adapters';
 import { HostMood } from './types/game';
 import { motion, AnimatePresence } from 'motion/react';
+import { MobileViewportWrapper } from './hooks/useMobileViewport.tsx';
 
 interface AppProps {
   hostAdapter?: GameHostAdapter;
@@ -39,6 +40,7 @@ export default function App({ hostAdapter, eventEmitter, standalone = false }: A
     goToLobby,
     handleKeyPress,
     handleEnter,
+    completePhrase,
     failUnit,
     engine
   } = useTypingGame(hostAdapter, eventEmitter);
@@ -56,6 +58,11 @@ export default function App({ hostAdapter, eventEmitter, standalone = false }: A
     }
 
     if (gameState.status === 'PLAYING' && !showTutorial) {
+      const activeLevel = LEVELS.find(l => l.id === gameState.currentLevelId);
+      if (activeLevel?.mechanic === 'phrase') {
+        return;
+      }
+
       if (e.key === ' ') {
         e.preventDefault();
         handleKeyPress(' ');
@@ -73,7 +80,7 @@ export default function App({ hostAdapter, eventEmitter, standalone = false }: A
         handleKeyPress(e.key);
       }
     }
-  }, [gameState.status, goToLobby, handleKeyPress, handleEnter, difficultyMode, showTutorial]);
+  }, [gameState.status, gameState.currentLevelId, goToLobby, handleKeyPress, handleEnter, difficultyMode, showTutorial]);
 
   useEffect(() => {
     window.addEventListener('keydown', onKeyDown);
@@ -142,6 +149,7 @@ export default function App({ hostAdapter, eventEmitter, standalone = false }: A
   const nextLevelId = getNextLevelId();
 
   return (
+    <MobileViewportWrapper>
     <div className={`relative w-full h-screen overflow-hidden flex flex-col font-sans selection:bg-emerald-400 selection:text-emerald-900 ${standalone ? 'bg-emerald-900' : 'bg-transparent'} ${lifeLost ? 'animate-life-lost' : ''}`}>
       {/* Life-loss red flash */}
       {lifeLost && (
@@ -284,8 +292,7 @@ export default function App({ hostAdapter, eventEmitter, standalone = false }: A
                     options={options}
                     criterion={criterion}
                     onComplete={(completedPhrase) => {
-                      // Mark as complete - engine will handle progression
-                      // For now, just complete the current target
+                      completePhrase(completedPhrase);
                     }}
                     onFail={failUnit}
                   />
@@ -347,5 +354,6 @@ export default function App({ hostAdapter, eventEmitter, standalone = false }: A
         </footer>
       )}
     </div>
+    </MobileViewportWrapper>
   );
 }
